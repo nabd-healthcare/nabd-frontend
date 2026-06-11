@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "http://167.71.45.248/api/:match*"
+    },
+    {
+      "source": "/hubs/:match*",
+      "destination": "http://167.71.45.248/hubs/:match*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
