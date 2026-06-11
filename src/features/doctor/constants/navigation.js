@@ -4,6 +4,7 @@ import {
   FaUsers,
   FaStar,
   FaFileAlt,
+} from 'react-icons/fa';
 
 /**
  * Doctor Dashboard Navigation Items

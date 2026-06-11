@@ -24,15 +24,15 @@ class SignalRService {
     console.log('[SignalR] Connecting to notifications hub...');
 
     try {
-      // Get base URL from config (default: http://localhost:5117/api)
-      // We need to remove '/api' because Hubs are mapped at root (e.g. http://localhost:5117/hubs/notifications)
+      // Get base URL from config (default: http://167.71.45.248/api)
+      // We need to remove '/api' because Hubs are mapped at root (e.g. http://167.71.45.248/hubs/notifications)
       let baseUrl = import.meta.env.VITE_API_BASE_URL;
 
       // If VITE_API_BASE_URL is not set, try to derive from API_CONFIG or use relative path for proxy
       if (!baseUrl) {
         // ALWAYS use direct backend URL to avoid Vite Proxy WebSocket issues
-        // The backend CORS takes care of allowing localhost:5173
-        baseUrl = 'http://localhost:5117';
+        // The backend CORS takes care of allowing the frontend origins
+        baseUrl = 'http://167.71.45.248';
       }
 
       // Ensure no trailing slash

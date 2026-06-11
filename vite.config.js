@@ -15,13 +15,13 @@ export default defineConfig({
     // port: 5117
     proxy: {
       '/api': {
-        target: 'http://localhost:5117',
+        target: 'http://167.71.45.248',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path
       },
       '/hubs': {
-        target: 'http://localhost:5117',
+        target: 'http://167.71.45.248',
         changeOrigin: true,
         secure: false,
         ws: true
