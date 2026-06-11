@@ -30,9 +30,8 @@ class SignalRService {
 
       // If VITE_API_BASE_URL is not set, try to derive from API_CONFIG or use relative path for proxy
       if (!baseUrl) {
-        // ALWAYS use direct backend URL to avoid Vite Proxy WebSocket issues
-        // The backend CORS takes care of allowing the frontend origins
-        baseUrl = 'http://167.71.45.248';
+        // Use relative path for proxy
+        baseUrl = '/';
       }
 
       // Ensure no trailing slash
