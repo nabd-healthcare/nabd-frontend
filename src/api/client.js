@@ -84,19 +84,28 @@ apiClient.interceptors.response.use(
           }
         );
 
+        // Extract tokens properly depending on API response structure
+        const newAccessToken = data.data?.accessToken || data.accessToken || data.token;
+        const newRefreshToken = data.data?.refreshToken || data.refreshToken;
+
+        if (!newAccessToken) {
+          console.error('❌ Failed to extract tokens from refresh response:', data);
+          throw new Error('No valid tokens returned from refresh endpoint');
+        }
+
         // Update localStorage directly (avoid zustand import)
         const updatedAuth = {
           state: {
             ...state,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken,
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
           },
           version: 0,
         };
         localStorage.setItem('auth-storage', JSON.stringify(updatedAuth));
 
         // Retry original request with new token
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return apiClient(originalRequest);
       } catch (refreshError) {
         // Clear auth and redirect to login

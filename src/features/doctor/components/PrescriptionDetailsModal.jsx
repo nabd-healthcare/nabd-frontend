@@ -120,7 +120,7 @@ const PrescriptionDetailsModal = ({ isOpen, onClose, prescriptionId, patientId, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" dir="rtl">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6" dir="rtl">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-[#0F172A]/60 backdrop-blur-sm transition-opacity"

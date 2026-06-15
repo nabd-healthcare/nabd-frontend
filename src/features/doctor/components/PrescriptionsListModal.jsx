@@ -65,6 +65,18 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
     
   }, [isOpen, patient?.id, patient?.patientId, user?.id, fetchPrescriptions]);
 
+  // Handle body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   // Format date helper
   const formatPrescriptionDate = (date) => {
     if (!date) return 'غير محدد';
@@ -78,7 +90,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto" dir="rtl">
+    <div className="fixed inset-0 z-[110] overflow-y-auto" dir="rtl">
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
@@ -92,7 +104,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-teal-500 to-emerald-600 px-6 py-5 rounded-t-2xl">
+          <div className="bg-[#0070CD] px-6 py-5 rounded-t-2xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -101,7 +113,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
                 <div>
                   <h2 className="text-2xl font-black text-white">الروشتات الطبية</h2>
                   <p className="text-white/90 text-sm font-medium">
-                    {patient?.firstName + ' ' + patient?.lastName || 'مريض'}
+                    {patient?.fullName || (patient?.firstName ? `${patient.firstName} ${patient.lastName}` : 'مريض')}
                   </p>
                 </div>
               </div>
@@ -131,7 +143,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
               /* Loading State */
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
-                  <div className="w-16 h-16 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto mb-4"></div>
+                  <div className="w-16 h-16 border-4 border-[#0070CD]/20 border-t-[#0070CD] rounded-full animate-spin mx-auto mb-4"></div>
                   <p className="text-slate-600 font-medium">جاري تحميل الروشتات...</p>
                 </div>
               </div>
@@ -145,7 +157,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
                 <p className="text-slate-600 font-medium mb-4">{detailsError}</p>
                 <button
                   onClick={() => fetchPrescriptions(patient?.patientId, user?.id)}
-                  className="px-6 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-xl hover:from-teal-600 hover:to-emerald-700 transition-all font-bold text-sm shadow-lg"
+                  className="px-6 py-2.5 bg-[#0070CD] text-white rounded-xl hover:bg-slate-900 transition-all font-bold text-sm shadow-lg shadow-[#0070CD]/20"
                 >
                   إعادة المحاولة
                 </button>
@@ -162,14 +174,14 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
             ) : (
               <>
                 {/* Stats Header */}
-                <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl p-5 mb-6 border-2 border-teal-200">
+                <div className="bg-[#0070CD]/5 rounded-2xl p-5 mb-6 border border-[#0070CD]/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#0070CD] rounded-xl flex items-center justify-center shadow-md shadow-[#0070CD]/20">
                       <FaPrescriptionBottleAlt className="text-white text-lg" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-teal-700">إجمالي الروشتات</p>
-                      <p className="text-2xl font-black text-slate-900">{prescriptions.length || 0}</p>
+                      <p className="text-xs font-semibold text-slate-500">إجمالي الروشتات</p>
+                      <p className="text-2xl font-black text-[#0070CD]">{prescriptions.length || 0}</p>
                     </div>
                   </div>
                 </div>
@@ -179,11 +191,11 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
                   {prescriptions.map((prescription, index) => (
                     <div 
                       key={prescription.id}
-                      className="bg-white rounded-2xl border-2 border-slate-200 hover:border-teal-400 transition-all shadow-sm hover:shadow-lg p-6"
+                      className="bg-white rounded-2xl border-2 border-slate-100 hover:border-[#0070CD]/30 hover:bg-[#0070CD]/5 transition-all shadow-sm hover:shadow-lg p-6"
                     >
                       <div className="flex items-center gap-4">
                         {/* Number Badge */}
-                        <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center text-white font-black text-lg flex-shrink-0">
+                        <div className="w-14 h-14 bg-[#0070CD] rounded-xl flex items-center justify-center text-white font-black text-lg flex-shrink-0 shadow-md shadow-[#0070CD]/20">
                           {index + 1}
                         </div>
                         
@@ -191,15 +203,15 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
                         <div className="flex-1">
                           {/* Prescription Number */}
                           <div className="flex items-center gap-2 mb-2">
-                            <FaHashtag className="text-teal-600 text-sm" />
-                            <span className="text-xs font-semibold text-teal-700">رقم الروشتة</span>
+                            <FaHashtag className="text-[#0070CD] text-sm" />
+                            <span className="text-xs font-semibold text-slate-500">رقم الروشتة</span>
                           </div>
-                          <p className="text-lg font-black text-slate-900 mb-3">{prescription.prescriptionNumber}</p>
+                          <p className="text-lg font-black text-[#0070CD] mb-3">{prescription.prescriptionNumber}</p>
                           
                           {/* Created Date */}
                           <div className="flex items-center gap-2">
-                            <FaCalendarAlt className="text-teal-600 text-sm" />
-                            <span className="text-xs font-semibold text-teal-700">تاريخ الإنشاء:</span>
+                            <FaCalendarAlt className="text-[#0070CD] text-sm" />
+                            <span className="text-xs font-semibold text-slate-500">تاريخ الإنشاء:</span>
                             <span className="text-sm font-bold text-slate-700">{formatPrescriptionDate(prescription.createdAt)}</span>
                           </div>
                         </div>
@@ -207,7 +219,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
                         {/* View Button */}
                         <button
                           onClick={() => handleViewPrescription(prescription.id)}
-                          className="px-4 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-600 text-white rounded-xl hover:from-teal-600 hover:to-emerald-700 transition-all font-bold text-sm shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap"
+                          className="px-4 py-2.5 bg-[#0070CD] text-white rounded-xl hover:bg-slate-900 transition-all font-bold text-sm shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap shadow-[#0070CD]/20"
                         >
                           <FaEye className="w-4 h-4" />
                           عرض الروشتة

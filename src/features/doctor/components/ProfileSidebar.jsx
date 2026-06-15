@@ -4,7 +4,7 @@ import { FaUserMd, FaUser, FaStethoscope, FaHospital, FaDollarSign, FaCalendarAl
 import { useAuthStore } from '@/features/auth/store/authStore';
 import doctorService from '@/api/services/doctor.service';
 
-const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
+const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitForReview }) => {
   const { user, updateUser } = useAuthStore();
   const [verificationStatus, setVerificationStatus] = useState(user?.verificationStatus);
   
@@ -42,9 +42,9 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
       icon: 'text-teal-600'
     },
     blue: {
-      bg: 'bg-blue-100',
-      text: 'text-blue-700',
-      icon: 'text-blue-600'
+      bg: 'bg-[#0070CD]/10',
+      text: 'text-[#0070CD] font-black',
+      icon: 'text-[#0070CD]'
     },
     green: {
       bg: 'bg-green-100',
@@ -70,13 +70,11 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
 
   // Memoize sections array to avoid recreation
   const sections = useMemo(() => [
-    { id: 'personal', name: 'المعلومات الشخصية', icon: FaUser, color: 'teal' },
-    { id: 'professional', name: 'المعلومات المهنية', icon: FaStethoscope, color: 'teal' },
-    { id: 'clinic', name: 'معلومات العيادة', icon: FaHospital, color: 'teal' },
-    { id: 'services', name: 'الخدمات والأسعار', icon: FaDollarSign, color: 'teal' },
-    { id: 'appointment', name: 'إعدادات المواعيد', icon: FaCalendarAlt, color: 'teal' },
-    { id: 'partner', name: 'اقتراح شريك', icon: FaUserFriends, color: 'teal' },
-    { id: 'analytics', name: 'التحليلات', icon: FaChartBar, color: 'teal' }
+    { id: 'personal', name: 'المعلومات الشخصية', icon: FaUser, color: 'blue' },
+    { id: 'professional', name: 'المعلومات المهنية', icon: FaStethoscope, color: 'blue' },
+    { id: 'clinic', name: 'معلومات العيادة', icon: FaHospital, color: 'blue' },
+    { id: 'services', name: 'الخدمات والأسعار', icon: FaDollarSign, color: 'blue' },
+    { id: 'appointment', name: 'إعدادات المواعيد', icon: FaCalendarAlt, color: 'blue' }
   ], []);
 
   return (
@@ -84,7 +82,7 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden sticky top-8">
         
         {/* Profile Header */}
-        <div className="bg-gradient-to-br from-teal-500 to-teal-600 p-6 text-white">
+        <div className="bg-gradient-to-br from-[#0070CD] to-[#00A3FF] p-6 text-white">
           <div className="flex items-center gap-4">
             {/* Profile Image - Priority: uploaded file > formData preview > user.profileImageUrl > icon */}
             {formData.profilePicture instanceof File ? (
@@ -130,7 +128,7 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
                     ${verificationStatus === 2 ? 'bg-white/90 text-green-600' : ''}
                     ${verificationStatus === 3 ? 'bg-white/90 text-red-600' : ''}
                     ${verificationStatus === 4 ? 'bg-white/90 text-orange-600' : ''}
-                    ${verificationStatus === 5 ? 'bg-white/90 text-teal-600' : ''}
+                    ${verificationStatus === 5 ? 'bg-white/90 text-[#0070CD]' : ''}
                   `}>
                     {verificationStatus === 0 && 'غير معتمد'}
                     {verificationStatus === 1 && 'قيد المراجعة'}
@@ -169,6 +167,8 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection }) => {
               );
             })}
           </nav>
+
+
         </div>
       </div>
     </div>
@@ -184,6 +184,7 @@ ProfileSidebar.propTypes = {
   }).isRequired,
   activeSection: PropTypes.string.isRequired,
   setActiveSection: PropTypes.func.isRequired,
+  onSubmitForReview: PropTypes.func,
 };
 
 export default ProfileSidebar;

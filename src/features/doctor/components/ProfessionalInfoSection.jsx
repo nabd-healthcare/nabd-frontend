@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { FaFileImage, FaBriefcaseMedical, FaPaperPlane, FaStethoscope, FaSave, FaCheckCircle, FaExclamationCircle, FaAward, FaBookMedical } from 'react-icons/fa';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { Field, Combobox, ComboboxOption, ComboboxLabel } from '@/components/common/Combobox';
 import DocumentUpload from './DocumentUpload';
 import MultiDocumentUpload from './MultiDocumentUpload';
@@ -77,21 +79,70 @@ const ProfessionalInfoSection = ({
               <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
-              <Field>
-                <Combobox
-                  name="specialty"
-                  options={specialtyOptions}
-                  displayValue={(option) => option?.label || ''}
-                  value={specialtyOptions.find(opt => opt.label === formData.specialty) || null}
-                  onChange={handleChange}
-                >
-                  {(option) => (
-                    <ComboboxOption value={option}>
-                      <ComboboxLabel>{option.label}</ComboboxLabel>
-                    </ComboboxOption>
-                  )}
-                </Combobox>
-              </Field>
+              <Autocomplete
+                freeSolo
+                disablePortal
+                options={specialtyOptions.map(opt => opt.label)}
+                value={formData.specialty || ''}
+                onChange={(event, newValue) => {
+                  handleChange({ target: { name: 'specialty', value: newValue || '' } });
+                }}
+                onInputChange={(event, newInputValue) => {
+                  handleChange({ target: { name: 'specialty', value: newInputValue } });
+                }}
+                renderInput={(params) => (
+                  <TextField 
+                    {...params} 
+                    placeholder="اختر أو اكتب التخصص..." 
+                    dir="rtl"
+                    required
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        padding: '12px 48px 12px 12px',
+                        borderRadius: '16px',
+                        fontSize: '14px',
+                        fontWeight: '700',
+                        backgroundColor: '#ffffff',
+                        '& fieldset': { borderColor: '#e2e8f0', borderWidth: '1px' },
+                        '&:hover fieldset': { borderColor: '#cbd5e1' },
+                        '&.Mui-focused fieldset': { borderColor: '#0070CD', borderWidth: '2px' },
+                      }
+                    }}
+                  />
+                )}
+                componentsProps={{
+                  paper: {
+                    sx: {
+                      borderRadius: '16px',
+                      mt: 1,
+                      minWidth: '250px',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                      '& .MuiAutocomplete-listbox': {
+                        padding: '8px',
+                        '& .MuiAutocomplete-option': {
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          margin: '4px',
+                          fontSize: '14px',
+                          fontWeight: '700',
+                          transition: 'all 0.2s ease',
+                          '&[aria-selected="true"]': {
+                            backgroundColor: 'rgba(0, 112, 205, 0.1)',
+                            color: '#0070CD',
+                            '&.Mui-focused': {
+                              backgroundColor: 'rgba(0, 112, 205, 0.2)',
+                            }
+                          },
+                          '&:hover, &.Mui-focused': {
+                            backgroundColor: '#0070CD',
+                            color: '#ffffff',
+                          }
+                        }
+                      }
+                    }
+                  }
+                }}
+              />
             </div>
           </div>
 

@@ -45,9 +45,9 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
         `}
       >
         <div className="relative">
-           {user?.profileImageUrl ? (
+           {user?.profilePictureUrl || user?.profileImageUrl ? (
              <img
-               src={user.profileImageUrl}
+               src={user?.profilePictureUrl || user?.profileImageUrl}
                alt="Profile"
                className="w-10 h-10 rounded-xl object-cover shadow-sm border border-white"
              />
@@ -60,22 +60,19 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
         </div>
         
         <div className="hidden lg:block text-right pr-1">
-           <p className="text-[11px] font-black text-slate-900 leading-none mb-0.5 uppercase tracking-tight">{user?.fullName || 'د. هاني نبيل'}</p>
-           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest opacity-50">{user?.specialty || 'طبيب متخصص'}</p>
+           <p className="text-[11px] font-black text-slate-900 leading-none mb-0.5 uppercase tracking-tight">
+             {user?.firstName ? `د. ${user.firstName} ${user.lastName || ''}` : (user?.fullName || 'د. طبيب')}
+           </p>
+           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest opacity-50">
+             {user?.specialty || 'طبيب متخصص'}
+           </p>
         </div>
       </button>
 
       {/* Dropdown Menu - Premium Clinical Terminal */}
       {isOpen && (
-        <div className="absolute left-0 mt-4 w-64 bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-slate-100 p-2 z-[100] animate-in fade-in zoom-in-95 duration-300 origin-top">
-          <div className="p-4 border-b border-slate-50 mb-2">
-             <div className="flex items-center gap-3">
-                <FaTerminal className="text-[#0070CD] text-[10px]" />
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">بيانات الحساب</span>
-             </div>
-          </div>
-          
-          <div className="space-y-1">
+        <div className="absolute left-0 mt-4 w-64 bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-slate-100 p-2 z-[110] animate-in fade-in zoom-in-95 duration-300 origin-top">
+          <div className="space-y-1 mt-2">
             <button
               onClick={() => handleNavigate('/doctor/profile')}
               className="w-full flex items-center justify-start space-x-reverse space-x-3 px-4 py-3 text-slate-600 hover:bg-[#0070CD] hover:text-white rounded-[1.5rem] transition-all transform hover:scale-[1.02]"

@@ -461,7 +461,7 @@ const ClinicInfoSection = () => {
                     );
                   }
                 }}
-                className="w-full bg-slate-900 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#0070CD] transition-all shadow-xl flex items-center justify-center gap-3"
+                className="w-full bg-[#0070CD] text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#005A9E] transition-all shadow-xl flex items-center justify-center gap-3"
               >
                 <FaHospital className="text-xs" />
                 تحديد موقعي الحالي

@@ -61,13 +61,8 @@ const AppointmentsPage = () => {
     return labels[filterType] || 'جميع الحالات';
   };
 
-  const handleStartAppointment = async (appointment) => {
-    const result = await startOrResumeSession(appointment);
-    if (result.success) {
-      navigate(`/doctor/session/${appointment.id}`);
-    } else {
-      alert(`❌ خطأ: ${result.error}`);
-    }
+  const handleStartAppointment = (appointment) => {
+    navigate(`/doctor/session/${appointment.id}`);
   };
 
   const statusCounts = statistics || {
@@ -98,7 +93,7 @@ const AppointmentsPage = () => {
           </div>
 
           {/* High-Density Stats Bar */}
-          <div className="flex flex-wrap items-center gap-4 bg-white/50 backdrop-blur-md p-2 rounded-[2rem] border border-white shadow-xl">
+          <div className="flex flex-wrap items-center gap-4">
             {[
               { label: 'إجمالي الحالات', value: statusCounts.total, color: 'text-slate-900', bg: 'bg-slate-100', icon: FaCalendarDay },
               { label: 'جلسات مكتملة', value: statusCounts.completed, color: 'text-[#0070CD]', bg: 'bg-[#0070CD]/10', icon: FaCheck },

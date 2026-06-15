@@ -101,7 +101,7 @@ const TimePicker = ({
         value={period}
         onChange={(e) => onPeriodChange(e.target.value)}
         disabled={disabled}
-        className="px-4 py-3 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-[#0070CD] transition-all cursor-pointer disabled:bg-slate-300"
+        className="px-4 py-3 bg-[#0070CD] text-white rounded-xl text-xs font-black hover:bg-[#005a9e] transition-all cursor-pointer disabled:bg-slate-300"
       >
         <option value="AM">ص</option>
         <option value="PM">م</option>

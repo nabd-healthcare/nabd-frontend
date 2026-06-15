@@ -24,8 +24,7 @@ const PatientCard = ({ patient, onMedicalRecordClick, onPrescriptionClick }) => 
   return (
     <article className="group relative bg-white rounded-[2rem] p-1.5 shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-[#0070CD]/20 overflow-hidden flex flex-col h-full">
       
-      {/* Top Banner / Accent */}
-      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0070CD] to-[#005099] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+      {/* Top Banner / Accent removed as requested */}
 
       <div className="bg-slate-50/50 rounded-[1.5rem] p-5 flex-1 flex flex-col relative z-10">
         {/* Header Section */}
@@ -43,7 +42,7 @@ const PatientCard = ({ patient, onMedicalRecordClick, onPrescriptionClick }) => 
                 <FaUser className="text-[#0070CD] text-2xl" />
               </div>
             )}
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-white shadow-sm flex items-center justify-center">
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#0070CD] rounded-full border-4 border-white shadow-sm flex items-center justify-center">
                <FaCheckCircle className="text-white text-[8px]" />
             </div>
           </div>

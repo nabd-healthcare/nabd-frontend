@@ -154,7 +154,7 @@ const SessionPage = () => {
                    <div className="flex-1 relative overflow-y-auto no-scrollbar scroll-smooth space-y-4">
                       <ErrorAlert error={error} onClear={clearError} />
                       
-                      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                      <div className="animate-in fade-in slide-in-from-bottom-4 duration-200">
                         {activeTab === 'medical' && (
                             <MedicalRecordTab
                                 patientMedicalRecord={patientMedicalRecord}

@@ -37,7 +37,7 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   return (
-    <nav className="bg-white/98 backdrop-blur-lg shadow-sm sticky top-0 z-50 transition-all duration-300">
+    <nav className="bg-white/98 backdrop-blur-lg shadow-sm sticky top-0 z-[100] transition-all duration-300">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-20">
           {/* Logo Section */}

@@ -14,7 +14,8 @@ import {
   getDocumentTypeFromFieldName
 } from '@/utils/constants';
 import { DOCUMENT_STATUS, DOCUMENT_STATUS_LABELS } from '@/features/verifier/constants/verifierConstants';
-import { FaUserMd, FaHospital, FaStethoscope, FaClock, FaIdCard, FaCheckCircle, FaExclamationCircle, FaTerminal, FaSave, FaChartLine } from 'react-icons/fa';
+import { FaUserMd, FaHospital, FaStethoscope, FaClock, FaIdCard, FaCheckCircle, FaExclamationCircle, FaTerminal, FaSave, FaChartLine, FaUserFriends } from 'react-icons/fa';
+import ProfileSidebar from '../components/ProfileSidebar';
 
 const formatDateFromISO = (isoDate) => {
   if (!isoDate) return '';
@@ -26,9 +27,10 @@ const formatDateFromISO = (isoDate) => {
  * A unified, high-density Bento layout for comprehensive profile management.
  */
 const DoctorProfilePage = () => {
-  const { user } = useAuthStore();
+  const { user, updateUserProfile } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [autoSaveStatus, setAutoSaveStatus] = useState(''); // '', 'saving', 'saved', 'error'
+  const [activeSection, setActiveSection] = useState('personal');
   const hasChangesRef = useRef(false);
   const autoSaveTimeoutRef = useRef(null);
   const lastSavedDataRef = useRef(null);
@@ -74,7 +76,7 @@ const DoctorProfilePage = () => {
     appointmentDuration: user?.appointmentDuration || '30',
   });
 
-  const [profileImagePreview, setProfileImagePreview] = useState(user?.profilePicture || null);
+  const [profileImagePreview, setProfileImagePreview] = useState(user?.profileImageUrl || user?.profilePictureUrl || null);
 
   const fetchProfileData = useCallback(async () => {
     setLoading(true);
@@ -214,8 +216,13 @@ const DoctorProfilePage = () => {
         biography: formData.bio || null,
       };
       promises.push(doctorService.updatePersonalInfo(personalData));
+      let newImageUrl = profileImagePreview;
       if (profileImageFileRef.current instanceof File) {
-        promises.push(doctorService.updateProfileImage(profileImageFileRef.current));
+        const imageUploadPromise = doctorService.updateProfileImage(profileImageFileRef.current).then(res => {
+          newImageUrl = res?.data?.profilePictureUrl || res?.profilePictureUrl || res?.data?.profileImageUrl || res?.profileImageUrl || newImageUrl;
+          return res;
+        });
+        promises.push(imageUploadPromise);
         profileImageFileRef.current = null;
       }
       if (formData.specialty || formData.experience) {
@@ -232,6 +239,15 @@ const DoctorProfilePage = () => {
       if (results.some(r => r.status === 'fulfilled')) {
         setAutoSaveStatus('saved');
         lastSavedDataRef.current = currentData;
+        
+        // Update the global user store so the navbar immediately reflects changes
+        updateUserProfile({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          specialty: formData.specialty,
+          profileImageUrl: newImageUrl || user?.profileImageUrl
+        });
+
         setTimeout(() => setAutoSaveStatus(''), 2000);
       } else throw new Error('Failed');
     } catch (e) { setAutoSaveStatus('error'); setTimeout(() => setAutoSaveStatus(''), 3000); }
@@ -270,134 +286,69 @@ const DoctorProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20">
-      {/* Tactical Top Bar */}
-      <div className="sticky top-0 z-[60] bg-white/80 backdrop-blur-md border-b border-slate-100 px-8 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
-           <div className="w-10 h-10 bg-[#0070CD] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#0070CD]/20">
-              <FaTerminal />
-           </div>
-           <div>
-              <h1 className="text-sm font-black text-slate-900 uppercase tracking-widest leading-none mb-1">لوحة التحكم السريرية</h1>
-              <p className="text-[10px] text-[#0070CD] font-bold uppercase tracking-wider">Clinical Command Center v2.0</p>
-           </div>
-        </div>
+      <div className="max-w-[1600px] mx-auto px-8 mt-10 flex flex-col lg:flex-row gap-10 relative" dir="rtl">
+        {/* Profile Sidebar */}
+        <ProfileSidebar
+          formData={formData}
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          onSubmitForReview={handleSubmitForReview}
+        />
 
-        <div className="flex items-center gap-6">
-           <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-widest transition-all ${
-             autoSaveStatus === 'saving' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-             autoSaveStatus === 'saved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-             'bg-slate-50 text-slate-400 border-slate-100'
-           }`}>
-              {autoSaveStatus === 'saving' && <FaSave className="animate-bounce" />}
-              {autoSaveStatus === 'saved' && <FaCheckCircle />}
-              <span>{autoSaveStatus === 'saving' ? 'جاري المزامنة' : autoSaveStatus === 'saved' ? 'تم الحفظ' : 'مؤمن'}</span>
-           </div>
+        {/* Main Content Area */}
+        <div className="flex-1 pb-20">
+          {activeSection === 'personal' && (
+            <PersonalInfoSection
+              formData={formData}
+              profileImagePreview={profileImagePreview}
+              handleChange={handleChange}
+              autoSaveStatus={autoSaveStatus}
+              onSubmitForReview={handleSubmitForReview}
+            />
+          )}
 
-           <button 
-             onClick={handleSubmitForReview}
-             className="px-6 py-2.5 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#0070CD] transition-all transform active:scale-95 shadow-lg shadow-slate-900/10"
-           >
-             إرسال للمراجعة
-           </button>
-        </div>
-      </div>
+          {activeSection === 'professional' && (
+            <ProfessionalInfoSection
+              formData={formData}
+              handleChange={handleChange}
+              specialtyOptions={SPECIALTIES}
+              onSave={performAutoSave}
+              documentStatuses={documentStatuses}
+              removeAwardsImage={async (idx) => {
+                setFormData(prev => ({
+                  ...prev,
+                  awardsImages: prev.awardsImages.filter((_, i) => i !== idx)
+                }));
+              }}
+              removeResearchPapersImage={async (idx) => {
+                setFormData(prev => ({
+                  ...prev,
+                  researchPapersImages: prev.researchPapersImages.filter((_, i) => i !== idx)
+                }));
+              }}
+            />
+          )}
 
-      <div className="max-w-[1600px] mx-auto px-8 mt-10 flex gap-10 relative">
-        {/* Floating Clinical Index Sidebar */}
-        <div className="hidden xl:block w-72 sticky top-32 h-fit space-y-2">
-           <div className="bg-white border border-slate-100 rounded-[2.5rem] p-6 shadow-sm">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] px-4 block mb-6">فهرس المحتوى</span>
-              <div className="space-y-2">
-                 {sections.map(s => (
-                   <button
-                     key={s.id}
-                     onClick={() => scrollToSection(s.id)}
-                     className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-50 transition-all group text-right"
-                   >
-                      <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center group-hover:bg-[#0070CD] group-hover:text-white transition-all">
-                         {s.icon}
-                      </div>
-                      <span className="text-xs font-black text-slate-600 group-hover:text-slate-900 transition-all">{s.title}</span>
-                   </button>
-                 ))}
-              </div>
-           </div>
+          {activeSection === 'clinic' && (
+            <ClinicInfoSection
+              formData={formData}
+              handleChange={handleChange}
+              onSave={performAutoSave}
+            />
+          )}
 
-           {/* Clinical Health Stats Tile */}
-           <div className="bg-[#0070CD] p-6 rounded-[2.5rem] text-white shadow-xl shadow-[#0070CD]/10">
-              <div className="flex items-center gap-3 mb-4">
-                 <FaChartLine className="text-xl opacity-60" />
-                 <span className="text-[10px] font-black uppercase tracking-widest">مؤشر الجودة</span>
-              </div>
-              <div className="text-3xl font-black mb-2">85%</div>
-              <div className="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
-                 <div className="h-full bg-emerald-400 w-[85%]"></div>
-              </div>
-           </div>
-        </div>
+          {activeSection === 'services' && (
+            <ServicesSection
+              consultationFee={formData.consultationFee}
+              onSave={(val) => setFormData(p => ({ ...p, consultationFee: val }))}
+            />
+          )}
 
-        {/* Main Infinite Scroll Bento Layout */}
-        <div className="flex-1 space-y-12 pb-20">
-           {/* Header Highlight Card */}
-           <div className="bg-[#0070CD] rounded-[3rem] p-12 text-white shadow-2xl shadow-[#0070CD]/20 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-              <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-                 <div className="relative">
-                    <div className="w-32 h-32 rounded-[2.5rem] border-4 border-white/20 overflow-hidden bg-white/10 flex items-center justify-center">
-                       {profileImagePreview ? (
-                         <img src={profileImagePreview} className="w-full h-full object-cover" alt="Doctor" />
-                       ) : (
-                         <FaUserMd className="text-5xl opacity-40" />
-                       )}
-                    </div>
-                    <label className="absolute -bottom-2 -right-2 w-10 h-10 bg-white text-[#0070CD] rounded-2xl flex items-center justify-center cursor-pointer shadow-xl hover:scale-110 transition-all">
-                       <FaSave className="text-xs" />
-                       <input type="file" name="profilePicture" onChange={handleChange} className="hidden" />
-                    </label>
-                 </div>
-                 <div className="flex-1 text-center md:text-right">
-                    <div className="flex items-center justify-center md:justify-end gap-3 mb-2">
-                       <h2 className="text-3xl font-black">{formData.firstName} {formData.lastName}</h2>
-                       <FaCheckCircle className="text-emerald-400 text-xl" />
-                    </div>
-                    <p className="text-white/70 font-black uppercase tracking-[0.2em] text-xs">
-                       {formData.specialty || 'تخصص طبي'} • {formData.experience || '0'} سنوات خبرة
-                    </p>
-                    <div className="mt-8 flex flex-wrap items-center justify-center md:justify-end gap-3">
-                       <div className="px-4 py-2 bg-white/10 rounded-xl border border-white/10 text-[10px] font-black uppercase tracking-widest">{formData.email}</div>
-                       <div className="px-4 py-2 bg-white/10 rounded-xl border border-white/10 text-[10px] font-black uppercase tracking-widest">{formData.phone || 'N/A'}</div>
-                    </div>
-                 </div>
-              </div>
-           </div>
+          {activeSection === 'appointment' && (
+            <AppointmentSection />
+          )}
 
-           <div id="personal" className="scroll-mt-32">
-              <PersonalInfoSection formData={formData} handleChange={handleChange} onSave={performAutoSave} />
-           </div>
 
-           <div id="professional" className="scroll-mt-32">
-              <ProfessionalInfoSection 
-                formData={formData} 
-                handleChange={handleChange} 
-                onSave={performAutoSave} 
-                documentStatuses={documentStatuses}
-                removeAwardsImage={async (idx) => { setFormData(prev => ({...prev, awardsImages: prev.awardsImages.filter((_, i) => i !== idx)})); }}
-                removeResearchPapersImage={async (idx) => { setFormData(prev => ({...prev, researchPapersImages: prev.researchPapersImages.filter((_, i) => i !== idx)})); }}
-              />
-           </div>
-
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-              <div id="clinic" className="scroll-mt-32">
-                 <ClinicInfoSection formData={formData} handleChange={handleChange} onSave={performAutoSave} />
-              </div>
-              <div id="services" className="scroll-mt-32">
-                 <ServicesSection consultationFee={formData.consultationFee} onSave={(val) => setFormData(p => ({...p, consultationFee: val}))} />
-              </div>
-           </div>
-
-           <div id="appointments" className="scroll-mt-32">
-              <AppointmentSection />
-           </div>
         </div>
       </div>
       

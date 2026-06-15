@@ -51,12 +51,7 @@ const DocumentationTab = ({ docForm, onDocFormChange, autoSaveStatus, patientInf
     <div className="h-full flex flex-col space-y-6">
       {/* Tactical Status Readout */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-         <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#0070CD]/5 flex items-center justify-center text-[#0070CD]">
-               <FaTerminal className="text-xs" />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Documentation System v1.0</span>
-         </div>
+
 
          <AnimatePresence>
            {autoSaveStatus && (

@@ -100,7 +100,7 @@ const DocumentUpload = ({
             className={`w-full h-32 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center transition-all duration-200 ${
               disabled 
                 ? 'border-slate-200 bg-slate-50 cursor-not-allowed opacity-60' 
-                : 'border-slate-300 hover:border-emerald-400 bg-white hover:bg-emerald-50 cursor-pointer'
+                : 'border-slate-300 hover:border-[#0070CD] bg-white hover:bg-[#0070CD]/5 cursor-pointer'
             }`}
           >
             <FaUpload className={`w-6 h-6 mb-2 ${disabled ? 'text-slate-400' : 'text-slate-500'}`} />

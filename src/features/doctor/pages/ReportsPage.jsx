@@ -51,15 +51,20 @@ const ReportsPage = () => {
         </div>
 
         <div className="flex items-center gap-3 print:hidden">
-          <select 
-            value={dateRange} 
-            onChange={(e) => setDateRange(e.target.value)}
-            className="bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-4 py-3 outline-none focus:border-[#0070CD] transition-all cursor-pointer"
-          >
-            <option value="week">هذا الأسبوع</option>
-            <option value="month">هذا الشهر</option>
-            <option value="year">هذا العام</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={dateRange} 
+              onChange={(e) => setDateRange(e.target.value)}
+              className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-black rounded-2xl pl-4 pr-10 py-3 outline-none focus:border-[#0070CD] hover:border-[#0070CD] transition-all cursor-pointer shadow-sm min-w-[140px]"
+            >
+              <option value="week">هذا الأسبوع</option>
+              <option value="month">هذا الشهر</option>
+              <option value="year">هذا العام</option>
+            </select>
+            <div className="absolute top-1/2 right-4 -translate-y-1/2 text-[#0070CD] pointer-events-none">
+              <FaCalendarCheck />
+            </div>
+          </div>
           <button 
             onClick={() => window.print()}
             className="bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-black tracking-widest uppercase flex items-center gap-2 hover:bg-[#0070CD] transition-colors shadow-lg shadow-slate-900/10"

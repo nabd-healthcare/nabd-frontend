@@ -13,7 +13,8 @@ const PersonalInfoSection = ({
   formData,
   profileImagePreview,
   handleChange,
-  autoSaveStatus
+  autoSaveStatus,
+  onSubmitForReview
 }) => {
 
   const getStatusColor = () => {
@@ -61,7 +62,9 @@ const PersonalInfoSection = ({
                 initialFileName={formData.profilePicture?.name}
                 disabled={false}
               />
-              <p className="text-[10px] text-slate-400 font-bold mt-4 uppercase tracking-widest">انقر لتغيير الصورة المهنية</p>
+              <div className="mt-4">
+                 <p className="text-[10px] text-[#0070CD] font-black uppercase tracking-widest bg-[#0070CD]/5 inline-block px-4 py-2 rounded-full border border-[#0070CD]/10 transition-colors">انقر لتغيير الصورة المهنية</p>
+              </div>
            </div>
         </div>
 
@@ -197,6 +200,18 @@ const PersonalInfoSection = ({
             <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{formData.bio?.length || 0} / 500</span>
           </div>
         </div>
+
+        {/* Submit for Review Action */}
+        {onSubmitForReview && (
+          <div className="pt-8 border-t border-slate-50 flex justify-end">
+            <button 
+              onClick={onSubmitForReview}
+              className="px-10 py-4 bg-[#0070CD] hover:bg-[#0070CD]/90 text-white rounded-[1.5rem] text-sm font-black transition-all shadow-xl shadow-[#0070CD]/20 transform active:scale-95 flex items-center gap-3"
+            >
+              <span>إرسال الملف للمراجعة</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -207,6 +222,7 @@ PersonalInfoSection.propTypes = {
   profileImagePreview: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   autoSaveStatus: PropTypes.string,
+  onSubmitForReview: PropTypes.func,
 };
 
 export default PersonalInfoSection;

@@ -147,32 +147,33 @@ const WeeklyScheduleCalendar = ({
         })}
 
         {/* Tactical Exceptions Module */}
-        <div className="xl:col-span-2 p-8 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070CD]/20 blur-[60px] rounded-full"></div>
+        {/* Tactical Exceptions Module */}
+        <div className="xl:col-span-2 p-8 bg-[#0070CD] rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 blur-[60px] rounded-full"></div>
            <div className="relative z-10 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-[#0070CD]">
+                    <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white">
                        <FaCalendarPlus />
                     </div>
                     <div>
                        <h4 className="text-sm font-black uppercase tracking-widest">المواعيد الاستثنائية</h4>
-                       <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">الإجازات والمواعيد الخاصة</p>
+                       <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">الإجازات والمواعيد الخاصة</p>
                     </div>
                  </div>
-                 <span className="text-[10px] font-black text-[#0070CD] uppercase tracking-widest">{exceptionalDates.length} نشط</span>
+                 <span className="text-[10px] font-black text-white/90 uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">{exceptionalDates.length} نشط</span>
               </div>
 
               <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
                  {/* Quick Add Form */}
-                 <div className="space-y-4 p-6 bg-white/5 rounded-2xl border border-white/10">
+                 <div className="space-y-4 p-6 bg-white/10 rounded-2xl border border-white/20">
                     <div className="space-y-2">
-                       <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">التاريخ</label>
+                       <label className="text-[9px] font-black text-white/70 uppercase tracking-widest px-1">التاريخ</label>
                        <input
                          type="date"
                          value={newException.date}
                          onChange={(e) => onNewExceptionChange({ ...newException, date: e.target.value })}
-                         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-[#0070CD]/20"
+                         className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-white/30 placeholder-white/50"
                          dir="ltr"
                        />
                     </div>
@@ -183,8 +184,8 @@ const WeeklyScheduleCalendar = ({
                          onChange={(e) => onNewExceptionChange({ ...newException, isClosed: e.target.checked })}
                          className="hidden"
                        />
-                       <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${newException.isClosed ? 'bg-[#0070CD] border-[#0070CD]' : 'border-white/20'}`}>
-                          {newException.isClosed && <FaCheckCircle className="text-white text-[10px]" />}
+                       <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all ${newException.isClosed ? 'bg-white border-white' : 'border-white/40'}`}>
+                          {newException.isClosed && <FaCheckCircle className="text-[#0070CD] text-[10px]" />}
                        </div>
                        <span className="text-[10px] font-black uppercase tracking-widest">يوم إجازة (مغلق)</span>
                     </label>
@@ -192,7 +193,7 @@ const WeeklyScheduleCalendar = ({
                     <button
                       onClick={onAddException}
                       disabled={!newException.date || loading.exceptions}
-                      className="w-full bg-[#0070CD] text-white py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-[#0070CD]/40 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
+                      className="w-full bg-white text-[#0070CD] py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-black/5 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                     >
                       <FaPlus /> إضافة بيان
                     </button>
@@ -201,17 +202,17 @@ const WeeklyScheduleCalendar = ({
                  {/* Active Exceptions List */}
                  <div className="space-y-3 overflow-y-auto max-h-[220px] pr-2 custom-scrollbar">
                     {exceptionalDates.length > 0 ? exceptionalDates.map((exc, idx) => (
-                      <div key={idx} className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-between group hover:bg-white/10 transition-all">
+                      <div key={idx} className="p-4 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-between group hover:bg-white/20 transition-all">
                          <div>
                             <span className="text-[10px] font-black block uppercase tracking-widest">{new Date(exc.date).toLocaleDateString('ar-EG', { day: 'numeric', month: 'short' })}</span>
-                            <span className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">{exc.isClosed ? 'إجـازة' : `${exc.fromTime} - ${exc.toTime}`}</span>
+                            <span className="text-[8px] text-white/70 font-bold uppercase tracking-wider">{exc.isClosed ? 'إجـازة' : `${exc.fromTime} - ${exc.toTime}`}</span>
                          </div>
-                         <button onClick={() => onRemoveException(exc.id)} className="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                         <button onClick={() => onRemoveException(exc.id)} className="w-8 h-8 rounded-lg bg-white/20 text-white opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center hover:bg-rose-500 hover:text-white">
                             <FaTrash className="text-xs" />
                          </button>
                       </div>
                     )) : (
-                      <div className="h-full flex flex-col items-center justify-center opacity-30">
+                      <div className="h-full flex flex-col items-center justify-center opacity-40">
                          <FaCalendarPlus className="text-3xl mb-2" />
                          <span className="text-[9px] font-black uppercase tracking-widest">لا توجد بيانات</span>
                       </div>
@@ -235,7 +236,7 @@ const WeeklyScheduleCalendar = ({
             </div>
          </div>
          
-         <div className="h-[500px] clinical-calendar" dir="ltr">
+         <div className="h-[900px] clinical-calendar overflow-visible" dir="ltr">
             <Calendar
               localizer={localizer}
               events={events}

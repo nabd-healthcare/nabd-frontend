@@ -357,17 +357,7 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
             </div>
          </div>
 
-         {/* Tactical System Footer */}
-         <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-               <FaTerminal className="text-[#0070CD] text-[10px]" />
-               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Script v4.0 Active</span>
-            </div>
-            <div className="flex items-center gap-1">
-               <div className="w-1 h-1 bg-emerald-500 rounded-full"></div>
-               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Operational</span>
-            </div>
-         </div>
+
       </div>
     </div>
   );

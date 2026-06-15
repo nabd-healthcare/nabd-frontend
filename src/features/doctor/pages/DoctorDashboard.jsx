@@ -309,7 +309,7 @@ const DoctorDashboard = () => {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className="min-h-screen bg-[#F8FAFC] flex flex-col"
     >
       {/* Main Content - Scrollable */}

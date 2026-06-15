@@ -87,7 +87,7 @@ const PatientsPage = () => {
           </div>
 
           {/* High-Density Insights */}
-          <div className="flex items-center gap-4 bg-white/50 backdrop-blur-md p-2 rounded-[2rem] border border-white shadow-xl">
+          <div className="flex items-center gap-4">
              <div className="flex items-center gap-4 px-10 py-5 rounded-2xl bg-white border border-slate-100 shadow-sm">
                 <div className="w-12 h-12 bg-[#0070CD]/10 text-[#0070CD] rounded-2xl flex items-center justify-center">
                   <FaUsers className="text-xl" />

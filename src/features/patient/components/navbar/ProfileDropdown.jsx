@@ -68,7 +68,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-white rounded-2xl shadow-lg ring-1 ring-[#0070CD]/10 overflow-hidden z-50 animate-fade-in">
+        <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-60 bg-white rounded-2xl shadow-lg ring-1 ring-[#0070CD]/10 overflow-hidden z-[110] animate-fade-in">
           <div className="py-2">
             {/* Profile Link */}
             <button

@@ -72,7 +72,7 @@ const DayScheduleCard = ({
                 disabled={!isEditing}
                 className={`flex-1 px-3 py-2 border rounded-lg transition-all duration-200 ${
                   isEditing 
-                    ? 'border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200' 
+                    ? 'border-[#0070CD]/30 focus:border-[#0070CD] focus:ring-2 focus:ring-[#0070CD]/20' 
                     : 'border-slate-200 bg-slate-50'
                 }`}
                 dir="ltr"
@@ -81,10 +81,10 @@ const DayScheduleCard = ({
                 value={schedule.fromPeriod || 'AM'}
                 onChange={(e) => onTimeChange('fromPeriod', e.target.value)}
                 disabled={!isEditing}
-                className={`px-3 py-2 border rounded-lg transition-all duration-200 ${
+                className={`px-3 py-2 border rounded-lg font-bold transition-all duration-200 ${
                   isEditing 
-                    ? 'border-blue-300 focus:border-blue-500' 
-                    : 'border-slate-200 bg-slate-50'
+                    ? 'border-[#0070CD]/30 focus:border-[#0070CD] text-[#0070CD]' 
+                    : 'border-slate-200 bg-slate-50 text-slate-500'
                 }`}
               >
                 <option value="AM">ص</option>
@@ -106,7 +106,7 @@ const DayScheduleCard = ({
                 disabled={!isEditing}
                 className={`flex-1 px-3 py-2 border rounded-lg transition-all duration-200 ${
                   isEditing 
-                    ? 'border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200' 
+                    ? 'border-[#0070CD]/30 focus:border-[#0070CD] focus:ring-2 focus:ring-[#0070CD]/20' 
                     : 'border-slate-200 bg-slate-50'
                 }`}
                 dir="ltr"
@@ -115,10 +115,10 @@ const DayScheduleCard = ({
                 value={schedule.toPeriod || 'PM'}
                 onChange={(e) => onTimeChange('toPeriod', e.target.value)}
                 disabled={!isEditing}
-                className={`px-3 py-2 border rounded-lg transition-all duration-200 ${
+                className={`px-3 py-2 border rounded-lg font-bold transition-all duration-200 ${
                   isEditing 
-                    ? 'border-blue-300 focus:border-blue-500' 
-                    : 'border-slate-200 bg-slate-50'
+                    ? 'border-[#0070CD]/30 focus:border-[#0070CD] text-[#0070CD]' 
+                    : 'border-slate-200 bg-slate-50 text-slate-500'
                 }`}
               >
                 <option value="AM">ص</option>

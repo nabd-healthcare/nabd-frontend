@@ -9,6 +9,17 @@ import {
  * Shows complete review information with all rating categories
  */
 const ReviewDetailsModal = ({ review, isOpen, onClose }) => {
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen || !review) return null;
 
   // Format date
@@ -79,7 +90,7 @@ const ReviewDetailsModal = ({ review, isOpen, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
       dir="rtl"
     >
@@ -142,7 +153,7 @@ const ReviewDetailsModal = ({ review, isOpen, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-280px)]">
+        <div className="p-6">
           {/* Rating Categories */}
           <div className="mb-6">
             <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">

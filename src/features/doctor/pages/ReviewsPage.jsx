@@ -84,7 +84,7 @@ const ReviewsPage = () => {
           </div>
 
           {/* High-Density Stats Dash */}
-          <div className="flex flex-wrap items-center gap-4 bg-white/50 backdrop-blur-md p-2 rounded-[2rem] border border-white shadow-xl">
+          <div className="flex flex-wrap items-center gap-4">
              <div className="flex items-center gap-4 px-8 py-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
                 <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center">
                   <FaStar className="text-xl" />
@@ -124,12 +124,39 @@ const ReviewsPage = () => {
         {/* Analytics & Filters Row */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 mb-10">
           {/* Detailed Performance Bar */}
-          <div className="xl:col-span-8 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
-             <div className="flex items-center justify-between mb-8">
+          <div className="xl:col-span-12 bg-white rounded-[2.5rem] border border-slate-100 p-8 shadow-sm">
+             <div className="flex items-center justify-between mb-8 relative">
                 <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
                    <FaChartLine className="text-[#0070CD]" />
                    تحليل توزيع التقييمات
                 </h3>
+
+                {/* Rating Filter Dropdown */}
+                <div className="relative w-64" ref={filterRef}>
+                   <button
+                     onClick={() => setIsFilterOpen(!isFilterOpen)}
+                     className="w-full h-12 bg-slate-50 hover:bg-slate-100 border border-slate-100 hover:border-[#0070CD] px-6 rounded-2xl flex items-center justify-between font-black text-xs text-slate-700 transition-all shadow-sm cursor-pointer animate-none"
+                   >
+                     <div className="flex items-center gap-2">
+                       <FaSortAmountDown className="text-[#0070CD] text-xs" />
+                       <span>{getFilterLabel()}</span>
+                     </div>
+                     <FaChevronDown className={`transition-transform text-slate-400 text-[10px] ${isFilterOpen ? 'rotate-180' : ''}`} />
+                   </button>
+                   {isFilterOpen && (
+                     <div className="absolute left-0 top-full mt-2 w-full bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden z-[110] animate-in fade-in zoom-in-95">
+                       {[null, 5, 4, 3].map((r) => (
+                         <button
+                           key={r || 'all'}
+                           onClick={() => { setMinRatingFilter(r); setIsFilterOpen(false); }}
+                           className={`w-full text-right px-6 py-3 font-bold text-xs transition-all ${filters.minRating === r ? 'bg-[#0070CD] text-white' : 'text-slate-600 hover:bg-slate-50'}`}
+                         >
+                           {r === null ? 'جميع التقييمات' : `${r} نجوم فما فوق`}
+                         </button>
+                       ))}
+                     </div>
+                   )}
+                </div>
              </div>
              
              <div className="flex flex-col md:flex-row items-center gap-12">
@@ -171,43 +198,6 @@ const ReviewsPage = () => {
                       <div className="text-[9px] text-slate-400 font-bold mt-1">مقارنة بالشهر الماضي</div>
                    </div>
                 </div>
-             </div>
-          </div>
-
-          {/* Intelligent Filters */}
-          <div className="xl:col-span-4 flex flex-col gap-4">
-             <div className="bg-[#0070CD] rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-xl shadow-[#0070CD]/20 flex flex-col justify-center h-full">
-                <FaAward className="absolute -bottom-4 -left-4 text-white/10 text-[120px] rotate-[-15deg]" />
-                <div className="relative z-10">
-                   <h3 className="text-xl font-black mb-2">تميز المهنة</h3>
-                   <p className="text-white/80 text-sm font-bold leading-relaxed">لقد حصلت على تقييمات إيجابية من {((ratingDistribution?.[5] || 0) / (totalReviews || 1) * 100).toFixed(0)}% من مراجعي الشهر الحالي.</p>
-                </div>
-             </div>
-
-             <div className="relative flex-1" ref={filterRef}>
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="w-full h-full bg-white border border-slate-200 hover:border-[#0070CD] px-8 rounded-2xl flex items-center justify-between font-black text-slate-700 transition-all shadow-sm"
-                >
-                  <div className="flex items-center gap-3">
-                    <FaSortAmountDown className="text-[#0070CD]" />
-                    <span>{getFilterLabel()}</span>
-                  </div>
-                  <FaChevronDown className={`transition-transform text-slate-300 ${isFilterOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isFilterOpen && (
-                  <div className="absolute left-0 top-full mt-3 w-full bg-white rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[100] animate-in fade-in zoom-in-95">
-                    {[null, 5, 4, 3].map((r) => (
-                      <button
-                        key={r || 'all'}
-                        onClick={() => { setMinRatingFilter(r); setIsFilterOpen(false); }}
-                        className={`w-full text-right px-8 py-4 font-bold text-sm transition-all ${filters.minRating === r ? 'bg-[#0070CD] text-white' : 'text-slate-600 hover:bg-slate-50'}`}
-                      >
-                        {r === null ? 'جميع التقييمات' : `${r} نجوم فما فوق`}
-                      </button>
-                    ))}
-                  </div>
-                )}
              </div>
           </div>
         </div>
