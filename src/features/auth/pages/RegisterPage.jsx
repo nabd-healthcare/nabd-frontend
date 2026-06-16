@@ -382,10 +382,11 @@ const RegisterPage = () => {
                   أوافق على <Link to="/terms" className="text-[#0070CD] font-bold hover:underline" onClick={e => e.stopPropagation()}>شروط الخدمة</Link> و <Link to="/privacy" className="text-[#0070CD] font-bold hover:underline" onClick={e => e.stopPropagation()}>سياسة الخصوصية</Link> الخاصة بمنصة نبض.
                 </span>
               </label>
+              {errors.terms && <p className="text-xs text-rose-500 flex items-center gap-1 mt-1 mb-3 font-bold"><AlertCircle size={12} /> {errors.terms.message}</p>}
 
               <button
                 type="submit"
-                disabled={isSubmitting || (!isValid && isDirty) || !termsChecked}
+                disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-[#005ba6] to-[#0070CD] hover:from-[#004a8c] hover:to-[#005ba6] text-white font-bold py-3.5 px-6 rounded-xl shadow-[0_8px_20px_rgba(0,112,205,0.25)] hover:shadow-[0_12px_25px_rgba(0,112,205,0.35)] hover:-translate-y-0.5 transform transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-base border border-white/10"
               >
                 {isSubmitting ? (
