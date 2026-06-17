@@ -89,13 +89,25 @@ const AIDiagnosisTab = ({ patientInfo }) => {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Filtered symptoms - word-based matching for better paste/search support
+  // Filtered symptoms - smart matching with prefix/stem support
+  // e.g. "takes" matches "take", "drinks" matches "drink", "stimulant" matches "stimulant"
   const filteredSymptoms = searchQuery.trim().length < 2 ? [] :
     symptomOptions
       .filter(s => {
         const name = s.name.toLowerCase();
-        const words = searchQuery.trim().toLowerCase().split(/\s+/).filter(w => w.length > 1);
-        return words.every(word => name.includes(word)) && !selectedSymptoms.find(sel => sel.code === s.code);
+        // Split the question into individual words for stem comparison
+        const nameWords = name.split(/[\s,?!.;:()/]+/).filter(w => w.length > 0);
+        const searchWords = searchQuery.trim().toLowerCase().split(/\s+/).filter(w => w.length > 1);
+        if (searchWords.length === 0) return false;
+        const isMatch = searchWords.every(searchWord =>
+          // 1. Direct substring: "stimulant" inside "stimulant effects"
+          name.includes(searchWord) ||
+          // 2. Prefix match: nameWord starts with searchWord → "take".startsWith("tak") ✓
+          nameWords.some(nw => nw.startsWith(searchWord)) ||
+          // 3. Reverse prefix: searchWord starts with nameWord → "takes".startsWith("take") ✓
+          nameWords.some(nw => nw.length > 2 && searchWord.startsWith(nw))
+        );
+        return isMatch && !selectedSymptoms.find(sel => sel.code === s.code);
       })
       .slice(0, 12);
 
