@@ -1,88 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaRobot, FaPaperPlane, FaExclamationTriangle, FaTimes, FaPlus, FaUser, FaBirthdayCake } from 'react-icons/fa';
+import { FaRobot, FaPaperPlane, FaExclamationTriangle, FaTimes, FaPlus, FaBirthdayCake, FaSpinner } from 'react-icons/fa';
 import diagnosisService from '../../../../api/services/diagnosis.service';
-
-// ===== Evidence codes map (code -> English name) =====
-const EVIDENCE_MAP = {
-  "E_91": "Fever", "E_55": "Do you feel pain somewhere", "E_53": "Pain somewhere related to consulting reason",
-  "E_57": "Does the pain radiate to another location", "E_54": "Characterize your pain", "E_59": "How fast did the pain appear",
-  "E_56": "How intense is the pain", "E_58": "How precisely is the pain located", "E_159": "Lose consciousness",
-  "E_133": "Chest pain", "E_129": "Lesions or redness on skin", "E_130": "What color is the rash",
-  "E_134": "Pain caused by the rash", "E_132": "Is the rash swollen", "E_136": "Severity of the itching",
-  "E_135": "Is the lesion larger than 1cm", "E_131": "Do your lesions peel off", "E_154": "Pale skin",
-  "E_155": "Palpitations", "E_210": "Vomited blood or resembling coffee beans", "E_140": "Black stools",
-  "E_51": "Diarrhea or increased stool frequency", "E_75": "Choking or suffocating feeling", "E_89": "Constantly fatigued or non-restful sleep",
-  "E_114": "More irritable or unstable mood", "E_82": "Dizziness", "E_148": "Nausea", "E_94": "Chills",
-  "E_220": "Pain on deep breath", "E_161": "Loss of appetite or get full quickly", "E_179": "Blood or blood clots in stool",
-  "E_162": "Weight loss", "E_173": "Burning sensation from stomach to throat", "E_33": "Pain improves when leaning forward",
-  "E_218": "Symptoms increased with exertion alleviated with rest", "E_93": "Numbness or tingling in the feet",
-  "E_66": "Shortness of breath", "E_163": "Vaginal discharge", "E_30": "Bloated or distended abdomen",
-  "E_127": "Eyes produce excessive tears", "E_181": "Nasal congestion or runny nose", "E_88": "Too tired to do usual activities",
-  "E_43": "Lost consciousness with muscle contractions", "E_156": "Weakness or paralysis on one side of face",
-  "E_144": "Diffuse muscle pain", "E_216": "Pain increased with movement", "E_201": "Cough",
-  "E_217": "Symptoms worse when lying down", "E_215": "Symptoms get worse after eating", "E_64": "Out of breath with minimal effort",
-  "E_96": "Gained weight recently", "E_16": "Feel anxious", "E_50": "Sweating", "E_97": "Sore throat",
-  "E_9": "Swollen or painful lymph nodes", "E_76": "Feel slightly dizzy or lightheaded",
-  "E_102": "High blood pressure consultation", "E_65": "Difficulty swallowing", "E_74": "Redness in one or both eyes",
-  "E_205": "Difficulty opening mouth or jaw pain", "E_63": "Difficulty articulating words or speaking",
-  "E_128": "Suffocating for a short time with inability to breathe", "E_190": "More saliva than usual",
-  "E_39": "Confused or disorientated lately", "E_212": "Voice has become deeper softer or hoarse",
-  "E_206": "Painful mouth ulcers or sores", "E_52": "Seeing double images", "E_203": "Intense coughing fits",
-  "E_38": "Pain or weakness in your jaw", "E_172": "Hard time opening or raising eyelids",
-  "E_84": "Weakness in both arms and or legs", "E_90": "Muscle weakness increases with fatigue",
-  "E_211": "Vomited several times", "E_166": "Vomit after coughing", "E_112": "Wheeze while inhaling or noisy breathing",
-  "E_178": "Unusual bleeding or bruising", "E_151": "Swelling in one or more body areas", "E_45": "Coughing up blood",
-  "E_194": "High pitched sound when breathing in", "E_83": "Weakness in facial muscles or eyes",
-  "E_157": "Numbness or tingling in both arms legs and around mouth", "E_214": "Wheezing sound when exhaling",
-  "E_150": "Unable to pass stools or gas", "E_32": "Decrease in appetite",
-  "E_221": "Symptoms increased with coughing lifting or bowel movement", "E_202": "Whooping cough",
-  "E_219": "Symptoms more prominent at night", "E_196": "Surgery within the last month",
-  "E_170": "Severe itching in one or both eyes", "E_77": "Cough produces colored or abundant sputum",
-  "E_13": "Symptoms worsened over last 2 weeks", "E_14": "Chest pain at rest", "E_169": "Nose or throat itchy",
-  "E_177": "Numbness or tingling anywhere on body", "E_175": "New fatigue muscle aches or change in wellbeing",
-  "E_174": "Unintentionally losing weight or lost appetite", "E_145": "Very abundant or long menstruation periods",
-  "E_92": "Cheeks suddenly turn red", "E_192": "Muscle spasms in neck preventing head turning",
-  "E_188": "Pale stools and dark urine", "E_164": "Heart beating very irregularly",
-  "E_193": "Annoying muscle spasms in face neck or body", "E_67": "Choking or shortness of breath at night",
-  "E_78": "Drink alcohol excessively", "E_182": "Greenish or yellowish nasal discharge",
-  "E_103": "Lost sense of smell", "E_23": "Stop breathing while asleep", "E_105": "Heart attack or angina",
-  "E_104": "High blood pressure", "E_79": "Smoke cigarettes", "E_71": "High cholesterol",
-  "E_41": "Contact with person with similar symptoms past 2 weeks", "E_100": "Currently take hormones",
-  "E_69": "Diabetes", "E_167": "Think you are pregnant", "E_115": "Unprotected sex with multiple partners",
-  "E_70": "Significantly overweight", "E_10": "Recently taken anti-inflammatory drugs",
-  "E_42": "Allergy", "E_124": "Asthma", "E_116": "A cold in the last 2 weeks",
-  "E_2": "HIV positive", "E_227": "Immunosuppressed", "E_61": "Intravenous drug use",
-  "E_47": "Crohn disease or ulcerative colitis", "E_27": "Sexually transmitted infection",
-  "E_143": "Exercise regularly 4 times per week", "E_191": "A former smoker",
-  "E_208": "BMI less than 18.5 or underweight", "E_126": "Liver cirrhosis",
-  "E_7": "Poor diet", "E_24": "Diagnosed with anemia", "E_26": "Family members diagnosed with anemia",
-  "E_113": "Chronic kidney failure", "E_80": "Diagnosed with depression",
-  "E_40": "Contact with someone who had pertussis", "E_0": "Viral infection",
-  "E_34": "Active cancer", "E_209": "Vaccinations up to date", "E_139": "Known heart defect",
-  "E_19": "Diagnosed with hyperthyroidism", "E_31": "Severe COPD", "E_22": "Known heart valve issue",
-  "E_99": "Migraine", "E_107": "Stroke", "E_95": "Parkinson disease",
-  "E_204": "Travel history", "E_37": "Metastatic cancer", "E_153": "Being treated for osteoporosis",
-  "E_98": "Hiatal hernia", "E_48": "Live with 4 or more people", "E_49": "Attend or work in a daycare",
-  "E_86": "Family members with allergies hay fever or eczema", "E_87": "Family members with asthma",
-  "E_106": "Heart failure", "E_158": "Diagnosed with endocrine disease or hormone dysfunction",
-  "E_6": "Chronic pancreatitis", "E_125": "Gastroesophageal reflux", "E_21": "Spontaneous pneumothorax",
-  "E_222": "Exposed to secondhand cigarette smoke daily", "E_15": "Started antipsychotic medication last 7 days",
-  "E_109": "DVT deep vein thrombosis", "E_110": "Unable to move for more than 3 days in last 4 weeks",
-  "E_18": "Cystic fibrosis", "E_118": "Pneumonia", "E_123": "COPD",
-  "E_119": "Chronic sinusitis", "E_121": "Deviated nasal septum", "E_120": "Polyps in nose",
-  "E_101": "Hospitalized for asthma attack past year", "E_46": "2 or more asthma attacks past year",
-  "E_5": "Fluid in your lungs", "E_200": "Work in mining sector", "E_199": "Work in construction",
-  "E_198": "Work in agriculture", "E_224": "Family members with lung cancer",
-  "E_223": "Family members diagnosed with pancreatic cancer", "E_225": "Family members with cardiovascular disease before 50",
-  "E_55_@_V_101": "Chest pain (specific)"
-};
-
-// Build searchable array
-const SYMPTOM_OPTIONS = Object.entries(EVIDENCE_MAP).map(([code, name]) => ({ code, name }));
 
 /**
  * AIDiagnosisTab - Clinical Intelligence Hub
- * Smart symptom search with tag-based multi-select
+ * Smart symptom search with tag-based multi-select.
+ * Evidence list is loaded dynamically from the backend (evidences.json)
+ * so every symptom the model knows about is always searchable.
  */
 const AIDiagnosisTab = ({ patientInfo }) => {
   const patientId = patientInfo?.patientId || 'unknown';
@@ -101,6 +25,11 @@ const AIDiagnosisTab = ({ patientInfo }) => {
     }];
   });
 
+  // ---- Dynamic evidence options loaded from backend ----
+  const [symptomOptions, setSymptomOptions] = useState([]);
+  const [evidencesLoading, setEvidencesLoading] = useState(true);
+  const [evidencesError, setEvidencesError] = useState(false);
+
   // ---- Input state ----
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -112,6 +41,31 @@ const AIDiagnosisTab = ({ patientInfo }) => {
   const messagesEndRef = useRef(null);
   const searchRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  // Load evidences from backend on mount
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        setEvidencesLoading(true);
+        setEvidencesError(false);
+        const data = await diagnosisService.getEvidences();
+        if (!cancelled) {
+          // data is Array<{code, name}>
+          setSymptomOptions(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error('Failed to load evidences:', err);
+          setEvidencesError(true);
+        }
+      } finally {
+        if (!cancelled) setEvidencesLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, []);
 
   // Persist messages
   useEffect(() => {
@@ -137,13 +91,13 @@ const AIDiagnosisTab = ({ patientInfo }) => {
 
   // Filtered symptoms - word-based matching for better paste/search support
   const filteredSymptoms = searchQuery.trim().length < 2 ? [] :
-    SYMPTOM_OPTIONS
+    symptomOptions
       .filter(s => {
         const name = s.name.toLowerCase();
         const words = searchQuery.trim().toLowerCase().split(/\s+/).filter(w => w.length > 1);
         return words.every(word => name.includes(word)) && !selectedSymptoms.find(sel => sel.code === s.code);
       })
-      .slice(0, 10);
+      .slice(0, 12);
 
   const addSymptom = (symptom) => {
     setSelectedSymptoms(prev => [...prev, symptom]);
@@ -350,15 +304,28 @@ const AIDiagnosisTab = ({ patientInfo }) => {
               onChange={e => { setSearchQuery(e.target.value); setShowDropdown(true); }}
               onFocus={() => searchQuery.trim().length >= 2 && setShowDropdown(true)}
               onPaste={e => {
-                // Allow the paste to complete, then force-show dropdown
                 setTimeout(() => {
                   const val = e.target.value.trim();
                   if (val.length >= 2) setShowDropdown(true);
                 }, 50);
               }}
-              placeholder="ابحث عن عرض (مثلاً: Fever, Cough...)"
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:border-[#0070CD] focus:ring-4 focus:ring-[#0070CD]/5 transition-all outline-none placeholder:text-slate-400 placeholder:font-normal"
+              placeholder={
+                evidencesLoading
+                  ? 'جاري تحميل قائمة الأعراض...'
+                  : evidencesError
+                    ? 'فشل تحميل الأعراض - حاول مرة أخرى'
+                    : `ابحث عن عرض (${symptomOptions.length} عرض متاح)...`
+              }
+              disabled={evidencesLoading}
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm font-bold text-slate-700 focus:border-[#0070CD] focus:ring-4 focus:ring-[#0070CD]/5 transition-all outline-none placeholder:text-slate-400 placeholder:font-normal disabled:opacity-60"
             />
+
+            {/* Loading spinner inside input */}
+            {evidencesLoading && (
+              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                <FaSpinner className="text-[#0070CD] animate-spin text-sm" />
+              </div>
+            )}
 
             {/* Dropdown */}
             {showDropdown && filteredSymptoms.length > 0 && (
@@ -374,6 +341,13 @@ const AIDiagnosisTab = ({ patientInfo }) => {
                     <FaPlus className="text-[8px] text-slate-300 ml-auto shrink-0" />
                   </button>
                 ))}
+              </div>
+            )}
+
+            {/* No results hint */}
+            {showDropdown && searchQuery.trim().length >= 2 && filteredSymptoms.length === 0 && !evidencesLoading && (
+              <div className="absolute bottom-full mb-2 left-0 right-0 bg-white border border-slate-100 rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden z-50 px-5 py-4">
+                <p className="text-xs text-slate-400 font-semibold">لا توجد نتائج لـ "{searchQuery}"</p>
               </div>
             )}
           </div>
