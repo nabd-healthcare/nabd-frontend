@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -45,11 +46,11 @@ const FAQ = () => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
-                    <span className="text-[#0070CD] font-black text-xs uppercase tracking-widest mb-4 block">استفسارات</span>
-                    <h2 className="text-4xl lg:text-5xl font-black text-[#1F2E3C] mb-6 tracking-tight">
+                    <span className="text-[#0070CD] font-black text-sm uppercase tracking-widest mb-4 block">استفسارات</span>
+                    <h2 className="text-[32px] md:text-[36px] lg:text-[40px] font-black text-[#1F2E3C] mb-6 tracking-tight">
                         الأسئلة <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0070CD] to-[#3399FF]">الشائعة</span>
                     </h2>
-                    <p className="text-slate-500 text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+                    <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
                         كل ما تود معرفته عن منصة نبض وكيفية تحقيق أقصى استفادة من خدماتنا الصحية.
                     </p>
                 </motion.div>
@@ -70,7 +71,7 @@ const FAQ = () => {
                                     onClick={() => toggleFAQ(index)}
                                     className="w-full px-6 py-6 flex justify-between items-center text-right group focus:outline-none"
                                 >
-                                    <span className={`font-bold text-lg transition-colors ${isOpen ? 'text-[#0070CD]' : 'text-[#1F2E3C] group-hover:text-[#0070CD]'}`}>
+                                    <span className={`font-bold text-lg md:text-xl transition-colors ${isOpen ? 'text-[#0070CD]' : 'text-[#1F2E3C] group-hover:text-[#0070CD]'}`}>
                                         {faq.question}
                                     </span>
                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isOpen ? 'bg-[#0070CD]/10 text-[#0070CD]' : 'bg-slate-50 text-slate-400 group-hover:bg-[#0070CD]/5 group-hover:text-[#0070CD]'}`}>
@@ -86,7 +87,7 @@ const FAQ = () => {
                                             exit={{ height: 0, opacity: 0 }}
                                             transition={{ duration: 0.3, ease: 'easeOut' }}
                                         >
-                                            <div className="px-6 pb-6 pt-2 text-slate-600 leading-loose font-medium text-[15px] border-t border-slate-50">
+                                            <div className="px-6 pb-6 pt-2 text-slate-600 leading-loose font-medium text-sm md:text-base border-t border-slate-50">
                                                 {faq.answer}
                                             </div>
                                         </motion.div>
@@ -104,8 +105,8 @@ const FAQ = () => {
                     transition={{ delay: 0.8 }}
                     className="mt-16 text-center"
                 >
-                    <p className="text-slate-500 font-medium">
-                        لم تجد إجابة لسؤالك؟ <a href="#contact" className="text-[#0070CD] font-bold hover:underline underline-offset-4">تواصل مع الدعم الفني</a>
+                    <p className="text-slate-500 text-sm md:text-base font-medium">
+                        لم تجد إجابة لسؤالك؟ <Link to="/contact" className="text-[#0070CD] font-bold hover:underline underline-offset-4">تواصل مع الدعم الفني</Link>
                     </p>
                 </motion.div>
             </div>

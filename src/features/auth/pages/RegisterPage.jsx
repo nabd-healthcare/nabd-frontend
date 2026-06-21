@@ -1,6 +1,6 @@
 // src/features/auth/pages/RegisterPage.jsx
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -52,6 +52,16 @@ const RegisterPage = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Pre-select role from URL query param (e.g. /register?role=doctor)
+  useEffect(() => {
+    const role = searchParams.get('role');
+    if (role === 'doctor' || role === 'patient') {
+      handleUserTypeChange(role);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const getSchema = () => {
     switch (userType) {

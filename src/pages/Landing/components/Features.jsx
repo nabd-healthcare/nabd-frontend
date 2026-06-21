@@ -80,10 +80,10 @@ const Features = () => {
                         <Sparkles className="w-4 h-4 text-[#0070CD]" />
                         <span className="text-[#0070CD] font-bold text-sm tracking-wide">الجيل الجديد من الرعاية</span>
                     </div>
-                    <h2 className="text-4xl lg:text-5xl font-black text-[#1F2E3C] mb-6 tracking-tight">
+                    <h2 className="text-[32px] md:text-[36px] lg:text-[40px] font-black text-[#1F2E3C] mb-6 tracking-tight">
                         قدرات تقنية <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#0070CD] to-[#3399FF]">لا حدود لها</span>
                     </h2>
-                    <p className="text-slate-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg font-medium leading-relaxed">
                         استكشف كيف يجمع "نبض" بين التطور التقني والرعاية الإنسانية لتقديم حلول شاملة لكل من الأطباء والمرضى.
                     </p>
                 </motion.div>
@@ -115,7 +115,7 @@ const Features = () => {
                                         {feature.icon}
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className={`text-xl font-bold mb-1 transition-colors ${isActive ? 'text-[#0070CD]' : 'text-[#1F2E3C] group-hover:text-[#0070CD]'}`}>
+                                        <h3 className={`text-lg md:text-xl font-bold mb-1 transition-colors ${isActive ? 'text-[#0070CD]' : 'text-[#1F2E3C] group-hover:text-[#0070CD]'}`}>
                                             {feature.title}
                                         </h3>
                                         {/* Show brief preview for non-active if desired, or keep it clean */}
@@ -153,22 +153,15 @@ const Features = () => {
                                         {React.cloneElement(activeFeature.icon, { className: 'w-10 h-10' })}
                                     </div>
                                     
-                                    <h3 className="text-4xl lg:text-5xl font-black text-[#1F2E3C] mb-6 leading-tight">
+                                    <h3 className="text-[32px] md:text-[36px] lg:text-[40px] font-black text-[#1F2E3C] mb-6 leading-tight">
                                         {activeFeature.title}
                                     </h3>
                                     
-                                    <p className="text-xl text-slate-600 font-medium leading-relaxed max-w-lg">
+                                    <p className="text-base md:text-lg text-slate-600 font-medium leading-relaxed max-w-lg">
                                         {activeFeature.description}
                                     </p>
 
-                                    <motion.button 
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="mt-10 px-8 py-4 bg-white text-[#0070CD] border-2 border-[#0070CD]/10 rounded-2xl font-bold shadow-sm hover:shadow-lg hover:border-[#0070CD]/30 transition-all flex items-center gap-3 w-fit"
-                                    >
-                                        استكشف المزيد
-                                        <ChevronLeft className="w-5 h-5" />
-                                    </motion.button>
+
                                 </div>
                             </motion.div>
                         </AnimatePresence>

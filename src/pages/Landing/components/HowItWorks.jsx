@@ -39,10 +39,10 @@ const HowItWorks = () => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-24"
                 >
-                    <h2 className="text-4xl lg:text-5xl font-black text-[#1F2E3C] mb-6 tracking-tight">
+                    <h2 className="text-[32px] md:text-[36px] lg:text-[40px] font-black text-[#1F2E3C] mb-6 tracking-tight">
                         كيف يوفر <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0070CD] to-[#3399FF]">نبض</span> الرعاية لك؟
                     </h2>
-                    <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
                         خطوات بسيطة مصممة لتجعل وصولك للرعاية الصحية أسرع وأكثر أماناً وفعالية.
                     </p>
                 </motion.div>
@@ -83,8 +83,8 @@ const HowItWorks = () => {
                                     </div>
                                 </div>
                                 
-                                <h3 className="text-xl font-bold text-[#1F2E3C] mb-3">{step.title}</h3>
-                                <p className="text-slate-500 text-sm leading-relaxed max-w-[250px] mx-auto">{step.description}</p>
+                                <h3 className="text-lg md:text-xl font-bold text-[#1F2E3C] mb-3">{step.title}</h3>
+                                <p className="text-slate-500 text-sm md:text-base leading-relaxed max-w-[250px] mx-auto">{step.description}</p>
                             </motion.div>
                         ))}
                     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, MapPin, Award } from 'lucide-react';
 
 const doctors = [
@@ -32,6 +33,7 @@ const doctors = [
 ];
 
 const OurDoctors = () => {
+    const navigate = useNavigate();
     return (
         <section id="doctors" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-6">
@@ -76,7 +78,10 @@ const OurDoctors = () => {
 
                                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                                     <span className="text-sm text-gray-500">{doctor.reviews} تقييم</span>
-                                    <button className="px-4 py-2 bg-[#1C8B8F] text-white rounded-lg font-bold hover:bg-[#14666A] transition text-sm">
+                                    <button 
+                                        onClick={() => navigate('/register?role=patient')}
+                                        className="px-4 py-2 bg-[#1C8B8F] text-white rounded-lg font-bold hover:bg-[#14666A] transition text-sm"
+                                    >
                                         احجز الآن
                                     </button>
                                 </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, MapPin, Briefcase, Star } from 'lucide-react';
 
@@ -9,9 +10,9 @@ const doctorsData = [
         rating: 4.9,
         reviews: 120,
         bio: "طبيب عام بخبرة واسعة في تشخيص وعلاج الحالات الطارئة والمزمنة، يهتم بتقديم رعاية صحية متكاملة.",
-        experience: '12+ سنة خبرة',
+        experience: '5+ سنة خبرة',
         location: 'الجيزة - المهندسين',
-        imageSrc: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=faces'
     },
     {
         name: 'د. علياء المصري',
@@ -19,9 +20,9 @@ const doctorsData = [
         rating: 4.8,
         reviews: 95,
         bio: 'متخصصة في طب الأطفال وحديثي الولادة، تقدم متابعة شاملة لنمو الطفل وصحته.',
-        experience: '10+ سنوات خبرة',
+        experience: '2+ سنوات خبرة',
         location: 'القاهرة - مدينة نصر',
-        imageSrc: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop&crop=faces'
     },
     {
         name: 'د. أحمد الشريف',
@@ -29,9 +30,9 @@ const doctorsData = [
         rating: 4.9,
         reviews: 210,
         bio: 'استشاري جراحة العظام متخصص في الإصابات الرياضية وتغيير المفاصل.',
-        experience: '18+ سنة خبرة',
+        experience: '3+ سنة خبرة',
         location: 'الإسكندرية - سموحة',
-        imageSrc: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=500&fit=crop&crop=faces'
     },
     {
         name: 'د. نورهان السيد',
@@ -39,9 +40,9 @@ const doctorsData = [
         rating: 4.7,
         reviews: 88,
         bio: 'تقدم رعاية متكاملة لصحة المرأة، ومتابعة الحمل والولادة بأحدث التقنيات.',
-        experience: '9+ سنوات خبرة',
+        experience: '1+ سنوات خبرة',
         location: 'القاهرة - التجمع الخامس',
-        imageSrc: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=500&fit=crop&crop=faces'
     },
     {
         name: 'د. سارة إبراهيم',
@@ -49,9 +50,9 @@ const doctorsData = [
         rating: 4.8,
         reviews: 150,
         bio: 'متخصصة في علاج الأمراض الجلدية والتجميل والليزر، عضو الجمعية المصرية للأمراض الجلدية.',
-        experience: '11+ سنة خبرة',
+        experience: '7+ سنة خبرة',
         location: 'الجيزة - الشيخ زايد',
-        imageSrc: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=500&fit=crop&crop=faces'
     },
     {
         name: 'د. كريم عبد العزيز',
@@ -59,15 +60,16 @@ const doctorsData = [
         rating: 5.0,
         reviews: 300,
         bio: 'استشاري أمراض القلب والقسطرة العلاجية، حاصل على الزمالة البريطانية لأمراض القلب.',
-        experience: '20+ سنة خبرة',
+        experience: '2+ سنة خبرة',
         location: 'القاهرة - المعادي',
-        imageSrc: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&h=500&fit=crop'
+        imageSrc: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&h=500&fit=crop&crop=faces'
     }
 ];
 
 const DoctorsSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(1);
+    const navigate = useNavigate();
 
     const nextSlide = () => {
         setDirection(1);
@@ -80,45 +82,30 @@ const DoctorsSlider = () => {
     };
 
     const variants = {
-        enter: (direction) => {
-            return {
-                x: direction > 0 ? 100 : -100,
-                opacity: 0,
-                scale: 0.95
-            };
-        },
-        center: {
-            zIndex: 1,
-            x: 0,
-            opacity: 1,
-            scale: 1
-        },
-        exit: (direction) => {
-            return {
-                zIndex: 0,
-                x: direction < 0 ? 100 : -100,
-                opacity: 0,
-                scale: 0.95
-            };
-        }
+        enter: (direction) => ({ x: direction > 0 ? 100 : -100, opacity: 0, scale: 0.95 }),
+        center: { zIndex: 1, x: 0, opacity: 1, scale: 1 },
+        exit: (direction) => ({ zIndex: 0, x: direction < 0 ? 100 : -100, opacity: 0, scale: 0.95 })
     };
 
     const currentDoc = doctorsData[currentIndex];
 
     return (
-        <section id="doctors" className="py-32 bg-white relative overflow-hidden">
-            <div className="max-w-6xl mx-auto px-6">
-                <div className="text-center mb-16">
-                    <span className="text-[#0070CD] font-black text-xs uppercase tracking-widest mb-4 block">نخبة الأطباء</span>
-                    <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-                        رعاية طبية بأيدي <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#005099] to-[#3399FF]">خبراء</span>
+        <section id="doctors" className="py-16 md:py-24 lg:py-32 bg-white relative overflow-hidden">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                {/* Section Header */}
+                <div className="text-center mb-10 md:mb-16">
+                    <span className="text-[#0070CD] font-black text-sm uppercase tracking-widest mb-4 block">نخبة الأطباء</span>
+                    <h2 className="text-[26px] sm:text-[32px] md:text-[36px] lg:text-[40px] font-black text-slate-900 mb-4 md:mb-6 tracking-tight">
+                        رعاية طبية بأيدي{' '}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#005099] to-[#3399FF]">خبراء</span>
                     </h2>
-                    <p className="text-slate-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
+                    <p className="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed">
                         اختر من بين أفضل القطاعات الطبية في مصر، تقييمات حقيقية وخبرات موثوقة.
                     </p>
                 </div>
 
-                <div className="relative w-full max-w-4xl mx-auto h-auto min-h-[500px]">
+                {/* Slider */}
+                <div className="relative w-full max-w-4xl mx-auto">
                     <AnimatePresence initial={false} custom={direction}>
                         <motion.div
                             key={currentIndex}
@@ -131,57 +118,66 @@ const DoctorsSlider = () => {
                                 x: { type: "spring", stiffness: 300, damping: 30 },
                                 opacity: { duration: 0.2 }
                             }}
-                            className="absolute inset-0 w-full"
+                            className="w-full"
                         >
-                            <div className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col md:flex-row overflow-hidden border border-slate-100 h-full">
-                                {/* Image side */}
-                                <div className="md:w-5/12 relative h-64 md:h-auto overflow-hidden">
-                                    <div className="absolute inset-0 bg-[#0070CD]/20 mix-blend-overlay z-10"></div>
-                                    <img 
-                                        src={currentDoc.imageSrc} 
-                                        alt={currentDoc.name} 
-                                        className="w-full h-full object-cover object-top"
-                                    />
+                            <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col md:flex-row overflow-hidden border border-slate-100">
+
+                                {/* Image */}
+                                <div className="md:w-5/12 relative overflow-hidden">
+                                    <div className="relative w-full h-56 sm:h-64 md:h-full md:min-h-[420px] overflow-hidden">
+                                        <div className="absolute inset-0 bg-[#0070CD]/20 mix-blend-overlay z-10"></div>
+                                        <img
+                                            src={currentDoc.imageSrc}
+                                            alt={currentDoc.name}
+                                            className="w-full h-full object-cover object-[center_15%] md:object-top"
+                                        />
+                                    </div>
                                 </div>
 
-                                {/* Content side */}
-                                <div className="md:w-7/12 p-8 md:p-12 flex flex-col justify-center bg-[#F0F7FF]/50">
-                                    <div className="flex justify-between items-start mb-4">
+                                {/* Content */}
+                                <div className="md:w-7/12 p-5 sm:p-7 md:p-10 lg:p-12 flex flex-col justify-center bg-[#F0F7FF]/50">
+                                    <div className="flex justify-between items-start mb-3 md:mb-4">
                                         <div>
-                                            <h3 className="text-3xl font-black text-slate-900 mb-2">{currentDoc.name}</h3>
-                                            <p className="text-[#0070CD] font-bold text-lg">{currentDoc.specialty}</p>
+                                            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 mb-1 md:mb-2">{currentDoc.name}</h3>
+                                            <p className="text-[#0070CD] font-bold text-sm sm:text-base md:text-lg">{currentDoc.specialty}</p>
                                         </div>
-                                        <div className="flex items-center gap-1 bg-white px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
-                                            <Star className="w-4 h-4 text-amber-400 fill-current" />
-                                            <span className="font-bold text-slate-800 text-sm">{currentDoc.rating}</span>
-                                            <span className="text-slate-400 text-xs text-nowrap">({currentDoc.reviews}+)</span>
+                                        <div className="flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-full shadow-sm border border-slate-100 flex-shrink-0 ml-2">
+                                            <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-current" />
+                                            <span className="font-bold text-slate-800 text-xs sm:text-sm">{currentDoc.rating}</span>
+                                            <span className="text-slate-400 text-xs hidden sm:inline">({currentDoc.reviews}+)</span>
                                         </div>
                                     </div>
 
-                                    <p className="text-slate-600 leading-relaxed font-medium mb-8">
+                                    <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium mb-5 md:mb-8">
                                         {currentDoc.bio}
                                     </p>
 
-                                    <div className="flex flex-col sm:flex-row gap-6 mb-10">
-                                        <div className="flex items-center gap-3 text-slate-700">
-                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD]">
-                                                <Briefcase className="w-5 h-5" />
+                                    <div className="flex flex-col xs:flex-row gap-3 sm:gap-6 mb-5 md:mb-10">
+                                        <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
+                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
+                                                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />
                                             </div>
-                                            <span className="font-bold text-sm">{currentDoc.experience}</span>
+                                            <span className="font-bold text-xs sm:text-sm md:text-base">{currentDoc.experience}</span>
                                         </div>
-                                        <div className="flex items-center gap-3 text-slate-700">
-                                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD]">
-                                                <MapPin className="w-5 h-5" />
+                                        <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
+                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
+                                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                                             </div>
-                                            <span className="font-bold text-sm">{currentDoc.location}</span>
+                                            <span className="font-bold text-xs sm:text-sm md:text-base">{currentDoc.location}</span>
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-4 mt-auto">
-                                        <button className="flex-1 bg-[#0070CD] text-white py-4 rounded-2xl font-bold hover:bg-[#005099] shadow-[0_8px_20px_rgba(0,112,205,0.25)] hover:shadow-[0_10px_25px_rgba(0,112,205,0.35)] hover:-translate-y-0.5 transition-all">
+                                    <div className="flex gap-3 mt-auto">
+                                        <button
+                                            onClick={() => navigate('/register?role=patient')}
+                                            className="flex-1 bg-[#0070CD] text-white py-3 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold hover:bg-[#005099] shadow-[0_8px_20px_rgba(0,112,205,0.25)] hover:shadow-[0_10px_25px_rgba(0,112,205,0.35)] hover:-translate-y-0.5 transition-all"
+                                        >
                                             احجز الآن
                                         </button>
-                                        <button className="flex-1 bg-white text-[#0070CD] border-2 border-[#0070CD]/20 py-4 rounded-2xl font-bold hover:bg-[#F0F7FF] transition-colors">
+                                        <button
+                                            onClick={() => navigate('/register?role=patient')}
+                                            className="flex-1 bg-white text-[#0070CD] border-2 border-[#0070CD]/20 py-3 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold hover:bg-[#F0F7FF] transition-colors"
+                                        >
                                             الملف الشخصي
                                         </button>
                                     </div>
@@ -190,27 +186,27 @@ const DoctorsSlider = () => {
                         </motion.div>
                     </AnimatePresence>
 
-                    {/* Navigation Buttons */}
-                    <div className="absolute top-1/2 -mt-6 -left-6 md:-left-16 z-20">
-                        <button 
+                    {/* Navigation Arrows — inside card boundary on mobile, outside on desktop */}
+                    <div className="absolute top-1/2 -translate-y-1/2 left-2 md:-left-14 z-20">
+                        <button
                             onClick={prevSlide}
-                            className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-[#0070CD] hover:scale-110 hover:bg-[#F0F7FF] transition-all"
+                            className="w-9 h-9 sm:w-12 sm:h-12 bg-white/90 md:bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-[#0070CD] hover:scale-110 hover:bg-[#F0F7FF] transition-all backdrop-blur-sm"
                         >
-                            <ChevronLeft className="w-6 h-6 mr-1" />
+                            <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6 mr-0.5" />
                         </button>
                     </div>
-                    <div className="absolute top-1/2 -mt-6 -right-6 md:-right-16 z-20">
-                        <button 
+                    <div className="absolute top-1/2 -translate-y-1/2 right-2 md:-right-14 z-20">
+                        <button
                             onClick={nextSlide}
-                            className="w-12 h-12 bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-[#0070CD] hover:scale-110 hover:bg-[#F0F7FF] transition-all"
+                            className="w-9 h-9 sm:w-12 sm:h-12 bg-white/90 md:bg-white rounded-full shadow-lg border border-slate-100 flex items-center justify-center text-[#0070CD] hover:scale-110 hover:bg-[#F0F7FF] transition-all backdrop-blur-sm"
                         >
-                            <ChevronRight className="w-6 h-6 ml-1" />
+                            <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6 ml-0.5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Pagination */}
-                <div className="flex justify-center gap-3 mt-16">
+                <div className="flex justify-center gap-3 mt-8 md:mt-14">
                     {doctorsData.map((_, index) => (
                         <button
                             key={index}
@@ -219,9 +215,9 @@ const DoctorsSlider = () => {
                                 setCurrentIndex(index);
                             }}
                             className={`h-2.5 rounded-full transition-all duration-300 ${
-                                index === currentIndex 
-                                ? 'w-10 bg-[#0070CD]' 
-                                : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                                index === currentIndex
+                                    ? 'w-8 sm:w-10 bg-[#0070CD]'
+                                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
                             }`}
                         />
                     ))}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { FaHeartbeat } from 'react-icons/fa';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -70,16 +71,17 @@ const Header = () => {
             }`}>
                 <div className={`flex justify-between items-center transition-all duration-300 ${scrolled ? 'h-16 px-6' : 'h-20 px-0'}`}>
                     {/* Logo */}
-                    <div className="flex-shrink-0 flex items-center gap-2">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ${isDarkBg ? 'bg-white/10 text-white' : 'bg-[#0070CD]/10 text-[#0070CD]'}`}>
-                            <svg className="w-full h-full p-2" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M 0 30 L 40 30 L 45 20 L 50 40 L 55 10 L 60 50 L 65 30 L 75 30 L 80 25 L 85 35 L 90 30 L 130 30 L 135 20 L 140 40 L 145 10 L 150 50 L 155 30 L 165 30 L 170 25 L 175 35 L 180 30 L 200 30" stroke="currentColor" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" className="animate-ecg" />
-                            </svg>
+                    <Link to="/" className="flex-shrink-0 flex items-center gap-3 group">
+                        <div className="w-11 h-11 bg-[#0070CD] rounded-xl flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,112,205,0.2)] group-hover:scale-110 transition-transform duration-500">
+                            <FaHeartbeat className="w-6 h-6" />
                         </div>
-                        <span className={`text-2xl font-black tracking-tight ${textColorClass}`}>
-                            نبض <span className={isDarkBg ? 'text-[#3399FF]' : 'text-[#0070CD]'}>Nabd</span>
-                        </span>
-                    </div>
+                        <div className="flex flex-col">
+                            <span className={`text-xl font-black tracking-tight leading-none group-hover:text-[#0070CD] transition-colors ${textColorClass}`}>
+                                نبض <span className={isDarkBg ? 'text-[#3399FF]' : 'text-[#0070CD]'}>NABD</span>
+                            </span>
+                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Medical OS</span>
+                        </div>
+                    </Link>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-8 whitespace-nowrap">

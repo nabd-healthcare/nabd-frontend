@@ -40,26 +40,26 @@ const Hero = () => {
                     className="text-center lg:text-right space-y-8"
                 >
                     <motion.div variants={itemVariants} className="flex justify-center lg:justify-start">
-                        <span className="bg-[#0070CD]/10 text-[#005099] border border-[#0070CD]/20 px-5 py-2 rounded-full text-xs font-bold inline-flex items-center gap-2 tracking-wide shadow-sm backdrop-blur-sm">
+                        <span className="bg-[#0070CD]/10 text-[#005099] border border-[#0070CD]/20 px-5 py-2 rounded-full text-sm font-bold inline-flex items-center gap-2 tracking-wide shadow-sm backdrop-blur-sm">
                             <Sparkles className="w-4 h-4 text-[#0070CD]" />
                             مستقبل الرعاية الصحية بين يديك
                         </span>
                     </motion.div>
 
-                    <motion.h1 variants={itemVariants} className="text-5xl lg:text-7xl font-black leading-[1.2] text-slate-900 tracking-tight">
+                    <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl lg:text-[64px] font-black leading-[1.2] text-slate-900 tracking-tight">
                         منظومة صحية <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#005099] via-[#0070CD] to-[#3399FF] inline-block mt-2">
                              متكاملة و ذكية
                         </span>
                     </motion.h1>
 
-                    <motion.p variants={itemVariants} className="text-lg lg:text-xl text-slate-500 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+                    <motion.p variants={itemVariants} className="text-lg md:text-xl text-slate-500 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                         نبض يضع صحتك في مقدمة الأولويات عبر بيئة رقمية متطورة تربطك بأفضل الأطباء وتقدم لك تحليلات ذكية فورية لحالتك.
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-                        <button className="group relative px-8 py-4 bg-[#0070CD] text-white rounded-2xl font-bold transition-all hover:bg-[#005099] shadow-[0_8px_25px_rgba(0,112,205,0.35)] hover:shadow-[0_12px_30px_rgba(0,112,205,0.45)] hover:-translate-y-1 active:translate-y-0 overflow-hidden flex items-center justify-center gap-3"
-                            onClick={() => navigate('/register')}
+                        <button className="group relative px-8 py-4 bg-[#0070CD] text-white rounded-2xl text-sm md:text-base font-bold transition-all hover:bg-[#005099] shadow-[0_8px_25px_rgba(0,112,205,0.35)] hover:shadow-[0_12px_30px_rgba(0,112,205,0.45)] hover:-translate-y-1 active:translate-y-0 overflow-hidden flex items-center justify-center gap-3"
+                            onClick={() => navigate('/register?role=patient')}
                         >
                             <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                             <User className="w-5 h-5 text-blue-100" />
@@ -67,8 +67,8 @@ const Hero = () => {
                             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                         </button>
                         
-                        <button className="px-8 py-4 bg-white text-[#0070CD] border border-[#0070CD]/20 rounded-2xl font-bold transition-all hover:bg-[#F0F7FF] flex items-center justify-center gap-3 shadow-md hover:-translate-y-1"
-                            onClick={() => navigate('/register')}
+                        <button className="px-8 py-4 bg-white text-[#0070CD] border border-[#0070CD]/20 rounded-2xl text-sm md:text-base font-bold transition-all hover:bg-[#F0F7FF] flex items-center justify-center gap-3 shadow-md hover:-translate-y-1"
+                            onClick={() => navigate('/register?role=doctor')}
                         >
                             <Stethoscope className="w-5 h-5" />
                             <span>انضم كـ طبيب</span>

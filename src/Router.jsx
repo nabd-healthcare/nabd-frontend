@@ -12,6 +12,8 @@ import ScrollToTop from '@/components/common/ScrollToTop';
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'));
 const ContactPage = lazy(() => import('@/pages/Landing/components/ContactPage'));
+const PrivacyPage = lazy(() => import('@/pages/PrivacyPage'));
+const TermsPage = lazy(() => import('@/pages/TermsPage'));
 const UserTypeSelectionPage = lazy(() => import('@/features/auth/pages/UserTypeSelectionPage'));
 const VerifyEmailPage = lazy(() => import('@/features/auth/pages/VerifyEmailPage'));
 const EmailNotVerifiedPage = lazy(() => import('@/features/auth/pages/EmailNotVerifiedPage'));
@@ -82,6 +84,22 @@ const router = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <ContactPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: 'privacy',
+        element: (
+          <SuspenseWrapper>
+            <PrivacyPage />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: 'terms',
+        element: (
+          <SuspenseWrapper>
+            <TermsPage />
           </SuspenseWrapper>
         ),
       },
