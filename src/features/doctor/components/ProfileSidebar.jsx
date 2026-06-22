@@ -4,6 +4,8 @@ import { FaUserMd, FaUser, FaStethoscope, FaHospital, FaDollarSign, FaCalendarAl
 import { useAuthStore } from '@/features/auth/store/authStore';
 import doctorService from '@/api/services/doctor.service';
 
+import { resolveImageUrl } from '@/utils/helpers';
+
 const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitForReview }) => {
   const { user, updateUser } = useAuthStore();
   const [verificationStatus, setVerificationStatus] = useState(user?.verificationStatus);
@@ -93,13 +95,13 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitFor
               />
             ) : formData.profilePictureUrl ? (
               <img
-                src={formData.profilePictureUrl}
+                src={resolveImageUrl(formData.profilePictureUrl)}
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-lg"
               />
             ) : user?.profileImageUrl ? (
               <img
-                src={user.profileImageUrl}
+                src={resolveImageUrl(user.profileImageUrl)}
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover border-3 border-white shadow-lg"
               />

@@ -9,6 +9,8 @@ import { useAuth } from '@features/auth';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { FaTerminal } from 'react-icons/fa';
 
+import { resolveImageUrl } from '@/utils/helpers';
+
 /**
  * ProfileDropdown - Identity Module
  * Optimized for the Clinical Command Center.
@@ -47,7 +49,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
         <div className="relative">
            {user?.profilePictureUrl || user?.profileImageUrl ? (
              <img
-               src={user?.profilePictureUrl || user?.profileImageUrl}
+               src={resolveImageUrl(user?.profilePictureUrl || user?.profileImageUrl)}
                alt="Profile"
                className="w-10 h-10 rounded-xl object-cover shadow-sm border border-white"
              />

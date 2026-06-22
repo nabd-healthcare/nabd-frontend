@@ -37,7 +37,7 @@ const SessionHeader = ({
   ];
 
   return (
-    <div className="w-full flex justify-center px-4 sm:px-6 lg:px-8 pt-6 pb-2 transition-all duration-300 z-[100]">
+    <div className="w-full flex justify-center px-4 sm:px-6 lg:px-8 pt-6 pb-2 transition-all duration-300 sticky top-0 z-[200] bg-slate-50">
       <header className="w-full max-w-[1600px] bg-white/90 backdrop-blur-xl shadow-xl shadow-[#0070CD]/10 border-2 border-white rounded-[2.5rem] px-4 sm:px-6 py-3 flex items-center justify-between">
       {/* Tactical Status & Patient Link */}
       <div className="flex items-center gap-6">

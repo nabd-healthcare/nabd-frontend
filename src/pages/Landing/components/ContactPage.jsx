@@ -260,7 +260,7 @@ const ContactPage = () => {
                                         <div className="pt-1">
                                             <h3 className="font-bold text-base mb-1">الفرع الرئيسي للتطوير</h3>
                                             <p className="text-sm text-blue-100/80 font-medium leading-relaxed">
-                                                شارع التسعين الشمالي، التجمع الخامس<br />
+                                                زراعه الزقازيق<br />
                                                 القاهرة، جمهورية مصر العربية
                                             </p>
                                         </div>

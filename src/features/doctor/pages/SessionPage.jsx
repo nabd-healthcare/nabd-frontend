@@ -132,7 +132,7 @@ const SessionPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col overflow-hidden">
+        <div className="min-h-screen bg-slate-50 flex flex-col">
             {/* Tactical Clinical Header */}
             <SessionHeader
                 patientInfo={patientInfo}

@@ -41,7 +41,7 @@ const doctorsData = [
         reviews: 88,
         bio: 'تقدم رعاية متكاملة لصحة المرأة، ومتابعة الحمل والولادة بأحدث التقنيات.',
         experience: '1+ سنوات خبرة',
-        location: 'القاهرة - التجمع الخامس',
+        location: 'الزقازيق - زراعه',
         imageSrc: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=500&fit=crop&crop=faces'
     },
     {

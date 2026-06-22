@@ -1,5 +1,21 @@
 import { handleApiError } from './errorHandler.js';
-import { VALIDATION } from './constants.js';
+import { VALIDATION, API_CONFIG } from './constants.js';
+
+export const resolveImageUrl = (url) => {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  
+  let baseUrl = API_CONFIG.BASE_URL || '';
+  if (baseUrl.endsWith('/api')) {
+    baseUrl = baseUrl.substring(0, baseUrl.length - 4);
+  }
+  if (baseUrl.endsWith('/')) {
+    baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+  }
+  
+  const path = url.startsWith('/') ? url : `/${url}`;
+  return `${baseUrl}${path}`;
+};
 
 // Use formatDateArabic from timeFormatter.js for Arabic dates
 // Keep this for custom format patterns

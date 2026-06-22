@@ -3,6 +3,8 @@ import { devtools, persist } from 'zustand/middleware';
 import patientService from '@/api/services/patient.service';
 import { useAuthStore } from '@/features/auth/store/authStore';
 
+import { resolveImageUrl } from '@/utils/helpers';
+
 /**
  * Patient Profile Store
  * 
@@ -61,6 +63,9 @@ export const useProfileStore = create(
 
           try {
             const data = await patientService.getPersonalInfo();
+            if (data?.profileImageUrl) {
+              data.profileImageUrl = resolveImageUrl(data.profileImageUrl);
+            }
             set({
               personalInfo: data,
               loading: { ...get().loading, personalInfo: false },
@@ -136,7 +141,7 @@ export const useProfileStore = create(
 
           try {
             const response = await patientService.updateProfileImage(imageFile);
-            const newImageUrl = response?.data?.profileImageUrl || response?.data?.profileImage || response?.profileImageUrl || response?.data;
+            const newImageUrl = resolveImageUrl(response?.data?.profileImageUrl || response?.data?.profileImage || response?.profileImageUrl || response?.data);
 
             // Update profile image URL
             set((state) => ({

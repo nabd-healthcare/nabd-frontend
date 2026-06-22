@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useAuthStore } from '@/features/auth';
+import { resolveImageUrl } from '@/utils/helpers';
 import doctorService from '@/api/services/doctor.service';
 import PersonalInfoSection from '../components/PersonalInfoSection.jsx';
 import ProfessionalInfoSection from '../components/ProfessionalInfoSection';
@@ -76,7 +77,7 @@ const DoctorProfilePage = () => {
     appointmentDuration: user?.appointmentDuration || '30',
   });
 
-  const [profileImagePreview, setProfileImagePreview] = useState(user?.profileImageUrl || user?.profilePictureUrl || null);
+  const [profileImagePreview, setProfileImagePreview] = useState(user?.profileImageUrl || user?.profilePictureUrl ? resolveImageUrl(user?.profileImageUrl || user?.profilePictureUrl) : null);
 
   const fetchProfileData = useCallback(async () => {
     setLoading(true);
@@ -91,10 +92,10 @@ const DoctorProfilePage = () => {
         phone: profileData.phoneNumber || '',
         dateOfBirth: formatDateFromISO(profileData.dateOfBirth),
         gender: mapGenderToArabic(profileData.genderName),
-        profilePictureUrl: profileData.profilePictureUrl || null,
+        profilePictureUrl: profileData.profilePictureUrl ? resolveImageUrl(profileData.profilePictureUrl) : null,
         bio: profileData.biography || '',
       }));
-      if (profileData.profilePictureUrl) setProfileImagePreview(profileData.profilePictureUrl);
+      if (profileData.profilePictureUrl) setProfileImagePreview(resolveImageUrl(profileData.profilePictureUrl));
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   }, []);
@@ -245,7 +246,7 @@ const DoctorProfilePage = () => {
           firstName: formData.firstName,
           lastName: formData.lastName,
           specialty: formData.specialty,
-          profileImageUrl: newImageUrl || user?.profileImageUrl
+          profileImageUrl: resolveImageUrl(newImageUrl || user?.profileImageUrl)
         });
 
         setTimeout(() => setAutoSaveStatus(''), 2000);

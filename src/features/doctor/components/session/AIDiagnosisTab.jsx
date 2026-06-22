@@ -172,7 +172,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
   };
 
   return (
-    <div className="h-[calc(100vh-140px)] flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+    <div className="h-full flex-1 flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
       {/* Header */}
       <div className="p-5 border-b border-slate-50 flex items-center justify-between bg-white">
