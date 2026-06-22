@@ -95,6 +95,18 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
     alert('سيتم تحميل تفاصيل الحجز قريباً...');
   };
 
+  // Lock body scroll
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   // Step configuration
@@ -206,7 +218,7 @@ const BookingModal = ({ isOpen, onClose, doctor }) => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-5 md:p-8 bg-[#F8FAFC] custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-5 md:p-8 bg-[#F8FAFC] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
               <div className="bg-red-100 rounded-lg p-2">

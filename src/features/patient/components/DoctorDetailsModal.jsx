@@ -25,18 +25,23 @@ const DoctorDetailsModal = ({ doctorId, isOpen, onClose, onBook }) => {
     }
   }, [isOpen, doctorId]);
 
-  // Close on Escape key
+  // Close on Escape key and lock scroll
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') onClose();
     };
+    
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
+      // Robust scroll locking
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
     }
+    
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 
@@ -59,7 +64,7 @@ const DoctorDetailsModal = ({ doctorId, isOpen, onClose, onBook }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -149,7 +154,7 @@ const DoctorDetailsModal = ({ doctorId, isOpen, onClose, onBook }) => {
         </div>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {loading ? (
             <div className="p-12 text-center">
               <div className="inline-block w-12 h-12 border-4 border-slate-200 border-t-[#0070CD] rounded-full animate-spin"></div>

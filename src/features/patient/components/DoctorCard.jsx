@@ -5,6 +5,7 @@
 
 import { FaStar, FaMapMarkerAlt, FaMoneyBillWave, FaCalendarAlt } from 'react-icons/fa';
 import { getSpecialtyById } from '@/utils/constants';
+import { resolveImageUrl } from '@/utils/helpers';
 
 const DoctorCard = ({ doctor, onViewProfile, onBook }) => {
   const {
@@ -75,7 +76,7 @@ const DoctorCard = ({ doctor, onViewProfile, onBook }) => {
             <div className="relative w-28 h-28 md:w-24 md:h-24">
                <div className="absolute inset-0 bg-[#0070CD]/20 rounded-[1.5rem] blur-xl opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-300"></div>
                <img
-                src={profileImageUrl}
+                src={resolveImageUrl(profileImageUrl)}
                 alt={fullName}
                 className="relative w-full h-full rounded-[1.5rem] object-cover ring-2 ring-slate-100 shadow-md group-hover:ring-[#0070CD]/30 group-hover:shadow-lg transition-all"
                />

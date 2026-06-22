@@ -167,16 +167,16 @@ const RegisterPage = () => {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4 font-sans" dir="rtl">
-        <div className="bg-white p-10 rounded-[2rem] shadow-xl max-w-md w-full text-center space-y-6 border-t-[5px] border-[#0070CD] animate-in fade-in zoom-in duration-300">
-          <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-emerald-100">
-            <Check size={48} className="text-emerald-500" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0070CD]/5 via-white to-[#0070CD]/10 p-4 font-sans" dir="rtl">
+        <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 max-w-md w-full text-center space-y-6 animate-in fade-in zoom-in duration-300">
+          <div className="w-24 h-24 bg-[#0070CD]/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-[#0070CD]/20">
+            <Check size={48} className="text-[#0070CD]" />
           </div>
           <h2 className="text-3xl font-black text-slate-800 tracking-tight">تم التسجيل بنجاح!</h2>
           <p className="text-slate-600 font-medium leading-relaxed text-lg">
             {userType === 'doctor'
               ? 'مرحباً بك في منصة نبض. سيتم تحويلك لصفحة التحقق...'
-              : 'مرحباً بك في منصة نبض. يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.'}
+              : 'مرحباً بك في منصة نبض. سيتم تحويلك لصفحة التحقق لتفعيل الحساب.'}
           </p>
         </div>
       </div>

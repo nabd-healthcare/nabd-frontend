@@ -117,6 +117,18 @@ const PrescriptionDetailsModal = ({ isOpen, onClose, prescriptionId, patientId, 
     }
   };
 
+  // Lock body scroll
+  useEffect(() => {
+    if (isOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -154,7 +166,7 @@ const PrescriptionDetailsModal = ({ isOpen, onClose, prescriptionId, patientId, 
         </div>
 
         {/* Scrollable Content Body */}
-        <div className="p-6 md:p-8 overflow-y-auto flex-1 custom-scrollbar">
+        <div className="p-6 md:p-8 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {loading ? (
               /* Loading State */
               <div className="flex flex-col items-center justify-center py-24">

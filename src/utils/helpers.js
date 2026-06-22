@@ -3,8 +3,28 @@ import { VALIDATION, API_CONFIG } from './constants.js';
 
 export const resolveImageUrl = (url) => {
   if (!url) return '';
-  if (url.startsWith('http') || url.startsWith('data:')) return url;
   
+  // 1. Normalize backslashes (Windows paths from backend)
+  let normalizedUrl = url.replace(/\\/g, '/');
+
+  // 2. Fix Mixed Content Issue (HTTP to HTTPS)
+  // If the backend returns an absolute URL pointing to the backend IP over HTTP, 
+  // and we are on an HTTPS site, rewrite it to use the current origin.
+  if (normalizedUrl.startsWith('http://167.71.45.248') && typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    normalizedUrl = normalizedUrl.replace('http://167.71.45.248', window.location.origin);
+  } else if (normalizedUrl.startsWith('http://167.71.45.248:5000') && typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    normalizedUrl = normalizedUrl.replace('http://167.71.45.248:5000', window.location.origin);
+  }
+
+  // 3. Intercept ui-avatars.com
+  if (normalizedUrl.startsWith('http') || normalizedUrl.startsWith('data:')) {
+    if (normalizedUrl.includes('ui-avatars.com')) {
+      return normalizedUrl.replace(/background=[a-zA-Z0-9]+/, 'background=0070CD');
+    }
+    return normalizedUrl;
+  }
+  
+  // 4. Handle relative URLs
   let baseUrl = API_CONFIG.BASE_URL || '';
   if (baseUrl.endsWith('/api')) {
     baseUrl = baseUrl.substring(0, baseUrl.length - 4);
@@ -12,8 +32,17 @@ export const resolveImageUrl = (url) => {
   if (baseUrl.endsWith('/')) {
     baseUrl = baseUrl.substring(0, baseUrl.length - 1);
   }
+
+  // If baseUrl is empty, provide the backend URL so it works in local dev without proxying /Uploads
+  if (!baseUrl) {
+    if (import.meta.env.DEV) {
+      baseUrl = 'http://167.71.45.248';
+    } else if (typeof window !== 'undefined') {
+      baseUrl = window.location.origin;
+    }
+  }
   
-  const path = url.startsWith('/') ? url : `/${url}`;
+  const path = normalizedUrl.startsWith('/') ? normalizedUrl : `/${normalizedUrl}`;
   return `${baseUrl}${path}`;
 };
 
