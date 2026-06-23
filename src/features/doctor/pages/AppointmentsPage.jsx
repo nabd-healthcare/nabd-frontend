@@ -169,7 +169,7 @@ const AppointmentsPage = () => {
         ) : (
           <div className="relative">
             {/* Main Timeline Axis */}
-            <div className="absolute right-[45px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#0070CD] via-[#0070CD]/20 to-transparent"></div>
+            <div className="absolute right-[28px] md:right-[36px] lg:right-[45px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#0070CD] via-[#0070CD]/20 to-transparent"></div>
 
             <div className="space-y-6 relative">
               {filteredAppointments.map((apt, idx) => {
@@ -178,9 +178,9 @@ const AppointmentsPage = () => {
                 const isCancelled = apt.apiStatus === 6;
 
                 return (
-                  <div key={apt.id} className="relative group pr-[90px]">
+                  <div key={apt.id} className="relative group pr-[56px] md:pr-[72px] lg:pr-[90px]">
                     {/* Node */}
-                    <div className={`absolute right-9 top-1/2 -translate-y-1/2 w-[20px] h-[20px] rounded-full border-4 shadow-sm z-10 transition-all duration-300 group-hover:scale-150 ${
+                    <div className={`absolute right-5 md:right-7 lg:right-9 top-1/2 -translate-y-1/2 w-[16px] md:w-[16px] lg:w-[20px] h-[16px] md:h-[16px] lg:h-[20px] rounded-full border-4 shadow-sm z-10 transition-all duration-300 group-hover:scale-150 ${
                       isActive ? 'bg-[#0070CD] border-[#0070CD]/20 scale-125' : 
                       isCompleted ? 'bg-emerald-500 border-emerald-100' :
                       isCancelled ? 'bg-rose-500 border-rose-100' :
@@ -190,29 +190,29 @@ const AppointmentsPage = () => {
                     </div>
 
                     {/* Timeline Card */}
-                    <div className={`bg-white rounded-[2rem] border transition-all duration-300 overflow-hidden flex flex-col md:flex-row items-center gap-6 p-4 ${
+                    <div className={`bg-white rounded-[2rem] border transition-all duration-300 overflow-hidden flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-4 lg:gap-6 p-4 md:p-4 lg:p-5 w-full min-w-0 ${
                       isActive ? 'border-[#0070CD] shadow-[0_15px_40px_rgba(0,112,205,0.15)] ring-1 ring-[#0070CD]/10' : 
                       'border-slate-100 hover:border-[#0070CD]/30 hover:shadow-xl hover:-translate-x-2 shadow-sm'
                     }`}>
                       {/* Time Slot */}
-                      <div className={`flex flex-col items-center justify-center py-4 px-8 min-w-[120px] rounded-2xl ${
+                      <div className={`flex flex-col items-center justify-center py-3 md:py-3 lg:py-4 px-4 md:px-5 lg:px-8 md:min-w-[100px] lg:min-w-[120px] rounded-2xl shrink-0 ${
                         isActive ? 'bg-[#0070CD] text-white' : 'bg-slate-50 text-slate-800'
                       }`}>
-                        <span className="text-xl font-black leading-none">{apt.time}</span>
+                        <span className="text-xl md:text-lg lg:text-xl font-black leading-none">{apt.time}</span>
                         <span className="text-[10px] font-black uppercase tracking-wider mt-1 opacity-70">الموعد</span>
                       </div>
 
                       {/* Patient Info */}
-                      <div className="flex-1 flex items-center gap-5">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black text-white ${
-                          isActive ? 'bg-[#0070CD] shadow-lg grow-0 shrink-0' : 'bg-slate-800'
+                      <div className="flex-1 flex items-start sm:items-center gap-3 sm:gap-4 lg:gap-5 min-w-0">
+                        <div className={`w-12 h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center text-lg lg:text-xl font-black text-white shrink-0 ${
+                          isActive ? 'bg-[#0070CD] shadow-lg' : 'bg-slate-800'
                         }`}>
                           {apt.patientName?.charAt(0)}
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-1">
-                            <h3 className="text-xl font-black text-slate-900">{apt.patientName}</h3>
-                            <span className={`px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 md:gap-2 lg:gap-3 mb-1">
+                            <h3 className="text-lg md:text-base lg:text-xl font-black text-slate-900 truncate max-w-full">{apt.patientName}</h3>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest border shrink-0 ${
                               isActive ? 'bg-[#0070CD]/10 text-[#0070CD] border-[#0070CD]/20' :
                               isCompleted ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
                               'bg-slate-100 text-slate-500 border-slate-200'
@@ -220,20 +220,20 @@ const AppointmentsPage = () => {
                               {apt.status}
                             </span>
                           </div>
-                          <div className="flex items-center gap-4 text-slate-500 font-bold text-sm">
-                            <span className="flex items-center gap-2"><FaClock className="text-xs opacity-50" /> {apt.duration} دقيقة</span>
-                            <span className="flex items-center gap-2 tracking-widest">{apt.phoneNumber}</span>
+                          <div className="flex flex-wrap items-center gap-x-3 md:gap-x-3 lg:gap-x-4 gap-y-1 text-slate-500 font-bold text-xs md:text-[11px] lg:text-sm">
+                            <span className="flex items-center gap-1.5"><FaClock className="text-[10px] lg:text-xs opacity-50" /> {apt.duration} دقيقة</span>
+                            <span className="flex items-center gap-1.5 tracking-widest">{apt.phoneNumber}</span>
                             {apt.appointmentDate && <span>• {formatDate(apt.appointmentDate, 'DD MMMM YYYY')}</span>}
                           </div>
                         </div>
                       </div>
 
                       {/* Quick Actions */}
-                      <div className="flex items-center gap-4 px-4 w-full md:w-auto">
+                      <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 w-full md:w-auto shrink-0 mt-2 md:mt-0">
                         <button
                           onClick={() => handleStartAppointment(apt)}
                           disabled={sessionLoading === apt.id || isCancelled}
-                          className={`flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-sm transition-all duration-300 ${
+                          className={`flex-1 md:flex-none flex items-center justify-center gap-2 sm:gap-2 lg:gap-3 px-4 md:px-5 lg:px-8 py-3 md:py-3 lg:py-4 rounded-2xl font-black text-sm md:text-xs lg:text-sm transition-all duration-300 ${
                             isCancelled ? 'bg-slate-100 text-slate-400 cursor-not-allowed' :
                             isActive ? 'bg-[#0070CD] text-white shadow-[#0070CD]/30 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95' :
                             isCompleted ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' :
@@ -241,15 +241,15 @@ const AppointmentsPage = () => {
                           }`}
                         >
                           {sessionLoading === apt.id ? (
-                            <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+                            <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
                           ) : (
                             <>
-                              {isActive ? <FaPlay className="text-xs" /> : <FaDoorOpen className="text-xs" />}
+                              {isActive ? <FaPlay className="text-[10px] lg:text-xs" /> : <FaDoorOpen className="text-[10px] lg:text-xs" />}
                               <span>{isActive ? 'متابعة الجلسة' : isCompleted ? 'عرض السجل' : 'بدء الجلسة'}</span>
                             </>
                           )}
                         </button>
-                        <button className="p-4 text-slate-300 hover:text-slate-600 transition-colors">
+                        <button className="hidden sm:flex p-3 md:p-3 lg:p-4 text-slate-300 hover:text-slate-600 transition-colors shrink-0 items-center justify-center">
                           <FaEllipsisV />
                         </button>
                       </div>

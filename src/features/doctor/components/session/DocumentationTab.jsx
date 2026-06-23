@@ -107,7 +107,7 @@ const DocumentationTab = ({ docForm, onDocFormChange, autoSaveStatus, patientInf
       </div>
 
       {/* Sick Leave Generator */}
-      <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex items-center justify-between print:hidden">
+      <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 print:hidden">
          <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white rounded-xl shadow-sm text-indigo-500 flex items-center justify-center text-xl">
                <FaBed />
@@ -117,7 +117,7 @@ const DocumentationTab = ({ docForm, onDocFormChange, autoSaveStatus, patientInf
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sick Leave Certificate</p>
             </div>
          </div>
-         <div className="flex items-center gap-4">
+         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
             <div className="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                <button onClick={() => setSickLeaveDays(Math.max(1, sickLeaveDays - 1))} className="px-4 py-2 hover:bg-slate-50 font-black text-slate-600">-</button>
                <div className="px-4 py-2 font-black text-[#0070CD] border-x border-slate-200 min-w-[3rem] text-center">{sickLeaveDays}</div>
@@ -126,7 +126,7 @@ const DocumentationTab = ({ docForm, onDocFormChange, autoSaveStatus, patientInf
             </div>
             <button
                onClick={() => window.print()}
-               className="px-6 py-2.5 bg-indigo-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-indigo-500/20 hover:scale-105 transition-all flex items-center gap-2"
+               className="px-6 py-3 sm:py-2.5 bg-indigo-500 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-indigo-500/20 hover:scale-105 transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
             >
                <FaPrint />
                Print Form
