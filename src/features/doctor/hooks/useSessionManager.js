@@ -85,6 +85,18 @@ export const useSessionManager = () => {
             throw new Error(resumeResult.error);
           }
 
+          if (!resumeResult.data) {
+            console.log('⚠️ Session not found despite InProgress status. Starting new...');
+            const startResult = await startSession(appointment.id, appointmentData);
+            if (!startResult.success) throw new Error(startResult.error);
+            return {
+              success: true,
+              data: startResult.data,
+              message: startResult.message,
+              isCompleted: false
+            };
+          }
+
           console.log('✅ Session resumed:', resumeResult.message);
           return {
             success: true,

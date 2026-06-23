@@ -62,7 +62,7 @@ const AppointmentsPage = () => {
   };
 
   const handleStartAppointment = (appointment) => {
-    navigate(`/doctor/session/${appointment.id}`);
+    navigate(`/doctor/session/${appointment.id}`, { state: { appointment } });
   };
 
   const statusCounts = statistics || {

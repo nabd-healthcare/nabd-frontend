@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useSession } from '../hooks/useSession';
 import { useSessionManager } from '../hooks/useSessionManager';
 import useAuth from '../../auth/hooks/useAuth';
@@ -21,6 +21,7 @@ import { FaTerminal, FaShieldAlt } from 'react-icons/fa';
 const SessionPage = () => {
     const { appointmentId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const {
         currentSession,
@@ -58,11 +59,12 @@ const SessionPage = () => {
     useEffect(() => {
         const initSession = async () => {
             if (appointmentId && (!currentSession || currentSession.appointmentId !== appointmentId)) {
-                await startOrResumeSession({ id: appointmentId, apiStatus: 3 });
+                const appointmentData = location.state?.appointment || { id: appointmentId };
+                await startOrResumeSession(appointmentData);
             }
         };
         initSession();
-    }, [appointmentId, currentSession, startOrResumeSession]);
+    }, [appointmentId, currentSession, startOrResumeSession, location.state]);
 
     useEffect(() => {
         if (activeTab === 'medical' && !patientMedicalRecord && !loading && currentSession) {
