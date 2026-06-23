@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaStethoscope, FaBars, FaTimes, FaSignOutAlt, FaUserMd, FaHome, FaChartBar } from 'react-icons/fa';
+import { FaStethoscope, FaBars, FaTimes, FaSignOutAlt, FaUserMd, FaHome, FaChartBar, FaHeartbeat } from 'react-icons/fa';
 import { useAuth } from '@/features/auth';
 import { VERIFIER_NAV_ITEMS } from '../constants/verifierConstants';
 
@@ -37,36 +37,20 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   return (
-    <nav className="bg-white/98 backdrop-blur-lg shadow-sm sticky top-0 z-[100] transition-all duration-300">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+    <div className={`w-full flex justify-center px-4 sm:px-6 lg:px-8 pt-6 pb-2 transition-all duration-300 sticky top-0 ${isMobileMenuOpen ? 'z-[400]' : 'z-[100]'} bg-slate-50/80 backdrop-blur-md`}>
+      <nav className="pointer-events-auto w-full max-w-[1600px] bg-white/90 backdrop-blur-xl shadow-xl shadow-[#0070CD]/10 border-2 border-white rounded-[2.5rem] px-2 sm:px-6 lg:px-8">
         <div className="flex items-center h-20">
           {/* Logo Section */}
           <div className="flex items-center space-x-reverse space-x-4">
-            <Link to="/verifier/statistics" className="flex items-center space-x-reverse space-x-3 group">
-              <div className="w-12 h-12 bg-[#1C8B8F]/10 rounded-full flex items-center justify-center text-[#1C8B8F] overflow-hidden group-hover:bg-[#1C8B8F]/20 transition-colors">
-                <svg
-                  className="w-full h-full p-2"
-                  viewBox="0 0 200 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M 0 30 L 40 30 L 45 20 L 50 40 L 55 10 L 60 50 L 65 30 L 75 30 L 80 25 L 85 35 L 90 30 L 130 30 L 135 20 L 140 40 L 145 10 L 150 50 L 155 30 L 165 30 L 170 25 L 175 35 L 180 30 L 200 30"
-                    stroke="currentColor"
-                    strokeWidth="12"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="animate-ecg"
-                  />
-                </svg>
+            <Link to="/verifier/statistics" className="flex-shrink-0 flex items-center gap-3 group">
+              <div className="w-11 h-11 bg-[#0070CD] rounded-xl flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,112,205,0.2)] group-hover:scale-110 transition-transform duration-500">
+                <FaHeartbeat className="w-6 h-6" />
               </div>
-              <div className="hidden sm:block text-right">
-                <h1 className="text-2xl font-black text-[#1F2E3C] tracking-tight group-hover:text-[#1C8B8F] transition-colors">
-                  نبض
-                </h1>
-                <p className="text-xs text-slate-500 -mt-1 font-bold tracking-wide">
-                  لوحة المراجع
-                </p>
+              <div className="hidden sm:flex flex-col">
+                <span className="text-xl font-black tracking-tight leading-none group-hover:text-[#0070CD] transition-colors text-[#1F2E3C]">
+                  نبض <span className="text-[#0070CD]">NABD</span>
+                </span>
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 text-right">لوحة المراجع</span>
               </div>
             </Link>
           </div>
@@ -86,13 +70,13 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
                     className={`
                       flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 border
                       ${isActive
-                        ? 'bg-[#1C8B8F] text-white shadow-lg shadow-[#1C8B8F]/20 border-[#1C8B8F] transform scale-105'
-                        : 'text-slate-600 bg-white hover:bg-slate-50 hover:text-[#1C8B8F] border-slate-200 hover:border-[#1C8B8F]/30'
+                        ? 'bg-[#0070CD] text-white shadow-lg shadow-[#0070CD]/20 border-[#0070CD] transform scale-105'
+                        : 'text-slate-600 bg-white hover:bg-slate-50 hover:text-[#0070CD] border-slate-200 hover:border-[#0070CD]/30'
                       }
                     `}
                   >
                     {NavIcon && (
-                      <NavIcon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-[#1C8B8F]'}`} />
+                      <NavIcon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-[#0070CD]'}`} />
                     )}
                     <span className="whitespace-nowrap">{item.label}</span>
                   </Link>
@@ -105,12 +89,12 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
                 className={`
                   flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 border
                   ${location.pathname === '/verifier/doctors'
-                    ? 'bg-[#1C8B8F] text-white shadow-lg shadow-[#1C8B8F]/20 border-[#1C8B8F] transform scale-105'
-                    : 'text-slate-600 bg-white hover:bg-slate-50 hover:text-[#1C8B8F] border-slate-200 hover:border-[#1C8B8F]/30'
+                    ? 'bg-[#0070CD] text-white shadow-lg shadow-[#0070CD]/20 border-[#0070CD] transform scale-105'
+                    : 'text-slate-600 bg-white hover:bg-slate-50 hover:text-[#0070CD] border-slate-200 hover:border-[#0070CD]/30'
                   }
                 `}
               >
-                <FaUserMd className={`w-4 h-4 flex-shrink-0 ${location.pathname === '/verifier/doctors' ? 'text-white' : 'text-[#1C8B8F]'}`} />
+                <FaUserMd className={`w-4 h-4 flex-shrink-0 ${location.pathname === '/verifier/doctors' ? 'text-white' : 'text-[#0070CD]'}`} />
                 <span className="whitespace-nowrap">الأطباء</span>
               </Link>
             </div>
@@ -163,13 +147,13 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
                         className={`
                           w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200
                           ${isActive
-                            ? 'bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-md'
-                            : 'text-gray-700 hover:bg-teal-50 hover:text-teal-600'
+                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
+                            : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                           }
                         `}
                       >
                         {NavIcon && (
-                          <NavIcon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-teal-500'}`} />
+                          <NavIcon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-blue-500'}`} />
                         )}
                         <span>{item.label}</span>
                       </Link>
@@ -183,12 +167,12 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
                     className={`
                       w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200
                       ${location.pathname === '/verifier/doctors'
-                        ? 'bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-md'
-                        : 'text-gray-700 hover:bg-teal-50 hover:text-teal-600'
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md'
+                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                       }
                     `}
                   >
-                    <FaUserMd className={`w-5 h-5 flex-shrink-0 ${location.pathname === '/verifier/doctors' ? 'text-white' : 'text-teal-500'}`} />
+                    <FaUserMd className={`w-5 h-5 flex-shrink-0 ${location.pathname === '/verifier/doctors' ? 'text-white' : 'text-blue-500'}`} />
                     <span>الأطباء</span>
                   </Link>
                 </div>
@@ -207,8 +191,8 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
             </div>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

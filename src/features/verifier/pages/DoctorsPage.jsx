@@ -82,7 +82,7 @@ const DoctorsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight"
           >
-            طلبات <span className="text-[#1C8B8F]">الأطباء</span>
+            طلبات <span className="text-[#0070CD]">الأطباء</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -158,8 +158,8 @@ const DoctorsPage = () => {
               transition={{ duration: 0.2 }}
               className="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center"
             >
-              <div className="w-24 h-24 bg-[#1C8B8F]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FaInbox className="text-5xl text-[#1C8B8F]" />
+              <div className="w-24 h-24 bg-[#0070CD]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <FaInbox className="text-5xl text-[#0070CD]" />
               </div>
               <h3 className="text-2xl font-black text-slate-800 mb-2">
                 لا توجد طلبات

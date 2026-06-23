@@ -46,8 +46,8 @@ const PatientNavbar = () => {
 
 
   return (
-    <nav className="bg-white/98 backdrop-blur-lg shadow-sm sticky top-0 z-[100] transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className={`w-full flex justify-center px-4 sm:px-6 lg:px-8 pt-6 pb-2 transition-all duration-300 sticky top-0 ${isProfileOpen || isMobileMenuOpen ? 'z-[400]' : 'z-[100]'} bg-[#F8FAFC]/80 backdrop-blur-md`}>
+      <nav className="pointer-events-auto w-full max-w-[1600px] bg-white/90 backdrop-blur-xl shadow-xl shadow-[#0070CD]/10 border-2 border-white rounded-[2.5rem] px-2 sm:px-6 lg:px-8">
         <div className="flex items-center h-20">
           {/* Logo Section */}
           <div className="flex items-center space-x-reverse space-x-4">
@@ -83,8 +83,8 @@ const PatientNavbar = () => {
             </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

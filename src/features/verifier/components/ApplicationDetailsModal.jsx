@@ -19,6 +19,7 @@ import {
 } from '../constants/verifierConstants';
 import useVerifier from '../hooks/useVerifier';
 import ImageViewerModal from './ImageViewerModal';
+import { resolveImageUrl } from '@/utils/helpers';
 
 /**
  * Application Details Modal Component
@@ -65,13 +66,20 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
     const statuses = {};
     const notes = {};
     documents.forEach((doc) => {
-      // Use cached status from store if available, otherwise use doc.status
       statuses[doc.id] = getDocumentStatus(doc.id, doc.status);
       notes[doc.id] = doc.notes || '';
     });
     setDocumentStatuses(statuses);
     setDocumentNotes(notes);
   }, [documents, getDocumentStatus]);
+
+  // Lock body scroll
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   // Handle approve document
   const handleApproveDocument = async (documentId) => {
@@ -227,16 +235,16 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/60 z-[120] flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header with Personal Info */}
-        <div className="bg-[#1C8B8F] text-white px-4 md:px-8 py-5 md:py-7 relative">
+        <div className="bg-[#0070CD] text-white px-4 md:px-8 py-5 md:py-7 relative">
           <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4 md:gap-0">
             {/* Profile Image + Info */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 w-full">
               {/* Profile Image */}
               <img
-                src={application.profileImageUrl || 'https://i.pravatar.cc/150?img=1'}
+                src={application.profileImageUrl ? resolveImageUrl(application.profileImageUrl) : 'https://i.pravatar.cc/150?img=1'}
                 alt={application.fullName || application.applicantName}
                 className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white/30 shadow-xl object-cover"
               />
@@ -296,13 +304,13 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-8 py-6 bg-gray-50">
+        <div className="flex-1 overflow-y-auto px-8 py-6 bg-gray-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Documents Review - Organized by Type */}
           <div className="space-y-6">
             {/* Required Documents Section */}
             <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-800 mb-4 pb-2 border-b-2 border-[#1C8B8F] flex items-center gap-2">
-                <FaFileAlt className="text-[#1C8B8F]" />
+              <h3 className="text-lg font-bold text-slate-800 mb-4 pb-2 border-b-2 border-[#0070CD] flex items-center gap-2">
+                <FaFileAlt className="text-[#0070CD]" />
                 المستندات المطلوبة
                 {loadingDocuments && (
                   <span className="text-xs text-slate-500 font-normal">جاري التحميل...</span>
@@ -311,7 +319,7 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
 
               {loadingDocuments ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1C8B8F]"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0070CD]"></div>
                 </div>
               ) : (
                 <>
@@ -327,13 +335,13 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
                         return (
                           <div
                             key={doc.id}
-                            className="bg-white border border-slate-200 rounded-lg p-4 hover:border-[#1C8B8F] transition-all"
+                            className="bg-white border border-slate-200 rounded-lg p-4 hover:border-[#0070CD] transition-all"
                           >
                             {/* Document Header - Compact */}
                             <div className="flex items-center justify-between mb-3">
                               <div className="flex items-center gap-3 flex-1">
-                                <div className="w-8 h-8 bg-[#1C8B8F]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                  <FaFileAlt className="text-[#1C8B8F] text-sm" />
+                                <div className="w-8 h-8 bg-[#0070CD]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                  <FaFileAlt className="text-[#0070CD] text-sm" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <h4 className="text-sm font-bold text-slate-800 truncate">{doc.typeName}</h4>
@@ -344,10 +352,10 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
                               </div>
                               <button
                                 onClick={() => setViewingImage({ url: doc.documentUrl, name: doc.typeName })}
-                                className="w-9 h-9 flex items-center justify-center bg-[#1C8B8F]/10 hover:bg-[#1C8B8F]/20 rounded-lg transition-colors"
+                                className="w-9 h-9 flex items-center justify-center bg-[#0070CD]/10 hover:bg-[#0070CD]/20 rounded-lg transition-colors"
                                 title="عرض المستند"
                               >
-                                <FaEye className="text-[#1C8B8F] text-base" />
+                                <FaEye className="text-[#0070CD] text-base" />
                               </button>
                             </div>
 
@@ -405,13 +413,13 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
                         return (
                           <div
                             key={doc.id}
-                            className="bg-white border border-slate-200 rounded-lg p-4 hover:border-[#1C8B8F] transition-all"
+                            className="bg-white border border-slate-200 rounded-lg p-4 hover:border-[#0070CD] transition-all"
                           >
                             {/* Document Header - Compact */}
                             <div className="flex items-center justify-between mb-3">
                               <div className="flex items-center gap-3 flex-1">
-                                <div className="w-8 h-8 bg-[#1C8B8F]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                  <FaFileAlt className="text-[#1C8B8F] text-sm" />
+                                <div className="w-8 h-8 bg-[#0070CD]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                  <FaFileAlt className="text-[#0070CD] text-sm" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <h4 className="text-sm font-bold text-slate-800 truncate">{doc.typeName}</h4>
@@ -422,10 +430,10 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
                               </div>
                               <button
                                 onClick={() => setViewingImage({ url: doc.documentUrl, name: doc.typeName })}
-                                className="w-9 h-9 flex items-center justify-center bg-[#1C8B8F]/10 hover:bg-[#1C8B8F]/20 rounded-lg transition-colors"
+                                className="w-9 h-9 flex items-center justify-center bg-[#0070CD]/10 hover:bg-[#0070CD]/20 rounded-lg transition-colors"
                                 title="عرض المستند"
                               >
-                                <FaEye className="text-[#1C8B8F] text-base" />
+                                <FaEye className="text-[#0070CD] text-base" />
                               </button>
                             </div>
 
@@ -576,14 +584,14 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
 
           {/* General Notes - Cleaner */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <h3 className="text-xl font-bold text-slate-800 mb-5 pb-3 border-b-2 border-[#1C8B8F]">
+            <h3 className="text-xl font-bold text-slate-800 mb-5 pb-3 border-b-2 border-[#0070CD]">
               ملاحظات عامة
             </h3>
             <textarea
               value={generalNotes}
               onChange={(e) => setGeneralNotes(e.target.value)}
               placeholder="اكتب ملاحظاتك العامة على الطلب..."
-              className="w-full px-4 py-3 bg-gray-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1C8B8F] focus:border-transparent resize-none placeholder:text-slate-400"
+              className="w-full px-4 py-3 bg-gray-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:border-transparent resize-none placeholder:text-slate-400"
               rows="4"
             />
           </div>

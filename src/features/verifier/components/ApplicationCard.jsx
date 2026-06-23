@@ -6,6 +6,7 @@ import {
   DOCUMENT_STATUS,
   DOCUMENT_STATUS_COLORS,
 } from '../constants/verifierConstants';
+import { resolveImageUrl } from '@/utils/helpers';
 
 /**
  * Application Card Component
@@ -38,15 +39,15 @@ const ApplicationCard = ({ application, onViewDetails }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-teal-300 hover:scale-[1.02] transition-all duration-200">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-blue-300 hover:scale-[1.02] transition-all duration-200">
       {/* Header */}
       <div className="flex items-start gap-4 mb-4">
         {/* Avatar */}
         <div>
           <img
-            src={application.profileImageUrl || 'https://i.pravatar.cc/150?img=1'}
+            src={application.profileImageUrl ? resolveImageUrl(application.profileImageUrl) : 'https://i.pravatar.cc/150?img=1'}
             alt={application.fullName || application.applicantName}
-            className="w-16 h-16 rounded-full object-cover border-2 border-teal-200 shadow-sm"
+            className="w-16 h-16 rounded-full object-cover border-2 border-blue-200 shadow-sm"
           />
         </div>
 
@@ -59,7 +60,7 @@ const ApplicationCard = ({ application, onViewDetails }) => {
           {/* Type-specific info */}
           {(application.type === APPLICATION_TYPE.DOCTOR || application.medicalSpecialtyName) && (
             <div className="flex items-center gap-2 text-sm text-slate-600 mb-2">
-              <FaBriefcase className="text-teal-500" />
+              <FaBriefcase className="text-blue-500" />
               <span className="font-semibold">{application.medicalSpecialtyName || application.specialty}</span>
               <span className="text-slate-400">•</span>
               <span>{application.yearsOfExperience} سنوات خبرة</span>
@@ -73,7 +74,7 @@ const ApplicationCard = ({ application, onViewDetails }) => {
       {/* Location */}
       {(application.governorate || application.city) && (
         <div className="flex items-center gap-2 text-sm text-slate-600 mb-4">
-          <FaMapMarkerAlt className="text-teal-500" />
+          <FaMapMarkerAlt className="text-blue-500" />
           <span className="font-medium">
             {[application.governorate, application.city].filter(Boolean).join(' - ')}
           </span>
@@ -84,7 +85,7 @@ const ApplicationCard = ({ application, onViewDetails }) => {
       {application.documents && application.documents.length > 0 && (
         <div className="flex items-center gap-2 text-xs text-slate-500 mb-4 bg-gradient-to-r from-slate-50 to-slate-100/50 rounded-lg p-3">
           <span className="font-semibold">المستندات:</span>
-          <span className="text-teal-600 font-bold">{application.documents.length}</span>
+          <span className="text-blue-600 font-bold">{application.documents.length}</span>
           <span className="text-slate-400">مستند</span>
         </div>
       )}
@@ -92,7 +93,7 @@ const ApplicationCard = ({ application, onViewDetails }) => {
       {/* Action Button */}
       <button
         onClick={() => onViewDetails(application)}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold rounded-xl hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-500 text-white font-bold rounded-xl hover:from-blue-600 hover:to-blue-600 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
       >
         <FaEye className="w-4 h-4" />
         <span>عرض التفاصيل</span>

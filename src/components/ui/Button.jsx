@@ -15,7 +15,7 @@ const Button = ({
   const baseStyles = 'font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center';
 
   const variants = {
-    primary: 'bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white focus:ring-teal-500',
+    primary: 'bg-[#0070CD] hover:bg-blue-700 text-white focus:ring-[#0070CD] shadow-[0_4px_14px_0_rgba(0,112,205,0.39)] hover:shadow-[0_6px_20px_rgba(0,112,205,0.23)]',
     secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500',
     outline: 'border-2 border-gray-300 hover:border-gray-400 bg-white text-gray-700 focus:ring-gray-500',
     danger: 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-500',

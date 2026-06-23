@@ -14,12 +14,12 @@ const UnauthorizedPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-orange-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0070CD]/5 via-white to-[#0070CD]/10 px-4">
       <div className="max-w-md w-full text-center">
         {/* Lock Illustration */}
         <div className="mb-8">
-          <div className="w-32 h-32 mx-auto bg-red-100 rounded-full flex items-center justify-center shadow-xl">
-            <FaLock className="text-red-600 text-5xl" />
+          <div className="w-32 h-32 mx-auto bg-[#0070CD]/10 rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,112,205,0.15)]">
+            <FaLock className="text-[#0070CD] text-5xl" />
           </div>
         </div>
 

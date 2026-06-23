@@ -90,7 +90,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
               className="w-full flex items-center justify-start space-x-reverse space-x-3 px-4 py-3 text-rose-500 hover:bg-rose-500 hover:text-white rounded-[1.5rem] transition-all transform hover:scale-[1.02]"
             >
               <ArrowRightOnRectangleIcon className="w-4 h-4" />
-              <span className="text-[12px] font-black uppercase tracking-tight">الخـروج الآمن</span>
+              <span className="text-[12px] font-black uppercase tracking-tight">تسجيل الخروج</span>
             </button>
           </div>
         </div>

@@ -21,11 +21,11 @@ export const STATUS_LABELS = {
 // Status Colors
 export const STATUS_COLORS = {
   5: { // PENDING (Sent)
-    bg: 'bg-teal-100',
-    text: 'text-teal-800',
-    border: 'border-teal-300',
-    badge: 'bg-[#1C8B8F]',
-    hex: '#1C8B8F',
+    bg: 'bg-blue-100',
+    text: 'text-blue-800',
+    border: 'border-blue-300',
+    badge: 'bg-[#0070CD]',
+    hex: '#0070CD',
   },
   1: { // UNDER_REVIEW
     bg: 'bg-amber-100',

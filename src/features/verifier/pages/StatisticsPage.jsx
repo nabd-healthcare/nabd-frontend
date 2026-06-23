@@ -29,7 +29,7 @@ const StatisticsPage = () => {
         {/* Header - Centered */}
         <div className="text-center mb-12 space-y-2 pt-4">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight">
-            الإحصائيات <span className="text-[#1C8B8F]">والتحليلات</span>
+            الإحصائيات <span className="text-[#0070CD]">والتحليلات</span>
           </h1>
           <p className="text-slate-600 font-medium text-sm sm:text-base max-w-2xl mx-auto">
             نظرة شاملة على أداء التوثيق ومراجعة طلبات الانضمام
@@ -57,11 +57,11 @@ const StatisticsPage = () => {
               {/* Total Applications */}
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 hover:shadow-md hover:scale-105 transition-all duration-200">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
                     <FaChartLine className="w-7 h-7 text-white" />
                   </div>
                 </div>
-                <div className="text-3xl font-black text-teal-700 mb-1">
+                <div className="text-3xl font-black text-blue-700 mb-1">
                   {totalApplications}
                 </div>
                 <div className="text-sm font-semibold text-slate-600">
@@ -87,7 +87,7 @@ const StatisticsPage = () => {
               {/* Under Review */}
               <div className="bg-blue-50 rounded-2xl shadow-sm border border-slate-200 p-6 hover:shadow-md hover:scale-105 transition-all duration-200">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-md">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-500 rounded-xl flex items-center justify-center shadow-md">
                     <FaCalendarAlt className="w-7 h-7 text-white" />
                   </div>
                 </div>
@@ -102,7 +102,7 @@ const StatisticsPage = () => {
               {/* Approved Today */}
               <div className="bg-green-50 rounded-2xl shadow-sm border border-slate-200 p-6 hover:shadow-md hover:scale-105 transition-all duration-200">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-md">
+                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-md">
                     <FaCheckCircle className="w-7 h-7 text-white" />
                   </div>
                 </div>
@@ -118,7 +118,7 @@ const StatisticsPage = () => {
             {/* Application Types Distribution */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
               <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-500 rounded-lg flex items-center justify-center">
                   <FaChartLine className="w-5 h-5 text-white" />
                 </div>
                 توزيع الطلبات
@@ -129,18 +129,18 @@ const StatisticsPage = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-md">
                         <FaUserMd className="w-6 h-6 text-white" />
                       </div>
                       <div>
                         <div className="text-sm font-semibold text-slate-600">الأطباء</div>
-                        <div className="text-2xl font-black text-teal-700">{stats.totalDoctors}</div>
+                        <div className="text-2xl font-black text-blue-700">{stats.totalDoctors}</div>
                       </div>
                     </div>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
                     <div
-                      className="bg-gradient-to-r from-teal-500 to-teal-600 h-full rounded-full transition-all duration-500"
+                      className="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-500"
                       style={{ width: `100%` }}
                     ></div>
                   </div>
@@ -153,7 +153,7 @@ const StatisticsPage = () => {
               {/* Approval Rate */}
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
                 <h2 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-[#0070CD] rounded-lg flex items-center justify-center">
                     <FaCheckCircle className="w-5 h-5 text-white" />
                   </div>
                   معدل الموافقة
@@ -183,14 +183,14 @@ const StatisticsPage = () => {
                       />
                       <defs>
                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#10b981" />
-                          <stop offset="100%" stopColor="#14b8a6" />
+                          <stop offset="0%" stopColor="#3399FF" />
+                          <stop offset="100%" stopColor="#0070CD" />
                         </linearGradient>
                       </defs>
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="text-5xl font-black text-green-600">{approvalRate}%</div>
+                        <div className="text-5xl font-black text-[#0070CD]">{approvalRate}%</div>
                         <div className="text-sm font-semibold text-slate-600 mt-1">معدل الموافقة</div>
                       </div>
                     </div>
@@ -199,7 +199,7 @@ const StatisticsPage = () => {
 
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-black text-green-600">{stats.totalApprovedToday}</div>
+                    <div className="text-2xl font-black text-[#0070CD]">{stats.totalApprovedToday}</div>
                     <div className="text-xs font-semibold text-slate-600">موافق</div>
                   </div>
                   <div>
@@ -216,19 +216,19 @@ const StatisticsPage = () => {
               {/* Quick Stats */}
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
                 <h2 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-500 rounded-lg flex items-center justify-center">
                     <FaChartLine className="w-5 h-5 text-white" />
                   </div>
                   ملخص سريع
                 </h2>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-xl">
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-blue-50 rounded-xl">
                     <div className="flex items-center gap-3">
-                      <FaUserMd className="w-5 h-5 text-teal-500" />
+                      <FaUserMd className="w-5 h-5 text-blue-500" />
                       <span className="font-semibold text-slate-700">أطباء</span>
                     </div>
-                    <span className="text-2xl font-black text-teal-600">{stats.totalDoctors}</span>
+                    <span className="text-2xl font-black text-blue-600">{stats.totalDoctors}</span>
                   </div>
 
                   <div className="flex items-center justify-between p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border-2 border-amber-200">
@@ -239,7 +239,7 @@ const StatisticsPage = () => {
                     <span className="text-2xl font-black text-amber-600">{stats.totalPending}</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200">
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border-2 border-green-200">
                     <div className="flex items-center gap-3">
                       <FaCheckCircle className="w-5 h-5 text-green-500" />
                       <span className="font-semibold text-slate-700">موثّقة اليوم</span>
