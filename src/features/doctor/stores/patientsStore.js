@@ -4,7 +4,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockPatients, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = false;
+const USE_MOCK_DATA = true; // Merges mock data with real data for testing
 
 export const usePatientsStore = create(
   devtools(
@@ -48,39 +48,7 @@ export const usePatientsStore = create(
           console.log('🚀 fetchPatients called:', { pageNumber, pageSize });
           set({ loading: true, error: null });
 
-          // MOCK DATA HANDLER
-          if (USE_MOCK_DATA) {
-            try {
-              await simulateApiDelay(600);
-              console.log('⚠️ Using MOCK DATA for patients');
-
-              // Add some extra fields needed for the patients list that might be missing in basic mock data
-              const enrichedMockPatients = mockPatients.map(p => ({
-                ...p,
-                totalSessions: Math.floor(Math.random() * 10) + 1,
-                lastVisitDate: new Date(Date.now() - Math.floor(Math.random() * 30) * 86400000).toISOString(),
-                rating: (4 + Math.random()).toFixed(1)
-              }));
-
-              set({
-                patients: enrichedMockPatients,
-                pagination: {
-                  pageNumber: 1,
-                  pageSize: 20,
-                  totalCount: enrichedMockPatients.length,
-                  totalPages: 1,
-                  hasPreviousPage: false,
-                  hasNextPage: false,
-                },
-                loading: false,
-              });
-              return;
-            } catch (err) {
-              console.error('Error loading mock patients:', err);
-              set({ error: 'Failed to load mock patients', loading: false });
-              return;
-            }
-          }
+          // ❌ Removed early return for mock data to allow merging below
 
           try {
             const response = await doctorService.getPatients({ pageNumber, pageSize });
@@ -104,13 +72,28 @@ export const usePatientsStore = create(
                 console.log('🔍 First Patient Keys:', Object.keys(patientsData[0]));
               }
 
+              let finalPatients = patientsData || [];
+              let finalPagination = paginationData;
+
+              if (USE_MOCK_DATA) {
+                console.log('⚠️ Merging MOCK DATA for patients');
+                const enrichedMockPatients = mockPatients.map(p => ({
+                  ...p,
+                  totalSessions: Math.floor(Math.random() * 10) + 1,
+                  lastVisitDate: new Date(Date.now() - Math.floor(Math.random() * 30) * 86400000).toISOString(),
+                  rating: (4 + Math.random()).toFixed(1)
+                }));
+                finalPatients = [...finalPatients, ...enrichedMockPatients];
+                finalPagination.totalCount += enrichedMockPatients.length;
+              }
+
               set({
-                patients: patientsData || [],
-                pagination: paginationData,
+                patients: finalPatients,
+                pagination: finalPagination,
                 loading: false,
               });
 
-              console.log('✅ Patients loaded successfully:', patientsData?.length || 0);
+              console.log('✅ Patients loaded successfully:', finalPatients.length);
             } else {
               console.error('❌ Response validation failed:', {
                 isSuccess: response.isSuccess,
@@ -129,27 +112,10 @@ export const usePatientsStore = create(
             console.error('❌ Error response data:', error.response?.data);
             console.error('═══════════════════════════════════════');
 
-            console.warn('⚠️ API Failed - using mock data fallback');
-
-            // Mock data for testing fallback
-            const enrichedMockPatients = mockPatients.map(p => ({
-              ...p,
-              totalSessions: Math.floor(Math.random() * 10) + 1,
-              lastVisitDate: new Date(Date.now() - Math.floor(Math.random() * 30) * 86400000).toISOString(),
-              rating: (4 + Math.random()).toFixed(1)
-            }));
-
+            console.error('❌ API Failed, failed to fetch patients');
             set({
-              patients: enrichedMockPatients,
-              pagination: {
-                pageNumber: 1,
-                pageSize: 20,
-                totalCount: enrichedMockPatients.length,
-                totalPages: 1,
-                hasPreviousPage: false,
-                hasNextPage: false,
-              },
-              loading: false,
+              error: 'فشل في تحميل المرضى',
+              loading: false
             });
           }
         },
