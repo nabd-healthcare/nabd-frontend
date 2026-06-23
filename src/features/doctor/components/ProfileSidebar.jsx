@@ -7,7 +7,7 @@ import doctorService from '@/api/services/doctor.service';
 import { resolveImageUrl } from '@/utils/helpers';
 
 const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitForReview }) => {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUserProfile } = useAuthStore();
   const [verificationStatus, setVerificationStatus] = useState(user?.verificationStatus);
   
   // Fetch verification status from API
@@ -21,7 +21,7 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitFor
         if (doctorData?.verificationStatus !== undefined) {
           setVerificationStatus(doctorData.verificationStatus);
           // Update user in auth store
-          updateUser({ verificationStatus: doctorData.verificationStatus });
+          updateUserProfile({ verificationStatus: doctorData.verificationStatus });
           console.log('✅ [ProfileSidebar] Updated verificationStatus:', doctorData.verificationStatus);
         }
       } catch (error) {
@@ -30,7 +30,7 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitFor
     };
     
     fetchVerificationStatus();
-  }, [updateUser]);
+  }, [updateUserProfile]);
   // Memoize color classes to avoid recreation on every render
   const colorClasses = useMemo(() => ({
     emerald: {
