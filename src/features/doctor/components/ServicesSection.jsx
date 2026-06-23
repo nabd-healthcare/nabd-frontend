@@ -47,22 +47,22 @@ const ServicesSection = () => {
     setReExaminationData({ price: reExamination.price });
   }, [reExamination]);
 
-  const isValid = () => {
-    const regularValid = regularCheckupData.price > 0;
-    const reExamValid = reExaminationData.price > 0;
-    const durationValid = sharedDuration >= 5 && sharedDuration <= 120;
-    return regularValid && reExamValid && durationValid;
-  };
-
   const performAutoSave = async () => {
-    if (!isValid()) return;
+    const promises = [];
     
+    if (regularCheckupData.price !== null && regularCheckupData.price !== '') {
+      promises.push(updateRegularCheckup({ price: regularCheckupData.price, duration: sharedDuration }));
+    }
+    
+    if (reExaminationData.price !== null && reExaminationData.price !== '') {
+      promises.push(updateReExamination({ price: reExaminationData.price, duration: sharedDuration }));
+    }
+
+    if (promises.length === 0) return;
+
     setAutoSaveStatus('saving');
     try {
-      await Promise.allSettled([
-        updateRegularCheckup({ ...regularCheckupData, duration: sharedDuration }),
-        updateReExamination({ ...reExaminationData, duration: sharedDuration }),
-      ]);
+      await Promise.allSettled(promises);
       setAutoSaveStatus('saved');
       lastSavedDataRef.current = JSON.stringify({ regularCheckupData, reExaminationData, sharedDuration });
       setTimeout(() => setAutoSaveStatus(''), 2000);
@@ -72,13 +72,18 @@ const ServicesSection = () => {
   };
 
   useEffect(() => {
-    if (regularCheckupData.price === null || reExaminationData.price === null || sharedDuration === null) return;
-    
+    // Only auto-save if something was actually modified
     const currentData = JSON.stringify({ regularCheckupData, reExaminationData, sharedDuration });
+    // Initialize lastSavedDataRef on first render to prevent immediate save of empty data
+    if (lastSavedDataRef.current === null) {
+      lastSavedDataRef.current = currentData;
+      return;
+    }
+    
     if (currentData === lastSavedDataRef.current) return;
 
     if (autoSaveTimeoutRef.current) clearTimeout(autoSaveTimeoutRef.current);
-    autoSaveTimeoutRef.current = setTimeout(performAutoSave, 3000);
+    autoSaveTimeoutRef.current = setTimeout(performAutoSave, 1500);
 
     return () => clearTimeout(autoSaveTimeoutRef.current);
   }, [regularCheckupData, reExaminationData, sharedDuration]);
