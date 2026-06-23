@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { FaTimes, FaStar, FaMapMarkerAlt, FaPhone, FaClock, FaBriefcaseMedical, FaImages, FaWhatsapp, FaComments } from 'react-icons/fa';
+import { FaTimes, FaStar, FaMapMarkerAlt, FaPhone, FaClock, FaBriefcaseMedical, FaImages, FaWhatsapp, FaComments, FaHospital } from 'react-icons/fa';
 import { useDoctors } from '../hooks/useDoctors';
 import { getSpecialtyById } from '@/utils/constants';
 import DoctorReviewsModal from './DoctorReviewsModal';
