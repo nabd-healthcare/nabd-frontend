@@ -93,10 +93,10 @@ const AppointmentSection = () => {
       const to = to12h(newException.toTime);
       const result = await addException({
         date: newException.date,
-        fromTime: newException.isClosed ? null : from.time,
-        toTime: newException.isClosed ? null : to.time,
-        fromPeriod: newException.isClosed ? null : from.period,
-        toPeriod: newException.isClosed ? null : to.period,
+        fromTime: newException.isClosed ? "" : from.time,
+        toTime: newException.isClosed ? "" : to.time,
+        fromPeriod: newException.isClosed ? "AM" : from.period,
+        toPeriod: newException.isClosed ? "PM" : to.period,
         isClosed: newException.isClosed
       });
       if (result.success) {
