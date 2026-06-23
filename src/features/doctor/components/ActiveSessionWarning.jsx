@@ -101,14 +101,14 @@ const ActiveSessionWarning = () => {
   }
 
   return (
-    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown" dir="rtl">
-      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-2xl p-6 max-w-md mx-4">
+    <div className="fixed bottom-4 left-4 md:bottom-8 md:left-8 z-[100] animate-bounce" style={{ animationIterationCount: 1 }} dir="rtl">
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-2xl p-5 md:p-6 w-[90vw] md:w-auto md:max-w-md">
         {/* Close Button */}
         <button
           onClick={handleDismiss}
-          className="absolute top-3 left-3 text-white/80 hover:text-white transition-colors"
+          className="absolute top-3 left-3 text-white/80 hover:text-white transition-colors p-1"
         >
-          <FaTimes className="text-xl translate-x-3" />
+          <FaTimes className="text-xl" />
         </button>
 
         {/* Icon */}

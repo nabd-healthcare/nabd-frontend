@@ -106,7 +106,7 @@ const DoctorsSlider = () => {
 
                 {/* Slider */}
                 <div className="relative w-full max-w-4xl mx-auto">
-                    <AnimatePresence initial={false} custom={direction}>
+                    <AnimatePresence initial={false} custom={direction} mode="wait">
                         <motion.div
                             key={currentIndex}
                             custom={direction}
