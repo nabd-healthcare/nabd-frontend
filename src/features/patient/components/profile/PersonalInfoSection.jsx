@@ -364,21 +364,26 @@ const PersonalInfoSection = () => {
       console.log('🔄 Auto-saving changes...');
       // Don't show "saving" status, just save silently
 
-      // Basic validation
+      // Basic validation for Personal Info
       const newErrors = {};
       if (!infoValues.firstName?.trim()) newErrors.firstName = 'الاسم الأول مطلوب';
       if (!infoValues.lastName?.trim()) newErrors.lastName = 'الاسم الثاني مطلوب';
       if (!infoValues.phoneNumber?.trim()) newErrors.phoneNumber = 'رقم الهاتف مطلوب';
 
-      if (Object.keys(newErrors).length > 0) {
-        console.error('❌ Validation failed: Required fields are empty');
+      const hasValidationErrors = Object.keys(newErrors).length > 0;
+      if (hasValidationErrors) {
+        console.error('❌ Validation failed for Personal Info: Required fields are empty');
         setErrors(newErrors);
-        setAutoSaveStatus('error');
-        setTimeout(() => setAutoSaveStatus(''), 3000);
-        return; // Don't auto-save if required fields are empty
+        
+        // If the ONLY changes are personal info changes, we must abort completely.
+        if (hasInfoChanges && !hasImageChanges && !hasAddressChanges) {
+          setAutoSaveStatus('error');
+          setTimeout(() => setAutoSaveStatus(''), 3000);
+          return; 
+        }
       }
 
-      console.log('✅ Validation passed!');
+      console.log('✅ Proceeding with available valid updates...');
 
       // Prepare info data
       const infoData = {
@@ -426,10 +431,14 @@ const PersonalInfoSection = () => {
       const promises = [];
       const promiseTypes = []; // Track which API each promise represents
 
-      // Update personal info if it changed
-      if (hasInfoChanges) {
+      // Update personal info if it changed AND passed validation
+      if (hasInfoChanges && !hasValidationErrors) {
         promises.push(updatePersonalInfo(infoData));
         promiseTypes.push('Personal Info');
+      } else if (hasInfoChanges && hasValidationErrors) {
+        // We have info changes but validation failed, show error status
+        setAutoSaveStatus('error');
+        setTimeout(() => setAutoSaveStatus(''), 3000);
       }
 
       // Update profile image if changed (separate endpoint)
