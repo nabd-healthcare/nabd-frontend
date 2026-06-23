@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true; // TODO: Fix backend 500 error then set to false
+const USE_MOCK_DATA = false; // TODO: Fix backend 500 error then set to false
 
 /**
  * Custom Hook for Doctor Dashboard Statistics

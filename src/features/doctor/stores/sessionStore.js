@@ -4,7 +4,7 @@ import sessionService from '@/api/services/session.service';
 import { mockAppointments, mockPatients, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 export const useSessionStore = create(
   devtools(

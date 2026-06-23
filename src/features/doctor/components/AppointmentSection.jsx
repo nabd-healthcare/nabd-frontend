@@ -77,15 +77,26 @@ const AppointmentSection = () => {
     return () => clearTimeout(timer);
   }, [localSchedule]);
 
+  // Convert 24h "HH:mm" from <input type="time"> to 12h "hh:mm" + period for the backend
+  const to12h = (time24) => {
+    if (!time24) return { time: '', period: 'AM' };
+    const [h, m] = time24.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return { time: `${String(hour12).padStart(2, '0')}:${String(m).padStart(2, '0')}`, period };
+  };
+
   const handleAddException = async () => {
     if (!newException.date) return;
     try {
+      const from = to12h(newException.fromTime);
+      const to = to12h(newException.toTime);
       const result = await addException({
         date: newException.date,
-        fromTime: newException.isClosed ? null : newException.fromTime,
-        toTime: newException.isClosed ? null : newException.toTime,
-        fromPeriod: newException.isClosed ? null : newException.fromPeriod,
-        toPeriod: newException.isClosed ? null : newException.toPeriod,
+        fromTime: newException.isClosed ? null : from.time,
+        toTime: newException.isClosed ? null : to.time,
+        fromPeriod: newException.isClosed ? null : from.period,
+        toPeriod: newException.isClosed ? null : to.period,
         isClosed: newException.isClosed
       });
       if (result.success) {

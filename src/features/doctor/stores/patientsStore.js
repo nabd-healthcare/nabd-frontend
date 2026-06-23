@@ -4,7 +4,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockPatients, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 export const usePatientsStore = create(
   devtools(

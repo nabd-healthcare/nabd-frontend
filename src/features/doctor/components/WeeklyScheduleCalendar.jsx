@@ -190,9 +190,55 @@ const WeeklyScheduleCalendar = ({
                        <span className="text-[10px] font-black uppercase tracking-widest">يوم إجازة (مغلق)</span>
                     </label>
 
+                    {/* Time pickers - shown only when NOT a closed day */}
+                    {!newException.isClosed && (
+                      <div className="space-y-3 pt-1">
+                        <div className="space-y-1">
+                          <label className="text-[9px] font-black text-white/70 uppercase tracking-widest px-1">من</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="time"
+                              value={newException.fromTime}
+                              onChange={(e) => onNewExceptionChange({ ...newException, fromTime: e.target.value })}
+                              className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-white/30"
+                              dir="ltr"
+                            />
+                            <select
+                              value={newException.fromPeriod}
+                              onChange={(e) => onNewExceptionChange({ ...newException, fromPeriod: e.target.value })}
+                              className="px-2 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-white/30"
+                            >
+                              <option value="AM" className="text-slate-900">ص</option>
+                              <option value="PM" className="text-slate-900">م</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] font-black text-white/70 uppercase tracking-widest px-1">إلى</label>
+                          <div className="flex gap-2">
+                            <input
+                              type="time"
+                              value={newException.toTime}
+                              onChange={(e) => onNewExceptionChange({ ...newException, toTime: e.target.value })}
+                              className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-white/30"
+                              dir="ltr"
+                            />
+                            <select
+                              value={newException.toPeriod}
+                              onChange={(e) => onNewExceptionChange({ ...newException, toPeriod: e.target.value })}
+                              className="px-2 py-2 bg-white/10 border border-white/20 rounded-xl text-xs font-black text-white focus:ring-4 focus:ring-white/30"
+                            >
+                              <option value="AM" className="text-slate-900">ص</option>
+                              <option value="PM" className="text-slate-900">م</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     <button
                       onClick={onAddException}
-                      disabled={!newException.date || loading.exceptions}
+                      disabled={!newException.date || loading.exceptions || (!newException.isClosed && (!newException.fromTime || !newException.toTime))}
                       className="w-full bg-white text-[#0070CD] py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-black/5 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
                     >
                       <FaPlus /> إضافة بيان

@@ -4,7 +4,7 @@ import doctorService from '../../../api/services/doctor.service';
 import { mockReviews, mockStatistics } from '../data/mockReviews';
 
 // TODO: Set to false when backend is ready
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 /**
  * Reviews Store - Zustand

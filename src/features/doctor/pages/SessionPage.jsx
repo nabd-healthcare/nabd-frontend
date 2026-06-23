@@ -147,10 +147,22 @@ const SessionPage = () => {
             />
 
             {/* Split Screen Medical Terminal */}
-            <div className="flex-1 max-w-[1800px] w-full mx-auto p-6 flex gap-8 overflow-hidden">
+            <div className="flex-1 max-w-[1800px] w-full mx-auto p-6 flex gap-8" style={{ height: 'calc(100vh - 80px)', overflow: 'hidden' }}>
                 {/* Left Area: Dynamic Clinical Panels (70%) */}
-                <div className="flex-1 flex flex-col min-w-0">
+                <div className="flex-1 flex flex-col min-w-0 h-full">
 
+                   {/* AI tab gets fixed height + internal scroll; other tabs scroll the container */}
+                   {activeTab === 'ai_diagnosis' ? (
+                     <div className="h-full flex flex-col">
+                       <ErrorAlert error={error} onClear={clearError} />
+                       <div className="flex-1 min-h-0 animate-in fade-in slide-in-from-bottom-4 duration-200">
+                         <AIDiagnosisTab
+                             patientInfo={patientInfo}
+                             currentSession={currentSession}
+                         />
+                       </div>
+                     </div>
+                   ) : (
                    <div className="flex-1 relative overflow-y-auto no-scrollbar scroll-smooth space-y-4">
                       <ErrorAlert error={error} onClear={clearError} />
                       
@@ -182,14 +194,9 @@ const SessionPage = () => {
                                 user={user}
                             />
                         )}
-                        {activeTab === 'ai_diagnosis' && (
-                            <AIDiagnosisTab
-                                patientInfo={patientInfo}
-                                currentSession={currentSession}
-                            />
-                        )}
                       </div>
                    </div>
+                   )}
                 </div>
 
                 {/* Right Area: Tactical Patient Intelligence Sidebar (30%) */}
