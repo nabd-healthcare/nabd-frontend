@@ -299,6 +299,19 @@ const DoctorDetailsModal = ({ doctorId, isOpen, onClose, onBook }) => {
                   </div>
                 </div>
               )}
+
+              {/* Empty State Fallback */}
+              {!doctor.clinic && !doctor.partnerSuggestions && (
+                <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+                  <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+                    <FaHospital className="text-4xl text-slate-300" />
+                  </div>
+                  <h3 className="text-xl font-black text-slate-700 mb-2">لا توجد بيانات للعيادة حالياً</h3>
+                  <p className="text-slate-500 font-semibold max-w-md">
+                    هذا الطبيب لم يقم بإضافة تفاصيل العيادة أو الخدمات المتوفرة بعد. يمكنك حجز موعد مباشرة أو التواصل مع خدمة العملاء للمزيد من التفاصيل.
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="p-12 text-center">
