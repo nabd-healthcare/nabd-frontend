@@ -62,7 +62,7 @@ const TimePicker = ({
           value={hours}
           onChange={(e) => handleHourChange(e.target.value)}
           disabled={disabled}
-          className="w-full pl-3 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-900 focus:ring-4 focus:ring-[#0070CD]/10 focus:border-[#0070CD] focus:bg-white transition-all appearance-none cursor-pointer disabled:opacity-50"
+          className="w-full pl-1 pr-4 py-3 text-center bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-900 focus:ring-4 focus:ring-[#0070CD]/10 focus:border-[#0070CD] focus:bg-white transition-all appearance-none cursor-pointer disabled:opacity-50"
           dir="ltr"
         >
           <option value="">--</option>
@@ -70,7 +70,7 @@ const TimePicker = ({
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
           <span className="text-[8px] font-black text-slate-400 uppercase">H</span>
         </div>
       </div>
@@ -83,7 +83,7 @@ const TimePicker = ({
           value={minutes}
           onChange={(e) => handleMinuteChange(e.target.value)}
           disabled={disabled}
-          className="w-full pl-3 pr-8 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-900 focus:ring-4 focus:ring-[#0070CD]/10 focus:border-[#0070CD] focus:bg-white transition-all appearance-none cursor-pointer disabled:opacity-50"
+          className="w-full pl-1 pr-4 py-3 text-center bg-slate-50 border border-slate-200 rounded-xl text-xs font-black text-slate-900 focus:ring-4 focus:ring-[#0070CD]/10 focus:border-[#0070CD] focus:bg-white transition-all appearance-none cursor-pointer disabled:opacity-50"
           dir="ltr"
         >
           <option value="">--</option>
@@ -91,7 +91,7 @@ const TimePicker = ({
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
           <span className="text-[8px] font-black text-slate-400 uppercase">M</span>
         </div>
       </div>
