@@ -47,27 +47,27 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
         `}
       >
         <div className="relative">
-           {user?.profilePictureUrl || user?.profileImageUrl ? (
-             <img
-               src={resolveImageUrl(user?.profilePictureUrl || user?.profileImageUrl)}
-               alt="Profile"
-               className="w-10 h-10 rounded-xl object-cover shadow-sm border border-white"
-             />
-           ) : (
-             <div className="w-10 h-10 bg-[#0070CD] rounded-xl flex items-center justify-center shadow-lg shadow-[#0070CD]/20">
-               <UserIcon className="w-5 h-5 text-white" />
-             </div>
-           )}
-           <div className="absolute -bottom-0.5 -left-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+          {user?.profilePictureUrl || user?.profileImageUrl ? (
+            <img
+              src={resolveImageUrl(user?.profilePictureUrl || user?.profileImageUrl)}
+              alt="Profile"
+              className="w-10 h-10 rounded-xl object-cover shadow-sm border border-white"
+            />
+          ) : (
+            <div className="w-10 h-10 bg-[#0070CD] rounded-xl flex items-center justify-center shadow-lg shadow-[#0070CD]/20">
+              <UserIcon className="w-5 h-5 text-white" />
+            </div>
+          )}
+          <div className="absolute -bottom-0.5 -left-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
         </div>
-        
+
         <div className="hidden lg:block text-right pr-1">
-           <p className="text-[11px] font-black text-slate-900 leading-none mb-0.5 uppercase tracking-tight">
-             {user?.firstName ? `د. ${user.firstName} ${user.lastName || ''}` : (user?.fullName || 'د. طبيب')}
-           </p>
-           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest opacity-50">
-             {user?.specialty || 'طبيب متخصص'}
-           </p>
+          <p className="text-[11px] font-black text-slate-900 leading-none mb-0.5 uppercase tracking-tight">
+            {user?.firstName ? `د. ${user.firstName} ${user.lastName || ''}` : (user?.fullName || 'د. طبيب')}
+          </p>
+          <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest opacity-50">
+            {user?.specialty || 'طبيب متخصص'}
+          </p>
         </div>
       </button>
 

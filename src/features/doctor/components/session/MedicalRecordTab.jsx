@@ -102,17 +102,17 @@ const MedicalRecordTab = ({ patientMedicalRecord, loading, onFetchMedicalRecord,
     <div className="space-y-6">
       
       {/* Action Bar */}
-      <div className="flex justify-between items-center bg-white p-4 border border-slate-100 rounded-2xl shadow-sm print:hidden">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-4 border border-slate-100 rounded-2xl shadow-sm print:hidden">
          <div className="flex items-center gap-3">
             <FaFileMedical className="text-[#0070CD] text-xl" />
-            <div>
+            <div className="text-center sm:text-right">
                <h3 className="text-sm font-black text-slate-800">السجل الطبي الموحد</h3>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unified Medical Dossier</p>
             </div>
          </div>
          <button
            onClick={() => window.print()}
-           className="px-6 py-2.5 bg-[#0070CD] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[#0070CD]/20 hover:scale-105 transition-all flex items-center gap-2"
+           className="px-6 py-3 sm:py-2.5 bg-[#0070CD] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-[#0070CD]/20 hover:scale-105 transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
          >
            <FaPrint />
            Export Dossier

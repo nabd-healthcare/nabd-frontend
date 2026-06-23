@@ -40,10 +40,9 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
         onClick={onToggle}
         className={`
           transition-all duration-200 transform hover:scale-105
-          ${
-            isOpen
-              ? 'ring-2 ring-[#0070CD]/40 rounded-full'
-              : 'hover:ring-2 hover:ring-[#0070CD]/20 rounded-full'
+          ${isOpen
+            ? 'ring-2 ring-[#0070CD]/40 rounded-full'
+            : 'hover:ring-2 hover:ring-[#0070CD]/20 rounded-full'
           }
         `}
       >
@@ -61,7 +60,7 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
           />
         ) : (
           <div className="w-12 h-12 bg-gradient-to-tr from-[#0070CD] to-blue-400 rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,112,205,0.2)] border-2 border-white ring-2 ring-[#0070CD]/10">
-             <span className="text-white font-black text-lg">{user?.firstName ? `${user.firstName.charAt(0)}${user.lastName ? user.lastName.charAt(0) : ''}` : 'م'}</span>
+            <span className="text-white font-black text-lg">{user?.firstName ? `${user.firstName.charAt(0)}${user.lastName ? user.lastName.charAt(0) : ''}` : 'م'}</span>
           </div>
         )}
       </button>

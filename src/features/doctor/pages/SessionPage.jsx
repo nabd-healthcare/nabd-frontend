@@ -149,7 +149,7 @@ const SessionPage = () => {
             />
 
             {/* Split Screen Medical Terminal */}
-            <div className="flex-1 max-w-[1800px] w-full mx-auto p-6 flex gap-8" style={{ height: 'calc(100vh - 80px)', overflow: 'hidden' }}>
+            <div className="flex-1 max-w-[1800px] w-full mx-auto p-4 lg:p-6 flex flex-col lg:flex-row gap-4 lg:gap-8 h-auto lg:h-[calc(100vh-80px)] overflow-visible lg:overflow-hidden">
                 {/* Left Area: Dynamic Clinical Panels (70%) */}
                 <div className="flex-1 flex flex-col min-w-0 h-full">
 
@@ -202,7 +202,7 @@ const SessionPage = () => {
                 </div>
 
                 {/* Right Area: Tactical Patient Intelligence Sidebar (30%) */}
-                <div className="w-80 flex-shrink-0 flex flex-col gap-6 sticky top-0 h-full">
+                <div className="w-full lg:w-80 flex-shrink-0 flex flex-col gap-4 lg:gap-6 lg:sticky lg:top-0 lg:h-full">
 
                     <div className="overflow-y-auto no-scrollbar flex flex-col gap-6">
                        <SessionPatientInfo patientInfo={patientInfo} />

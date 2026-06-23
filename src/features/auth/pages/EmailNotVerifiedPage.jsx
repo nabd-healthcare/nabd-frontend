@@ -67,85 +67,74 @@ const EmailNotVerifiedPage = () => {
   if (!email) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-teal-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-teal-500">
-          {/* Warning Icon */}
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full mb-4 relative">
-              <FaExclamationTriangle className="text-4xl text-amber-600" />
-              {/* Pulse animation */}
-              <div className="absolute inset-0 bg-amber-400 rounded-full animate-ping opacity-20"></div>
-            </div>
-            
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              البريد الإلكتروني غير مفعّل
-            </h1>
-            
-            <p className="text-gray-600 text-lg mb-1">
-              يجب تفعيل حسابك للمتابعة
-            </p>
-            
-            <div className="flex items-center justify-center gap-2 mt-4 bg-amber-50 rounded-lg p-3 border border-amber-100">
-              <FaEnvelope className="text-amber-600" />
-              <p className="text-sm font-semibold text-amber-800">{email}</p>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0070CD]/5 via-white to-[#0070CD]/10 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-8">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-rose-50 rounded-2xl mb-4 shadow-inner relative">
+            <FaExclamationTriangle className="text-2xl text-rose-500 relative z-10" />
+            <div className="absolute inset-0 bg-rose-400 rounded-2xl animate-ping opacity-20"></div>
           </div>
+          
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            البريد غير مفعّل
+          </h1>
+          
+          <p className="text-slate-500 mb-4 font-medium">
+            يجب تفعيل حسابك للمتابعة
+          </p>
+          
+          <div className="text-sm text-[#0070CD] font-bold bg-[#0070CD]/5 inline-flex items-center gap-2 px-4 py-2 rounded-full">
+            <FaEnvelope />
+            <span>{email}</span>
+          </div>
+        </div>
 
-          {/* Error Alert */}
-          {error && (
-            <Alert variant="error" className="mb-6">
-              {error}
-            </Alert>
+        {error && (
+          <Alert variant="error" className="mb-6 rounded-2xl">
+            {error}
+          </Alert>
+        )}
+
+        <button
+          type="button"
+          onClick={handleVerifyNow}
+          disabled={loading}
+          className="w-full py-4 bg-gradient-to-r from-[#0070cd] to-[#1a8cff] hover:from-[#005099] hover:to-[#0070cd] text-white rounded-[1.5rem] text-lg font-black transition-all duration-300 shadow-xl shadow-blue-500/30 flex items-center justify-center gap-3 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none mb-6"
+        >
+          {loading ? (
+             <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <>
+              <FaEnvelope className="text-lg" />
+              <span>إرسال رمز التحقق الآن</span>
+              <FaArrowRight className="text-lg" />
+            </>
           )}
+        </button>
 
-          {/* Action Button */}
-          <Button
+        <div className="text-center bg-slate-50 py-3 rounded-2xl mb-6">
+          <p className="text-sm font-medium text-slate-500">
+            سيتم إرسال رمز مكون من 6 أرقام إلى بريدك
+          </p>
+        </div>
+
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-100"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="px-3 bg-white text-slate-400 font-bold uppercase tracking-wider">أو</span>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <button
             type="button"
-            variant="primary"
-            fullWidth
-            onClick={handleVerifyNow}
-            disabled={loading}
-            loading={loading}
-            className="bg-gradient-to-r from-amber-500 to-teal-500 hover:from-amber-600 hover:to-teal-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transform transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            onClick={() => navigate('/login')}
+            className="text-sm font-bold text-slate-500 hover:text-[#0070CD] transition-colors duration-300"
           >
-            {!loading && (
-              <>
-                <FaEnvelope className="text-lg" />
-                <span>إرسال رمز التحقق الآن</span>
-                <FaArrowRight className="text-lg" />
-              </>
-            )}
-          </Button>
-
-          {/* Footer Info */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-500">
-              سيتم إرسال رمز مكون من 6 أرقام إلى بريدك الإلكتروني
-            </p>
-          </div>
-
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">أو</span>
-            </div>
-          </div>
-
-          {/* Back to Login */}
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => navigate('/login')}
-              className="text-sm font-semibold text-gray-600 hover:text-gray-900 hover:underline transition-colors"
-            >
-              العودة إلى تسجيل الدخول
-            </button>
-          </div>
+            العودة إلى تسجيل الدخول
+          </button>
         </div>
       </div>
     </div>
