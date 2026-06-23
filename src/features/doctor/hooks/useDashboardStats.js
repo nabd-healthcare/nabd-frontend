@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = false; // TODO: Fix backend 500 error then set to false
+const USE_MOCK_DATA = true; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for Doctor Dashboard Statistics
@@ -79,45 +79,32 @@ export const useDashboardStats = () => {
     setLoading(true);
     setError(null);
 
-    // MOCK DATA HANDLER
-    if (USE_MOCK_DATA) {
-      try {
-        await simulateApiDelay(500);
-        console.log('⚠️ Using MOCK DATA for stats');
-        const statsArray = mapStatsToArray(mockStats);
-        setStats(statsArray);
-        setLoading(false);
-        return;
-      } catch (err) {
-        console.error('Error loading mock stats:', err);
-        setError('Failed to load mock stats');
-        setLoading(false);
-        return;
-      }
-    }
-
+    // ❌ Removed early return for mock data to allow merging below
     try {
       const response = await doctorService.getDashboardStats();
 
       if (response.isSuccess && response.data) {
-        // Map API object to array format for UI
-        const statsArray = mapStatsToArray(response.data);
+        let finalStatsObject = response.data;
+
+        if (USE_MOCK_DATA) {
+            console.log('⚠️ Merging MOCK DATA with real dashboard stats');
+            finalStatsObject = {
+                totalPatients: (finalStatsObject.totalPatients || 0) + mockStats.totalPatients,
+                todayAppointments: (finalStatsObject.todayAppointments || 0) + mockStats.todayAppointments,
+                averageRating: finalStatsObject.averageRating > 0 ? finalStatsObject.averageRating : mockStats.averageRating,
+                monthlyRevenue: (finalStatsObject.monthlyRevenue || 0) + mockStats.monthlyRevenue,
+            };
+        }
+
+        const statsArray = mapStatsToArray(finalStatsObject);
         setStats(statsArray);
       } else {
         throw new Error(response.message || 'فشل في تحميل الإحصائيات');
       }
     } catch (err) {
-      console.error('❌ API Failed, falling back to mock data');
-      // Fallback to mock data on error if not already using it
-      if (!USE_MOCK_DATA) {
-        const statsArray = mapStatsToArray(mockStats);
-        setStats(statsArray);
-        // Don't set error to allow UI to show data
-      } else {
-        const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل الإحصائيات';
-        setError(errorMessage);
-        console.error('❌ Error fetching dashboard stats:', err);
-      }
+      const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل الإحصائيات';
+      setError(errorMessage);
+      console.error('❌ Error fetching dashboard stats:', err);
     } finally {
       setLoading(false);
     }

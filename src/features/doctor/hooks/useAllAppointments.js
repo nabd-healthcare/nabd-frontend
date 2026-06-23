@@ -3,7 +3,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockAppointments, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = false; // TODO: Fix backend 500 error then set to false
+const USE_MOCK_DATA = true; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for ALL Appointments (Past, Today, Future)
@@ -36,41 +36,7 @@ export const useAllAppointments = () => {
     setLoading(true);
     setError(null);
 
-    // MOCK DATA HANDLER
-    if (USE_MOCK_DATA) {
-      try {
-        await simulateApiDelay(800);
-        console.log('⚠️ Using MOCK DATA for all appointments');
-
-        const mappedAppointments = mockAppointments.map(mapAppointment);
-        setAppointments(mappedAppointments);
-        setPagination({
-          pageNumber: 1,
-          pageSize: 12,
-          totalCount: mappedAppointments.length,
-          totalPages: 1,
-          hasPreviousPage: false,
-          hasNextPage: false,
-        });
-        setStatistics({
-          total: mappedAppointments.length,
-          pending: 0,
-          confirmed: mappedAppointments.filter(a => a.apiStatus === 1).length,
-          checkedIn: mappedAppointments.filter(a => a.apiStatus === 2).length,
-          inProgress: mappedAppointments.filter(a => a.apiStatus === 3).length,
-          completed: mappedAppointments.filter(a => a.apiStatus === 4).length,
-          noShow: mappedAppointments.filter(a => a.apiStatus === 5).length,
-          cancelled: mappedAppointments.filter(a => a.apiStatus === 6).length,
-        });
-        setLoading(false);
-        return;
-      } catch (err) {
-        console.error('Error loading mock data:', err);
-        setError('Failed to load mock data');
-        setLoading(false);
-        return;
-      }
-    }
+    // ❌ Removed early return for mock data to allow merging below
 
     try {
       const response = await doctorService.getAllAppointments({
@@ -90,25 +56,38 @@ export const useAllAppointments = () => {
         console.log('📋 Count:', appointmentsData?.length);
         console.log('📊 Statistics from API:', statsData); // ✅ Log statistics
 
-        if (!appointmentsData || appointmentsData.length === 0) {
-          console.warn('⚠️ API returned EMPTY appointments array!');
-          setAppointments([]);
-          setPagination({
-            ...paginationData,
-            totalCount: 0,
-          });
-          setStatistics(statsData || null); // ✅ Set statistics even if empty
-          setLoading(false);
-          return;
+        let finalAppointments = [];
+        let finalStats = statsData || { total: 0, pending: 0, confirmed: 0, checkedIn: 0, inProgress: 0, completed: 0, noShow: 0, cancelled: 0 };
+        let finalPagination = { ...paginationData, totalCount: paginationData?.totalCount || 0 };
+
+        if (appointmentsData && appointmentsData.length > 0) {
+          finalAppointments = appointmentsData.map(mapAppointment);
         }
 
-        // ✅ NO DATE FILTER - Map all appointments directly
-        const mappedAppointments = appointmentsData.map(mapAppointment);
-        console.log('✅ Mapped ALL Appointments:', mappedAppointments);
+        // ✅ Merge Mock Data if enabled
+        if (USE_MOCK_DATA) {
+           console.log('⚠️ Merging MOCK DATA with real appointments');
+           const mappedMock = mockAppointments.map(mapAppointment);
+           finalAppointments = [...finalAppointments, ...mappedMock];
+           
+           finalStats = {
+              total: (finalStats.total || 0) + mappedMock.length,
+              pending: (finalStats.pending || 0),
+              confirmed: (finalStats.confirmed || 0) + mappedMock.filter(a => a.apiStatus === 1).length,
+              checkedIn: (finalStats.checkedIn || 0) + mappedMock.filter(a => a.apiStatus === 2).length,
+              inProgress: (finalStats.inProgress || 0) + mappedMock.filter(a => a.apiStatus === 3).length,
+              completed: (finalStats.completed || 0) + mappedMock.filter(a => a.apiStatus === 4).length,
+              noShow: (finalStats.noShow || 0) + mappedMock.filter(a => a.apiStatus === 5).length,
+              cancelled: (finalStats.cancelled || 0) + mappedMock.filter(a => a.apiStatus === 6).length,
+           };
+           finalPagination.totalCount += mappedMock.length;
+        }
 
-        setAppointments(mappedAppointments);
-        setPagination(paginationData);
-        setStatistics(statsData || null); // ✅ Set statistics from API
+        console.log('✅ Final Mapped Appointments:', finalAppointments);
+
+        setAppointments(finalAppointments);
+        setPagination(finalPagination);
+        setStatistics(finalStats);
       } else {
         console.error('❌ Response validation failed:', {
           isSuccess: response.isSuccess,

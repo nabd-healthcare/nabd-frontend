@@ -3,7 +3,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockAppointments, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = false; // TODO: Fix backend 500 error then set to false
+const USE_MOCK_DATA = true; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for Today's Appointments
@@ -36,24 +36,7 @@ export const useTodayAppointments = () => {
     setLoading(true);
     setError(null);
 
-    // MOCK DATA HANDLER
-    if (USE_MOCK_DATA) {
-      try {
-        await simulateApiDelay(800);
-        console.log('⚠️ Using MOCK DATA for appointments');
-
-        const mappedAppointments = mockAppointments.map(mapAppointment);
-        setAppointments(mappedAppointments);
-        setLoading(false);
-        return;
-      } catch (err) {
-        console.error('Error loading mock data:', err);
-        setError('Failed to load mock data');
-        setLoading(false);
-        return;
-      }
-    }
-
+    // ❌ Removed early return for mock data to allow merging below
     try {
       const response = await doctorService.getTodayAppointments({ pageNumber, pageSize });
 
@@ -90,15 +73,21 @@ export const useTodayAppointments = () => {
         console.log('✅ Today Appointments Count:', appointmentsData.length);
         console.log('═══════════════════════════════════════');
 
-        // Map API data to frontend format
-        const mappedAppointments = appointmentsData.map(mapAppointment);
-        console.log('✅ Mapped Appointments:', mappedAppointments);
+        let finalAppointments = [];
 
-        if (mappedAppointments.length > 0) {
-          console.log('✅ First Mapped Appointment:', mappedAppointments[0]);
+        if (appointmentsData && appointmentsData.length > 0) {
+          finalAppointments = appointmentsData.map(mapAppointment);
         }
 
-        setAppointments(mappedAppointments);
+        // ✅ Merge Mock Data if enabled
+        if (USE_MOCK_DATA) {
+           console.log('⚠️ Merging MOCK DATA with real today appointments');
+           const mappedMock = mockAppointments.map(mapAppointment);
+           finalAppointments = [...finalAppointments, ...mappedMock];
+        }
+
+        console.log('✅ Final Today Appointments:', finalAppointments);
+        setAppointments(finalAppointments);
       } else {
         console.error('❌ Response validation failed:', {
           isSuccess: response.isSuccess,
@@ -108,21 +97,11 @@ export const useTodayAppointments = () => {
         throw new Error(response.message || 'فشل في تحميل المواعيد');
       }
     } catch (err) {
-      console.error('❌ API Failed, falling back to mock data');
-      // Fallback to mock data on error if not already using it
-      if (!USE_MOCK_DATA) {
-        const mappedAppointments = mockAppointments.map(mapAppointment);
-        setAppointments(mappedAppointments);
-        // Don't set error to allow UI to show data
-      } else {
-        const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل المواعيد';
-        setError(errorMessage);
-        console.error('═══════════════════════════════════════');
-        console.error('❌ Error fetching today appointments:', err);
-        console.error('❌ Error response:', err.response);
-        console.error('❌ Error response data:', err.response?.data);
-        console.error('═══════════════════════════════════════');
-      }
+      const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل المواعيد';
+      setError(errorMessage);
+      console.error('═══════════════════════════════════════');
+      console.error('❌ Error fetching today appointments:', err);
+      console.error('═══════════════════════════════════════');
     } finally {
       setLoading(false);
     }
