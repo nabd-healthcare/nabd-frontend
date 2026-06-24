@@ -66,6 +66,71 @@ const doctorsData = [
     }
 ];
 
+const DoctorCard = ({ currentDoc, navigate }) => (
+    <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col lg:flex-row overflow-hidden border border-slate-100 h-full">
+        {/* Image */}
+        <div className="lg:w-5/12 relative overflow-hidden shrink-0">
+            <div className="relative w-full h-56 sm:h-64 lg:h-full lg:min-h-[420px] overflow-hidden">
+                <div className="absolute inset-0 bg-[#0070CD]/20 mix-blend-overlay z-10"></div>
+                <img
+                    src={currentDoc.imageSrc}
+                    alt={currentDoc.name}
+                    className="w-full h-full object-cover object-[center_15%] lg:object-top"
+                />
+            </div>
+        </div>
+
+        {/* Content */}
+        <div className="lg:w-7/12 p-5 sm:p-7 lg:p-10 xl:p-12 flex flex-col justify-center bg-[#F0F7FF]/50 grow">
+            <div className="flex justify-between items-start mb-3 lg:mb-4">
+                <div>
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 mb-1 lg:mb-2">{currentDoc.name}</h3>
+                    <p className="text-[#0070CD] font-bold text-sm sm:text-base lg:text-lg">{currentDoc.specialty}</p>
+                </div>
+                <div className="flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-full shadow-sm border border-slate-100 flex-shrink-0 ml-2">
+                    <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-current" />
+                    <span className="font-bold text-slate-800 text-xs sm:text-sm">{currentDoc.rating}</span>
+                    <span className="text-slate-400 text-xs hidden sm:inline">({currentDoc.reviews}+)</span>
+                </div>
+            </div>
+
+            <p className="text-slate-600 text-sm lg:text-base leading-relaxed font-medium mb-5 lg:mb-8">
+                {currentDoc.bio}
+            </p>
+
+            <div className="flex flex-col xs:flex-row gap-3 sm:gap-6 mb-5 lg:mb-10">
+                <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
+                        <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                    <span className="font-bold text-xs sm:text-sm lg:text-base">{currentDoc.experience}</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
+                        <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                    <span className="font-bold text-xs sm:text-sm lg:text-base">{currentDoc.location}</span>
+                </div>
+            </div>
+
+            <div className="flex gap-3 mt-auto">
+                <button
+                    onClick={() => navigate('/register?role=patient')}
+                    className="flex-1 bg-[#0070CD] text-white py-3 lg:py-4 rounded-xl lg:rounded-2xl text-sm lg:text-base font-bold hover:bg-[#005099] shadow-[0_8px_20px_rgba(0,112,205,0.25)] hover:shadow-[0_10px_25px_rgba(0,112,205,0.35)] hover:-translate-y-0.5 transition-all"
+                >
+                    احجز الآن
+                </button>
+                <button
+                    onClick={() => navigate('/register?role=patient')}
+                    className="flex-1 bg-white text-[#0070CD] border-2 border-[#0070CD]/20 py-3 lg:py-4 rounded-xl lg:rounded-2xl text-sm lg:text-base font-bold hover:bg-[#F0F7FF] transition-colors"
+                >
+                    الملف الشخصي
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
 const DoctorsSlider = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(1);
@@ -82,9 +147,9 @@ const DoctorsSlider = () => {
     };
 
     const variants = {
-        enter: (direction) => ({ x: direction > 0 ? 100 : -100, opacity: 0, scale: 0.95 }),
+        enter: (direction) => ({ x: direction > 0 ? 40 : -40, opacity: 0, scale: 0.98 }),
         center: { zIndex: 1, x: 0, opacity: 1, scale: 1 },
-        exit: (direction) => ({ zIndex: 0, x: direction < 0 ? 100 : -100, opacity: 0, scale: 0.95 })
+        exit: (direction) => ({ zIndex: 0, x: direction < 0 ? 40 : -40, opacity: 0, scale: 0.98 })
     };
 
     const currentDoc = doctorsData[currentIndex];
@@ -104,9 +169,18 @@ const DoctorsSlider = () => {
                     </p>
                 </div>
 
-                {/* Slider */}
-                <div className="relative w-full max-w-4xl mx-auto">
-                    <AnimatePresence initial={false} custom={direction} mode="wait">
+                {/* Mobile/Tablet Swipeable List */}
+                <div className="lg:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-8 pt-4 -mx-4 sm:-mx-6 px-4 sm:px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {doctorsData.map((doc, idx) => (
+                        <div key={idx} className="snap-center shrink-0 w-[85%] sm:w-[65%] md:w-[45%] h-auto">
+                            <DoctorCard currentDoc={doc} navigate={navigate} />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Desktop Slider */}
+                <div className="relative w-full max-w-4xl mx-auto hidden lg:block">
+                    <AnimatePresence initial={false} custom={direction} mode="popLayout">
                         <motion.div
                             key={currentIndex}
                             custom={direction}
@@ -115,74 +189,13 @@ const DoctorsSlider = () => {
                             animate="center"
                             exit="exit"
                             transition={{
-                                x: { type: "spring", stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 }
+                                x: { type: "tween", duration: 0.4, ease: "easeOut" },
+                                opacity: { duration: 0.3 },
+                                scale: { duration: 0.3 }
                             }}
                             className="w-full"
                         >
-                            <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] flex flex-col md:flex-row overflow-hidden border border-slate-100">
-
-                                {/* Image */}
-                                <div className="md:w-5/12 relative overflow-hidden">
-                                    <div className="relative w-full h-56 sm:h-64 md:h-full md:min-h-[420px] overflow-hidden">
-                                        <div className="absolute inset-0 bg-[#0070CD]/20 mix-blend-overlay z-10"></div>
-                                        <img
-                                            src={currentDoc.imageSrc}
-                                            alt={currentDoc.name}
-                                            className="w-full h-full object-cover object-[center_15%] md:object-top"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="md:w-7/12 p-5 sm:p-7 md:p-10 lg:p-12 flex flex-col justify-center bg-[#F0F7FF]/50">
-                                    <div className="flex justify-between items-start mb-3 md:mb-4">
-                                        <div>
-                                            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 mb-1 md:mb-2">{currentDoc.name}</h3>
-                                            <p className="text-[#0070CD] font-bold text-sm sm:text-base md:text-lg">{currentDoc.specialty}</p>
-                                        </div>
-                                        <div className="flex items-center gap-1 bg-white px-2.5 py-1.5 rounded-full shadow-sm border border-slate-100 flex-shrink-0 ml-2">
-                                            <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-current" />
-                                            <span className="font-bold text-slate-800 text-xs sm:text-sm">{currentDoc.rating}</span>
-                                            <span className="text-slate-400 text-xs hidden sm:inline">({currentDoc.reviews}+)</span>
-                                        </div>
-                                    </div>
-
-                                    <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium mb-5 md:mb-8">
-                                        {currentDoc.bio}
-                                    </p>
-
-                                    <div className="flex flex-col xs:flex-row gap-3 sm:gap-6 mb-5 md:mb-10">
-                                        <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
-                                                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            </div>
-                                            <span className="font-bold text-xs sm:text-sm md:text-base">{currentDoc.experience}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 sm:gap-3 text-slate-700">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-[#0070CD] flex-shrink-0">
-                                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
-                                            </div>
-                                            <span className="font-bold text-xs sm:text-sm md:text-base">{currentDoc.location}</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex gap-3 mt-auto">
-                                        <button
-                                            onClick={() => navigate('/register?role=patient')}
-                                            className="flex-1 bg-[#0070CD] text-white py-3 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold hover:bg-[#005099] shadow-[0_8px_20px_rgba(0,112,205,0.25)] hover:shadow-[0_10px_25px_rgba(0,112,205,0.35)] hover:-translate-y-0.5 transition-all"
-                                        >
-                                            احجز الآن
-                                        </button>
-                                        <button
-                                            onClick={() => navigate('/register?role=patient')}
-                                            className="flex-1 bg-white text-[#0070CD] border-2 border-[#0070CD]/20 py-3 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-base font-bold hover:bg-[#F0F7FF] transition-colors"
-                                        >
-                                            الملف الشخصي
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <DoctorCard currentDoc={currentDoc} navigate={navigate} />
                         </motion.div>
                     </AnimatePresence>
 
@@ -206,7 +219,7 @@ const DoctorsSlider = () => {
                 </div>
 
                 {/* Pagination */}
-                <div className="flex justify-center gap-3 mt-8 md:mt-14">
+                <div className="hidden lg:flex justify-center gap-3 mt-8 md:mt-14">
                     {doctorsData.map((_, index) => (
                         <button
                             key={index}
