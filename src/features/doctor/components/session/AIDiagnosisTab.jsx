@@ -285,7 +285,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
                       {message.extractedCodes && message.extractedCodes.length > 0 && (
                         <div className="bg-[#0070CD]/5 border border-[#0070CD]/15 rounded-xl p-3">
                           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest mb-2">
-                            🔬 الأعراض التي استخرجها Mistral
+                            🔬 الأعراض المستخرجة تلقائياً
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             {message.extractedCodes.map(code => (
@@ -375,17 +375,10 @@ const AIDiagnosisTab = ({ patientInfo }) => {
               }`}
             >
               <FaKeyboard className="text-[10px]" />
-              نص حر (Mistral)
+              وصف سريري
             </button>
           </div>
 
-          {/* Mistral badge shown only in text mode */}
-          {inputMode === 'text' && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-200 rounded-full">
-              <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-              <span className="text-[9px] font-black text-orange-600 uppercase tracking-widest">Mistral AI</span>
-            </div>
-          )}
         </div>
 
         {/* Age + Sex row */}
