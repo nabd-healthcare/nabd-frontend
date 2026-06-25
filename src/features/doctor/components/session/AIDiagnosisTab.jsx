@@ -236,7 +236,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+    <div className="flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 160px)', minHeight: '560px', maxHeight: '860px' }}>
 
       {/* Header */}
       <div className="p-5 border-b border-slate-50 flex items-center justify-between bg-white">
@@ -256,7 +256,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar bg-slate-50/30">
+      <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-8 no-scrollbar bg-slate-50/30">
         {messages.map((message) => (
           <div key={message.id} className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'} animate-in fade-in slide-in-from-bottom-4 duration-500`}>
             {message.type === 'user' ? (
