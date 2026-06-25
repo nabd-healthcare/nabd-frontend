@@ -236,7 +236,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
   };
 
   return (
-    <div className="flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 160px)', minHeight: '560px', maxHeight: '860px' }}>
+    <div className="h-full flex flex-col bg-white border border-slate-100 rounded-[2.5rem] shadow-sm overflow-hidden">
 
       {/* Header */}
       <div className="p-5 border-b border-slate-50 flex items-center justify-between bg-white">
