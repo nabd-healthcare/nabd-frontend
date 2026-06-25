@@ -265,7 +265,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
               </div>
             ) : (
               <div className="w-full space-y-4">
-                <div className="max-w-[95%] bg-white border border-slate-100 rounded-[2rem] rounded-tl-none p-6 shadow-sm relative">
+                <div className="max-w-[95%] bg-white border border-slate-100 rounded-[2rem] p-6 shadow-sm relative">
                   <div className="absolute top-0 left-6 -translate-y-1/2 bg-[#0070CD] text-white px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest shadow-md">
                     Nabd AI
                   </div>
@@ -285,7 +285,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
                       {message.extractedCodes && message.extractedCodes.length > 0 && (
                         <div className="bg-[#0070CD]/5 border border-[#0070CD]/15 rounded-xl p-3">
                           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest mb-2">
-                            🔬 الأعراض المستخرجة تلقائياً
+                            🔬 الأعراض التي تم استخراجها
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             {message.extractedCodes.map(code => (
