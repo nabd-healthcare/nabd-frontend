@@ -10,6 +10,7 @@ import ActiveSessionWarning from '../components/ActiveSessionWarning';
 import { useAllAppointments } from '../hooks/useAllAppointments';
 import { useSessionManager } from '../hooks/useSessionManager';
 import { formatDateShort } from '@/utils/dateFormatter';
+import MedicalRecordModal from '../components/MedicalRecordModal';
 
 /**
  * AppointmentsPage - Clinical Command Center Edition
@@ -32,6 +33,9 @@ const AppointmentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterType, setFilterType] = useState('all');
+  
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [isMedicalRecordModalOpen, setIsMedicalRecordModalOpen] = useState(false);
 
   const filterRef = useRef(null);
 
@@ -62,7 +66,12 @@ const AppointmentsPage = () => {
   };
 
   const handleStartAppointment = (appointment) => {
-    navigate(`/doctor/session/${appointment.id}`, { state: { appointment } });
+    if (appointment.apiStatus === 4) {
+      setSelectedPatient(appointment);
+      setIsMedicalRecordModalOpen(true);
+    } else {
+      navigate(`/doctor/session/${appointment.id}`, { state: { appointment } });
+    }
   };
 
   const statusCounts = statistics || {
@@ -300,6 +309,12 @@ const AppointmentsPage = () => {
           </div>
         )}
       </div>
+
+      <MedicalRecordModal 
+        isOpen={isMedicalRecordModalOpen}
+        onClose={() => setIsMedicalRecordModalOpen(false)}
+        patient={selectedPatient}
+      />
     </div>
   );
 };
