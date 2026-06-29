@@ -3,6 +3,8 @@ import { FaCheckCircle, FaTimes, FaStar, FaCalendarAlt, FaClock, FaMoneyBillWave
 import notificationsService from '@/api/services/notifications.service';
 import { formatDateTime, getRelativeTime } from '@/utils/dateFormatter';
 
+import { createPortal } from 'react-dom';
+
 // Lazy load RatingModal to avoid potential circular dependencies or blocking main thread
 const RatingModal = React.lazy(() => import('./RatingModal'));
 
@@ -58,9 +60,11 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
 
   // Lock body scroll when modal is open
   useEffect(() => {
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
     };
   }, []);
 
@@ -124,17 +128,11 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
-  // Disable background scroll
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
+
 
   const displayDoctorName = appointmentDetails?.doctor?.fullName || appointmentDetails?.doctor?.user?.fullName || appointmentDetails?.doctorName;
 
-  return (
+  return createPortal(
     <>
       <div
         className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
@@ -283,7 +281,8 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
           onSubmitSuccess={handleRatingSuccess}
         />
       </Suspense>
-    </>
+    </>,
+    document.body
   );
 };
 

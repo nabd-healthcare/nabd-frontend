@@ -9,7 +9,7 @@ import {
 import ActiveSessionWarning from '../components/ActiveSessionWarning';
 import { useAllAppointments } from '../hooks/useAllAppointments';
 import { useSessionManager } from '../hooks/useSessionManager';
-import { formatDate } from '@/utils/helpers';
+import { formatDateShort } from '@/utils/dateFormatter';
 
 /**
  * AppointmentsPage - Clinical Command Center Edition
@@ -223,7 +223,7 @@ const AppointmentsPage = () => {
                           <div className="flex flex-wrap items-center gap-x-3 md:gap-x-3 lg:gap-x-4 gap-y-1 text-slate-500 font-bold text-xs md:text-[11px] lg:text-sm">
                             <span className="flex items-center gap-1.5"><FaClock className="text-[10px] lg:text-xs opacity-50" /> {apt.duration} دقيقة</span>
                             <span className="flex items-center gap-1.5 tracking-widest">{apt.phoneNumber}</span>
-                            {apt.appointmentDate && <span>• {formatDate(apt.appointmentDate, 'DD MMMM YYYY')}</span>}
+                            {apt.appointmentDate && <span>• {formatDateShort(apt.appointmentDate)}</span>}
                           </div>
                         </div>
                       </div>
