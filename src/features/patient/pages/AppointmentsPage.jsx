@@ -78,7 +78,7 @@ const AppointmentsPage = () => {
       setCancelModalOpen(false);
       setSelectedAppointment(null);
     } else {
-      alert(`❌ فشل في إلغاء الموعد:\n\n${result.error}`);
+      alert(` فشل في إلغاء الموعد:\n\n${result.error}`);
     }
   };
 
@@ -95,7 +95,7 @@ const AppointmentsPage = () => {
       setRescheduleModalOpen(false);
       setSelectedAppointment(null);
     } else {
-      alert(`❌ فشل في إعادة جدولة الموعد:\n\n${result.error}`);
+      alert(` فشل في إعادة جدولة الموعد:\n\n${result.error}`);
     }
   };
 

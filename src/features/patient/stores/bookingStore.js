@@ -76,9 +76,9 @@ export const useBookingStore = create(
             bookingService.getDoctorServices(doctorId),
           ]);
 
-          console.log('📅 Schedule Response:', scheduleRes);
-          console.log('📆 Exceptions Response:', exceptionsRes);
-          console.log('💼 Services Response:', servicesRes);
+          console.log(' Schedule Response:', scheduleRes);
+          console.log(' Exceptions Response:', exceptionsRes);
+          console.log(' Services Response:', servicesRes);
 
           set({
             weeklySchedule: scheduleRes || [],
@@ -104,14 +104,14 @@ export const useBookingStore = create(
         let serviceDetails = null;
         if (serviceType === 'regular' && services?.regularCheckup) {
           serviceDetails = {
-            type: 1, // ✅ Regular = 1 (Backend Enum)
+            type: 1, //  Regular = 1 (Backend Enum)
             name: 'كشف جديد',
             price: services.regularCheckup.price,
             duration: services.regularCheckup.duration,
           };
         } else if (serviceType === 'reExam' && services?.reExamination) {
           serviceDetails = {
-            type: 2, // ✅ FollowUp = 2 (Backend Enum)
+            type: 2, //  FollowUp = 2 (Backend Enum)
             name: 'كشف متابعة',
             price: services.reExamination.price,
             duration: services.reExamination.duration,
@@ -134,21 +134,21 @@ export const useBookingStore = create(
 
         try {
           // Fetch booked slots for this date
-          console.log('🔍 Fetching booked slots for:', { doctorId: selectedDoctorId, date });
+          console.log(' Fetching booked slots for:', { doctorId: selectedDoctorId, date });
           
           const bookedSlotsData = await bookingService.getBookedSlots(
             selectedDoctorId,
             date
           );
           
-          console.log('📋 Booked Slots Response:', bookedSlotsData);
-          console.log('📋 Booked Slots Type:', typeof bookedSlotsData);
-          console.log('📋 Booked Slots Length:', bookedSlotsData?.length);
-          console.log('📋 Booked Slots Array:', Array.isArray(bookedSlotsData));
+          console.log(' Booked Slots Response:', bookedSlotsData);
+          console.log(' Booked Slots Type:', typeof bookedSlotsData);
+          console.log(' Booked Slots Length:', bookedSlotsData?.length);
+          console.log(' Booked Slots Array:', Array.isArray(bookedSlotsData));
           
           if (bookedSlotsData && bookedSlotsData.length > 0) {
-            console.log('📋 First Booked Slot:', bookedSlotsData[0]);
-            console.log('📋 ALL Booked Slots:');
+            console.log(' First Booked Slot:', bookedSlotsData[0]);
+            console.log(' ALL Booked Slots:');
             bookedSlotsData.forEach((slot, index) => {
               console.log(`   [${index}] time: ${slot.time}, appointmentId: ${slot.appointmentId}`);
             });
@@ -163,7 +163,7 @@ export const useBookingStore = create(
           // Calculate available slots
           get().calculateAvailableSlots(date);
         } catch (error) {
-          console.error('⚠️ Failed to fetch booked slots (continuing with empty list):', error);
+          console.error('️ Failed to fetch booked slots (continuing with empty list):', error);
           // Continue with empty booked slots (show all as available)
           set({
             bookedSlots: [],
@@ -187,13 +187,13 @@ export const useBookingStore = create(
           selectedServiceDetails,
         } = get();
 
-        console.log('🔍 calculateAvailableSlots called for date:', date);
-        console.log('🔍 selectedServiceDetails:', selectedServiceDetails);
-        console.log('🔍 weeklySchedule:', weeklySchedule);
-        console.log('🔍 bookedSlots:', bookedSlots);
+        console.log(' calculateAvailableSlots called for date:', date);
+        console.log(' selectedServiceDetails:', selectedServiceDetails);
+        console.log(' weeklySchedule:', weeklySchedule);
+        console.log(' bookedSlots:', bookedSlots);
 
         if (!selectedServiceDetails) {
-          console.error('❌ No selectedServiceDetails! Cannot calculate slots.');
+          console.error(' No selectedServiceDetails! Cannot calculate slots.');
           return;
         }
 
@@ -255,7 +255,7 @@ export const useBookingStore = create(
           const isBooked = bookedSlots.some((slot) => {
             // Exact match
             if (slot.time === timeStr) {
-              console.log('🔴 Found booked slot:', { slotTime: slot.time, timeStr, match: true });
+              console.log(' Found booked slot:', { slotTime: slot.time, timeStr, match: true });
               return true;
             }
             
@@ -277,7 +277,7 @@ export const useBookingStore = create(
             );
             
             if (overlaps) {
-              console.log('⚠️ Overlap detected:', { 
+              console.log('️ Overlap detected:', { 
                 ourSlot: timeStr, 
                 ourStart: get().formatTime(ourStart),
                 ourEnd: get().formatTime(ourEnd),
@@ -302,14 +302,14 @@ export const useBookingStore = create(
           });
           
           if (isBooked) {
-            console.log('🚫 Slot marked as booked:', timeStr);
+            console.log(' Slot marked as booked:', timeStr);
           }
 
           // Move to next slot
           current = new Date(current.getTime() + duration * 60000);
         }
 
-        console.log('✅ Generated slots:', {
+        console.log(' Generated slots:', {
           total: slots.length,
           available: slots.filter(s => s.isAvailable).length,
           booked: slots.filter(s => s.isBooked).length,
@@ -350,15 +350,15 @@ export const useBookingStore = create(
             consultationType: selectedServiceDetails.type,
           };
 
-          console.log('📤 Booking appointment with data:', bookingData);
-          console.log('📤 Doctor ID:', selectedDoctorId);
-          console.log('📤 Date:', selectedDate);
-          console.log('📤 Time:', selectedTime);
-          console.log('📤 Consultation Type:', selectedServiceDetails.type);
+          console.log(' Booking appointment with data:', bookingData);
+          console.log(' Doctor ID:', selectedDoctorId);
+          console.log(' Date:', selectedDate);
+          console.log(' Time:', selectedTime);
+          console.log(' Consultation Type:', selectedServiceDetails.type);
 
           const response = await bookingService.bookAppointment(bookingData);
           
-          console.log('✅ Booking successful:', response);
+          console.log(' Booking successful:', response);
           
           set({
             bookingResult: response.data,
@@ -366,30 +366,30 @@ export const useBookingStore = create(
             currentStep: 5, // Move to payment/success
           });
         } catch (error) {
-          console.error('❌ Booking failed:', error);
-          console.error('❌ Error status:', error.response?.status);
-          console.error('❌ Error data:', error.response?.data);
-          console.error('❌ Error message:', error.response?.data?.message);
+          console.error(' Booking failed:', error);
+          console.error(' Error status:', error.response?.status);
+          console.error(' Error data:', error.response?.data);
+          console.error(' Error message:', error.response?.data?.message);
           
           let errorMessage = 'فشل حجز الموعد';
           
           // Handle specific error codes
           if (error.response?.status === 409) {
-            console.error('⚠️ Conflict (409): Appointment already booked');
+            console.error('️ Conflict (409): Appointment already booked');
             errorMessage = error.response?.data?.message || 'هذا الموعد محجوز بالفعل. جاري تحديث المواعيد المتاحة...';
             
-            // ✅ Refresh booked slots to show updated availability
+            //  Refresh booked slots to show updated availability
             try {
-              console.log('🔄 Refreshing booked slots after 409...');
+              console.log(' Refreshing booked slots after 409...');
               const bookedSlotsData = await bookingService.getBookedSlots(
                 selectedDoctorId,
                 selectedDate
               );
               set({ bookedSlots: bookedSlotsData || [] });
               get().calculateAvailableSlots(selectedDate);
-              console.log('✅ Booked slots refreshed');
+              console.log(' Booked slots refreshed');
             } catch (refreshError) {
-              console.error('⚠️ Failed to refresh booked slots:', refreshError);
+              console.error('️ Failed to refresh booked slots:', refreshError);
             }
           } else if (error.response?.data?.message) {
             errorMessage = error.response.data.message;
@@ -469,7 +469,7 @@ export const useBookingStore = create(
               set({ bookedSlots: bookedSlotsData || [] });
               get().calculateAvailableSlots(currentDate);
             } catch (error) {
-              console.error('⚠️ Auto-refresh failed (continuing with current data):', error);
+              console.error('️ Auto-refresh failed (continuing with current data):', error);
               // Continue with current booked slots
             }
           }

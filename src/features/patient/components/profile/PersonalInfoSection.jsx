@@ -78,7 +78,7 @@ const PersonalInfoSection = () => {
   // Initialize personal info from store
   useEffect(() => {
     if (personalInfo && !hasInitializedInfoRef.current) {
-      console.log('🔧 Initializing personal info from store:', personalInfo);
+      console.log(' Initializing personal info from store:', personalInfo);
       const infoToUse = {
         firstName: personalInfo.firstName || '',
         lastName: personalInfo.lastName || '',
@@ -88,7 +88,7 @@ const PersonalInfoSection = () => {
         birthDate: personalInfo.birthDate ? personalInfo.birthDate.split('T')[0] : '',
       };
 
-      console.log('📝 Setting initial values:', infoToUse);
+      console.log(' Setting initial values:', infoToUse);
       setInfoValues(infoToUse);
       setProfileImagePreview(personalInfo.profileImageUrl || null);
       lastSavedInfoRef.current = JSON.stringify(infoToUse);
@@ -99,7 +99,7 @@ const PersonalInfoSection = () => {
   // Initialize address from store
   useEffect(() => {
     if (address && !hasInitializedAddressRef.current) {
-      console.log('🏠 Initializing address from store:', address);
+      console.log(' Initializing address from store:', address);
 
       // Use default Cairo coordinates if address has no coordinates
       const lat = address.latitude != null && address.latitude !== 0 ? address.latitude : 30.0444;
@@ -114,7 +114,7 @@ const PersonalInfoSection = () => {
         longitude: String(lng),
       };
 
-      console.log('📍 Setting initial address:', addressToUse);
+      console.log(' Setting initial address:', addressToUse);
       setAddressValues(addressToUse);
       lastSavedAddressRef.current = JSON.stringify(addressToUse);
       hasInitializedAddressRef.current = true;
@@ -170,7 +170,7 @@ const PersonalInfoSection = () => {
 
   // Handle map location change (from MapPicker)
   const handleMapLocationChange = (lat, lng, addressDetails) => {
-    console.log('🗺️ PersonalInfoSection: Received from MapPicker:', { lat, lng, addressDetails });
+    console.log('️ PersonalInfoSection: Received from MapPicker:', { lat, lng, addressDetails });
 
     // Map governorate name to enum value (1-27) - matches backend exactly
     const governorateMap = {
@@ -222,7 +222,7 @@ const PersonalInfoSection = () => {
     hasChangesRef.current = true;
     setAutoSaveStatus('');
 
-    console.log('✅ PersonalInfoSection: Address updated:', {
+    console.log(' PersonalInfoSection: Address updated:', {
       governorate: governorateValue,
       city: addressDetails?.city,
       street: addressDetails?.street,
@@ -284,7 +284,7 @@ const PersonalInfoSection = () => {
       }
       return null;
     } catch (error) {
-      console.error('❌ Error fetching address from coordinates:', error);
+      console.error(' Error fetching address from coordinates:', error);
       return null;
     }
   };
@@ -303,11 +303,11 @@ const PersonalInfoSection = () => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
 
-        console.log('📍 Current location:', { lat, lng });
+        console.log(' Current location:', { lat, lng });
 
         // Get address from coordinates
         const addressData = await getAddressFromCoordinates(lat, lng);
-        console.log('🗺️ Address data from reverse geocoding:', addressData);
+        console.log('️ Address data from reverse geocoding:', addressData);
 
         setAddressValues((prev) => ({
           ...prev,
@@ -325,7 +325,7 @@ const PersonalInfoSection = () => {
         setGettingLocation(false);
       },
       (error) => {
-        console.error('❌ Error getting location:', error);
+        console.error(' Error getting location:', error);
         alert('فشل الحصول على الموقع الحالي. تأكد من السماح بالوصول للموقع.');
         setGettingLocation(false);
       },
@@ -348,7 +348,7 @@ const PersonalInfoSection = () => {
       const hasAddressChanges = currentAddress !== lastSavedAddressRef.current;
       const hasImageChanges = !!profileImageFile;
 
-      console.log('📊 Change detection:', {
+      console.log(' Change detection:', {
         hasInfoChanges,
         hasAddressChanges,
         hasImageChanges,
@@ -357,12 +357,12 @@ const PersonalInfoSection = () => {
       });
 
       if (!hasInfoChanges && !hasAddressChanges && !hasImageChanges) {
-        console.log('⏭️ No changes to save, skipping...');
+        console.log('️ No changes to save, skipping...');
         hasChangesRef.current = false;
         return; // No changes to save
       }
 
-      console.log('🔄 Auto-saving changes...');
+      console.log(' Auto-saving changes...');
       // Don't show "saving" status, just save silently
 
       // Basic validation for Personal Info
@@ -373,7 +373,7 @@ const PersonalInfoSection = () => {
 
       const hasValidationErrors = Object.keys(newErrors).length > 0;
       if (hasValidationErrors) {
-        console.error('❌ Validation failed for Personal Info: Required fields are empty');
+        console.error(' Validation failed for Personal Info: Required fields are empty');
         setErrors(newErrors);
         
         // If the ONLY changes are personal info changes, we must abort completely.
@@ -384,7 +384,7 @@ const PersonalInfoSection = () => {
         }
       }
 
-      console.log('✅ Proceeding with available valid updates...');
+      console.log(' Proceeding with available valid updates...');
 
       // Prepare info data
       const infoData = {
@@ -412,13 +412,13 @@ const PersonalInfoSection = () => {
         longitude: !isNaN(lng) && lng !== 0 ? lng : 31.2357,
       };
 
-      console.log('🗺️ Address coordinates:', {
+      console.log('️ Address coordinates:', {
         original: { lat: addressValues.latitude, lng: addressValues.longitude },
         parsed: { lat, lng },
         final: { lat: addressData.latitude, lng: addressData.longitude }
       });
 
-      console.log('📤 Data to send:', {
+      console.log(' Data to send:', {
         infoData,
         addressData,
         hasImage: !!profileImageFile,
@@ -455,7 +455,7 @@ const PersonalInfoSection = () => {
           promises.push(updateAddress(addressData));
           promiseTypes.push('Address');
         } else {
-          console.warn('⚠️ Skipping address update - governorate and city are required', {
+          console.warn('️ Skipping address update - governorate and city are required', {
             governorate: addressData.governorate,
             city: addressData.city
           });
@@ -464,23 +464,23 @@ const PersonalInfoSection = () => {
 
       // If no promises, skip (shouldn't happen due to earlier check)
       if (promises.length === 0) {
-        console.log('⚠️ No updates to perform');
+        console.log('️ No updates to perform');
         setAutoSaveStatus('');
         return;
       }
 
       const results = await Promise.allSettled(promises);
-      console.log('📥 Save results:', results);
-      console.log('📋 Promise types:', promiseTypes);
-      console.log('🔢 Number of promises:', promises.length);
-      console.log('🔢 Number of results:', results.length);
+      console.log(' Save results:', results);
+      console.log(' Promise types:', promiseTypes);
+      console.log(' Number of promises:', promises.length);
+      console.log(' Number of results:', results.length);
 
       // Check if all succeeded
-      console.log('🔍 Starting success check...');
+      console.log(' Starting success check...');
       const allSuccess = results.every((r, index) => {
         const apiName = promiseTypes[index] || `API ${index}`;
 
-        console.log(`🔍 Checking ${apiName} result:`, {
+        console.log(` Checking ${apiName} result:`, {
           status: r.status,
           value: r.value,
           isSuccess: r.value?.isSuccess,
@@ -491,13 +491,13 @@ const PersonalInfoSection = () => {
         });
 
         if (r.status !== 'fulfilled') {
-          console.error(`❌ ${apiName}: Request failed (rejected)`);
+          console.error(` ${apiName}: Request failed (rejected)`);
           return false;
         }
 
         // If value is empty object {}, consider it success (Backend issue)
         const isEmptyObject = r.value && typeof r.value === 'object' && Object.keys(r.value).length === 0;
-        console.log(`🧪 ${apiName}: isEmptyObject check:`, {
+        console.log(` ${apiName}: isEmptyObject check:`, {
           hasValue: !!r.value,
           isObject: typeof r.value === 'object',
           keysLength: r.value ? Object.keys(r.value).length : null,
@@ -505,13 +505,13 @@ const PersonalInfoSection = () => {
         });
 
         if (isEmptyObject) {
-          console.log(`⚠️ ${apiName}: Backend returned empty response {}, considering it success`);
+          console.log(`️ ${apiName}: Backend returned empty response {}, considering it success`);
           return true;
         }
 
         // If value is null or undefined but status is fulfilled, consider it success
         if (!r.value) {
-          console.log(`⚠️ ${apiName}: Backend returned null/undefined, considering it success`);
+          console.log(`️ ${apiName}: Backend returned null/undefined, considering it success`);
           return true;
         }
 
@@ -523,17 +523,17 @@ const PersonalInfoSection = () => {
         const success = hasIsSuccess || (r.status === 'fulfilled' && !('isSuccess' in (r.value || {})));
 
         if (!hasIsSuccess && success) {
-          console.warn(`⚠️ ${apiName}: No isSuccess field, but status is fulfilled - considering it success`);
+          console.warn(`️ ${apiName}: No isSuccess field, but status is fulfilled - considering it success`);
         } else if (!success) {
-          console.error(`❌ ${apiName}: isSuccess = ${r.value?.isSuccess}`);
+          console.error(` ${apiName}: isSuccess = ${r.value?.isSuccess}`);
         } else {
-          console.log(`✅ ${apiName}: Success!`);
+          console.log(` ${apiName}: Success!`);
         }
 
         return success;
       });
 
-      console.log('🎯 Final result: allSuccess =', allSuccess);
+      console.log(' Final result: allSuccess =', allSuccess);
 
       if (allSuccess) {
         // Update last saved refs (no refresh to avoid loading)
@@ -542,14 +542,14 @@ const PersonalInfoSection = () => {
         setProfileImageFile(null);
         hasChangesRef.current = false;
         setAutoSaveStatus('saved');
-        console.log('✅ Auto-save complete!');
+        console.log(' Auto-save complete!');
 
         // Clear saved status after 2 seconds
         setTimeout(() => {
           setAutoSaveStatus('');
         }, 2000);
       } else {
-        console.error('⚠️ Auto-save failed:', results);
+        console.error('️ Auto-save failed:', results);
         // Log detailed error information
         results.forEach((result, index) => {
           const name = promiseTypes[index] || `API ${index}`;
@@ -566,7 +566,7 @@ const PersonalInfoSection = () => {
         }, 3000);
       }
     } catch (error) {
-      console.error('🚨 Auto-save error:', error);
+      console.error(' Auto-save error:', error);
       setAutoSaveStatus('error');
       setTimeout(() => {
         setAutoSaveStatus('');

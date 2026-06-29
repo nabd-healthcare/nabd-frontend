@@ -1,5 +1,5 @@
 /**
- * ⚠️ MOCK DATA - TO BE REMOVED WHEN API IS READY
+ * ️ MOCK DATA - TO BE REMOVED WHEN API IS READY
  * 
  * Centralized mock data for Verifier feature
  * Delete this entire file when connecting to real API endpoints

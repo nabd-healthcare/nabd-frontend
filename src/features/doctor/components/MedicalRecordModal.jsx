@@ -25,12 +25,12 @@ const MedicalRecordModal = ({ isOpen, onClose, patient }) => {
     if (isOpen && patient) {
       // Use patientId or id (fallback)
       const patientId = patient.patientId || patient.id;
-      console.log('📋 Fetching medical record for patient:', patientId, patient);
+      console.log(' Fetching medical record for patient:', patientId, patient);
       
       if (patientId) {
         fetchMedicalRecord(patientId);
       } else {
-        console.error('❌ No patient ID found:', patient);
+        console.error(' No patient ID found:', patient);
       }
     }
     

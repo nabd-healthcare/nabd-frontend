@@ -483,7 +483,7 @@ const BookingModal = ({ doctorInfo }) => {
                           }`} />
                           {formatTimeTo12Hour(slot.time)}
                           {slot.isPast && (
-                            <span className="absolute top-1 left-1 text-[10px] text-red-500">✕</span>
+                            <span className="absolute top-1 left-1 text-[10px] text-red-500"></span>
                           )}
                         </button>
                       ))}

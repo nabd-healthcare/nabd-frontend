@@ -154,7 +154,7 @@ class SignalRService {
     try {
       return await this.connection.invoke(methodName, ...args);
     } catch (error) {
-      console.error(`❌ [SignalR] Invoke failed: ${methodName}`, error);
+      console.error(` [SignalR] Invoke failed: ${methodName}`, error);
       throw error;
     }
   }

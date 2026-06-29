@@ -78,7 +78,7 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
 
   const handleAddMedication = () => {
     if (!currentMedication.medicationName || !currentMedication.dosage || !currentMedication.frequency || !currentMedication.durationDays) {
-      alert('⚠️ يرجى ملء جميع الحقول المطلوبة'); return;
+      alert('️ يرجى ملء جميع الحقول المطلوبة'); return;
     }
     setMedications([...medications, { ...currentMedication, id: Date.now(), durationDays: parseInt(currentMedication.durationDays) || 0 }]);
     setCurrentMedication({ medicationId: '', medicationName: '', dosage: '', frequency: '', durationDays: '', specialInstructions: '' });
@@ -87,10 +87,10 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
 
   const handleSavePrescription = async () => {
     try {
-      if (medications.length === 0) { alert('⚠️ يرجى إضافة دواء واحد على الأقل'); return; }
+      if (medications.length === 0) { alert('️ يرجى إضافة دواء واحد على الأقل'); return; }
       const doctorId = currentSession?.doctorId || appointmentData?.doctorId || user?.id;
       const patientIdFromSession = patientInfo?.patientId || appointmentData?.patientId || currentSession?.patientId;
-      if (!doctorId || !patientIdFromSession || !appointmentId) { alert('❌ بيانات الجلسة غير مكتملة'); return; }
+      if (!doctorId || !patientIdFromSession || !appointmentId) { alert(' بيانات الجلسة غير مكتملة'); return; }
 
       const preparedMedications = medications.map(({ id: _id, ...med }) => ({
         medicationId: med.medicationId || '00000000-0000-0000-0000-000000000000',
@@ -106,11 +106,11 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
       });
 
       if (result.success) {
-        alert('✅ تم حفظ الروشتة بنجاح!'); setMedications([]);
+        alert(' تم حفظ الروشتة بنجاح!'); setMedications([]);
         setCurrentMedication({ medicationId: '', medicationName: '', dosage: '', frequency: '', durationDays: '', specialInstructions: '' });
         setSelectedMedication(null); setMedicSearchVal('');
-      } else alert(`❌ فشل حفظ الروشتة: ${result.error}`);
-    } catch (e) { alert('❌ حدث خطأ أثناء حفظ الروشتة'); }
+      } else alert(` فشل حفظ الروشتة: ${result.error}`);
+    } catch (e) { alert(' حدث خطأ أثناء حفظ الروشتة'); }
   };
 
   return (

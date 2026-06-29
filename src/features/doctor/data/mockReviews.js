@@ -1,7 +1,7 @@
 /**
  * Mock Reviews Data
  * 
- * ⚠️ TEMPORARY DATA - FOR DEVELOPMENT ONLY
+ * ️ TEMPORARY DATA - FOR DEVELOPMENT ONLY
  * 
  * This file contains mock data for reviews based on the new backend model.
  * Delete this file when connecting to real API endpoints.
@@ -333,7 +333,7 @@ export const sortReviews = (reviews, sortBy = 'date', sortOrder = 'desc') => {
 };
 
 /**
- * 🗑️ DELETE THIS FILE WHEN CONNECTING TO REAL API
+ * ️ DELETE THIS FILE WHEN CONNECTING TO REAL API
  * 
  * Steps to remove mock data:
  * 1. Delete this file: mockReviews.js

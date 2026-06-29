@@ -65,7 +65,7 @@ export const useAppointmentStore = create(
             const response = await doctorService.getWeeklySchedule();
             const data = response.data || response;
             
-            console.log('📅 Backend schedule:', data.weeklySchedule);
+            console.log(' Backend schedule:', data.weeklySchedule);
 
             // Backend returns 12-hour format with periods - use directly
             set({
@@ -115,8 +115,8 @@ export const useAppointmentStore = create(
             };
           });
 
-          console.log('📅 Schedule data (12h):', scheduleData);
-          console.log('📅 Payload to backend:', JSON.stringify({ weeklySchedule: payload }, null, 2));
+          console.log(' Schedule data (12h):', scheduleData);
+          console.log(' Payload to backend:', JSON.stringify({ weeklySchedule: payload }, null, 2));
 
           // Optimistic update
           set((state) => ({
@@ -128,7 +128,7 @@ export const useAppointmentStore = create(
 
           try {
             const result = await doctorService.updateWeeklySchedule(payload);
-            console.log('✅ Backend response:', result);
+            console.log(' Backend response:', result);
 
             set((state) => ({
               loading: { ...state.loading, schedule: false },
@@ -144,8 +144,8 @@ export const useAppointmentStore = create(
 
             return { success: true };
           } catch (error) {
-            console.error('❌ Update schedule error:', error);
-            console.error('❌ Error response:', error.response?.data);
+            console.error(' Update schedule error:', error);
+            console.error(' Error response:', error.response?.data);
             
             // Rollback
             set((state) => ({
@@ -159,7 +159,7 @@ export const useAppointmentStore = create(
             
             // Show alert with error details
             const errorMsg = error.response?.data?.message || error.message || 'فشل حفظ جدول المواعيد';
-            alert(`❌ ${errorMsg}`);
+            alert(` ${errorMsg}`);
             
             return { success: false, error };
           }
@@ -176,20 +176,20 @@ export const useAppointmentStore = create(
 
           try {
             const response = await doctorService.getExceptionalDates();
-            console.log('📅 Fetch exceptions response:', response);
+            console.log(' Fetch exceptions response:', response);
             
             // Handle new response format: { isSuccess, data: { exceptionalDates: [...] } }
             const data = response.data || response;
             const exceptions = data.exceptionalDates || data.data?.exceptionalDates || data || [];
             
-            console.log('📅 Parsed exceptions:', exceptions);
+            console.log(' Parsed exceptions:', exceptions);
 
             set({
               exceptionalDates: exceptions,
               loading: { ...get().loading, exceptions: false },
             });
           } catch (error) {
-            console.error('📅 Failed to fetch exceptions:', error);
+            console.error(' Failed to fetch exceptions:', error);
             set((state) => ({
               loading: { ...state.loading, exceptions: false },
               error: { 
@@ -208,7 +208,7 @@ export const useAppointmentStore = create(
         addExceptionalDate: async (exceptionData) => {
           const previousExceptions = get().exceptionalDates;
           
-          console.log('📅 Adding exceptional date:', exceptionData);
+          console.log(' Adding exceptional date:', exceptionData);
 
           // Optimistic update
           const newException = { ...exceptionData, id: Date.now() };
@@ -220,13 +220,13 @@ export const useAppointmentStore = create(
 
           try {
             const response = await doctorService.addExceptionalDate(exceptionData);
-            console.log('📅 Exception added successfully:', response);
+            console.log(' Exception added successfully:', response);
             
             // Handle new response format: { isSuccess, data: {...} }
             const responseData = response.data || response;
             const savedException = responseData.data || responseData;
             
-            console.log('📅 Saved exception:', savedException);
+            console.log(' Saved exception:', savedException);
 
             // Update with server ID
             set((state) => ({
@@ -245,8 +245,8 @@ export const useAppointmentStore = create(
 
             return { success: true };
           } catch (error) {
-            console.error('📅 Failed to add exception:', error);
-            console.error('📅 Error response:', error.response);
+            console.error(' Failed to add exception:', error);
+            console.error(' Error response:', error.response);
             
             // Rollback
             set((state) => ({

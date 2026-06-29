@@ -65,19 +65,19 @@ const PrescriptionsPage = () => {
     ];
 
     try {
-      console.log('💊 [Prescriptions API] Fetching prescriptions for patient:', user?.id);
+      console.log(' [Prescriptions API] Fetching prescriptions for patient:', user?.id);
 
       const response = await patientService.getMyPrescriptions();
 
       // Determine array structure (Backend wrapper { isSuccess: true, data: [...] } vs straight array [...])
       let rawData = Array.isArray(response) ? response : (response?.data || []);
 
-      console.log('✅ [Prescriptions API] Successfully retrieved raw data:', rawData);
+      console.log(' [Prescriptions API] Successfully retrieved raw data:', rawData);
 
       // If backend returns an empty array, trigger our fallback.
       // (As requested: do not show empty state if mock data should exist)
       if (rawData.length === 0) {
-        console.warn('⚠️ [Prescriptions API] Received empty array from backend! Failing back to mock data...');
+        console.warn('️ [Prescriptions API] Received empty array from backend! Failing back to mock data...');
         rawData = mockData;
       }
 
@@ -88,12 +88,12 @@ const PrescriptionsPage = () => {
         patientId: user?.id
       }));
 
-      console.log('✅ [Prescriptions API] Storing parsed array into state:', mappedPrescriptions);
+      console.log(' [Prescriptions API] Storing parsed array into state:', mappedPrescriptions);
       setPrescriptions(mappedPrescriptions);
 
     } catch (err) {
-      console.error('❌ [Prescriptions API] Critical Error fetching prescriptions:', err);
-      console.warn('⚠️ [Prescriptions API] Network/Server failed! Applying fallback mock data instead...');
+      console.error(' [Prescriptions API] Critical Error fetching prescriptions:', err);
+      console.warn('️ [Prescriptions API] Network/Server failed! Applying fallback mock data instead...');
 
       // Map our predefined mocks to guarantee a visual presentation for the user
       const mappedMockPrescriptions = mockData.map(prescription => ({

@@ -40,7 +40,7 @@ const DoctorsPage = () => {
 
   const filteredDoctors = filteredApplications || [];
 
-  console.log('🔍 [DoctorsPage] Debug:', {
+  console.log(' [DoctorsPage] Debug:', {
     activeStatus: filters.activeStatus,
     loading: loading.applications,
     doctorsCount: filteredDoctors.length,

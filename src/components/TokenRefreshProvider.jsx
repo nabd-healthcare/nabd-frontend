@@ -41,7 +41,7 @@ const TokenRefreshProvider = ({
       const isExpired = isTokenExpired(accessToken, bufferMinutes);
       
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('🔐 Token Status Debug:');
+      console.log(' Token Status Debug:');
       console.log('  • Authenticated:', isAuthenticated);
       console.log('  • Remaining Time:', formatRemainingTime(remainingTime));
       console.log('  • Needs Refresh:', isExpired);

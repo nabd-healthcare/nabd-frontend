@@ -14,7 +14,7 @@ import { resolveImageUrl } from '@/utils/helpers';
  * Displays application summary in a card format
  */
 const ApplicationCard = ({ application, onViewDetails }) => {
-  console.log('🎴 [ApplicationCard] Rendering:', application);
+  console.log(' [ApplicationCard] Rendering:', application);
 
   const statusColors = STATUS_COLORS[application.verificationStatus || application.status];
 

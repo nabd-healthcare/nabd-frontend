@@ -147,26 +147,26 @@ export const useClinicStore = create(
 
           try {
             const response = await doctorService.getClinicAddress();
-            console.log('🔍 Store: Fetch response:', response);
-            console.log('🔍 Store: Response keys:', Object.keys(response));
-            console.log('🔍 Store: Response.data:', response.data);
-            console.log('🔍 Store: Response.data type:', typeof response.data);
+            console.log(' Store: Fetch response:', response);
+            console.log(' Store: Response keys:', Object.keys(response));
+            console.log(' Store: Response.data:', response.data);
+            console.log(' Store: Response.data type:', typeof response.data);
             
             // Backend returns: { isSuccess, message, data: {...}, errors, statusCode }
             // apiClient.get already extracts response.data
             // So response = { isSuccess, message, data: {...} }
             
             // Check if response.data exists and has data property
-            console.log('🔍 Store: response.data exists?', !!response.data);
-            console.log('🔍 Store: response.data is object?', typeof response.data === 'object');
+            console.log(' Store: response.data exists?', !!response.data);
+            console.log(' Store: response.data is object?', typeof response.data === 'object');
             
             const addressData = response.data || response;
-            console.log('📦 Store: Address data:', addressData);
-            console.log('📦 Store: Address data keys:', Object.keys(addressData));
-            console.log('📦 Store: Address data.latitude:', addressData.latitude);
-            console.log('📦 Store: Address data.longitude:', addressData.longitude);
-            console.log('📦 Store: Governorate value:', addressData.governorate, 'Type:', typeof addressData.governorate);
-            console.log('📍 Store: Coordinates from addressData:', {
+            console.log(' Store: Address data:', addressData);
+            console.log(' Store: Address data keys:', Object.keys(addressData));
+            console.log(' Store: Address data.latitude:', addressData.latitude);
+            console.log(' Store: Address data.longitude:', addressData.longitude);
+            console.log(' Store: Governorate value:', addressData.governorate, 'Type:', typeof addressData.governorate);
+            console.log(' Store: Coordinates from addressData:', {
               latitude: addressData.latitude,
               longitude: addressData.longitude,
               latType: typeof addressData.latitude,
@@ -188,20 +188,20 @@ export const useClinicStore = create(
               longitude: addressData.longitude ?? null,
             };
             
-            console.log('💾 Store: Setting clinicAddress to:', finalAddress);
-            console.log('💾 Store: Final latitude:', finalAddress.latitude, 'Type:', typeof finalAddress.latitude);
-            console.log('💾 Store: Final longitude:', finalAddress.longitude, 'Type:', typeof finalAddress.longitude);
+            console.log(' Store: Setting clinicAddress to:', finalAddress);
+            console.log(' Store: Final latitude:', finalAddress.latitude, 'Type:', typeof finalAddress.latitude);
+            console.log(' Store: Final longitude:', finalAddress.longitude, 'Type:', typeof finalAddress.longitude);
             
             set({
               clinicAddress: finalAddress,
               loading: { ...get().loading, address: false },
             });
             
-            console.log('✅ Store: Updated! Verifying store state...');
+            console.log(' Store: Updated! Verifying store state...');
             const storeState = get().clinicAddress;
-            console.log('✅ Store: Current clinicAddress in store:', storeState);
-            console.log('✅ Store: Store latitude:', storeState.latitude, 'Type:', typeof storeState.latitude);
-            console.log('✅ Store: Store longitude:', storeState.longitude, 'Type:', typeof storeState.longitude);
+            console.log(' Store: Current clinicAddress in store:', storeState);
+            console.log(' Store: Store latitude:', storeState.latitude, 'Type:', typeof storeState.latitude);
+            console.log(' Store: Store longitude:', storeState.longitude, 'Type:', typeof storeState.longitude);
           } catch (error) {
             set((state) => ({
               loading: { ...state.loading, address: false },
@@ -227,18 +227,18 @@ export const useClinicStore = create(
           }));
 
           try {
-            console.log('🔵 Store: Calling API with data:', data);
+            console.log(' Store: Calling API with data:', data);
             const response = await doctorService.updateClinicAddress(data);
-            console.log('✅ Store: API response:', response);
+            console.log(' Store: API response:', response);
 
             // Re-fetch to get the saved data from backend
-            console.log('🔄 Re-fetching address from backend...');
+            console.log(' Re-fetching address from backend...');
             const fetchResponse = await doctorService.getClinicAddress();
-            console.log('🔍 Re-fetch response:', fetchResponse);
+            console.log(' Re-fetch response:', fetchResponse);
             
             // Backend returns: { isSuccess, message, data: {...}, errors, statusCode }
             const savedData = fetchResponse.data || fetchResponse;
-            console.log('✅ Fetched saved data:', savedData);
+            console.log(' Fetched saved data:', savedData);
 
             set((state) => ({
               clinicAddress: {
@@ -262,7 +262,7 @@ export const useClinicStore = create(
 
             return { success: true, data: savedData };
           } catch (error) {
-            console.error('❌ Store: Save failed:', error.response?.data);
+            console.error(' Store: Save failed:', error.response?.data);
             // Rollback
             set((state) => ({
               clinicAddress: previousAddress,
@@ -277,7 +277,7 @@ export const useClinicStore = create(
          * Fetch clinic images
          */
         fetchClinicImages: async () => {
-          console.log('🏪 Store: Fetching clinic images...');
+          console.log(' Store: Fetching clinic images...');
           
           set((state) => ({
             loading: { ...state.loading, images: true },
@@ -286,20 +286,20 @@ export const useClinicStore = create(
 
           try {
             const response = await doctorService.getClinicImages();
-            console.log('🏪 Store: Fetch response:', response);
+            console.log(' Store: Fetch response:', response);
             
             const data = response.data || response;
             const images = data.images || data || [];
             
-            console.log('🏪 Store: Parsed images:', images);
-            console.log('🏪 Store: Images count:', images.length);
+            console.log(' Store: Parsed images:', images);
+            console.log(' Store: Images count:', images.length);
 
             set({
               clinicImages: images,
               loading: { ...get().loading, images: false },
             });
           } catch (error) {
-            console.error('🏪 Store: Fetch failed:', error);
+            console.error(' Store: Fetch failed:', error);
             set((state) => ({
               loading: { ...state.loading, images: false },
               error: { ...state.error, images: error.response?.data?.message || 'فشل تحميل صور العيادة' },
@@ -314,7 +314,7 @@ export const useClinicStore = create(
          * @param {number} order - Image order
          */
         uploadClinicImage: async (file, order) => {
-          console.log('🏪 Store: Uploading image with order:', order);
+          console.log(' Store: Uploading image with order:', order);
           
           set((state) => ({
             loading: { ...state.loading, uploading: true },
@@ -325,8 +325,8 @@ export const useClinicStore = create(
             const response = await doctorService.uploadClinicImage(file, order);
             const image = response.data || response;
             
-            console.log('🏪 Store: Image uploaded successfully. Response:', image);
-            console.log('🏪 Store: Current clinicImages count:', get().clinicImages.length);
+            console.log(' Store: Image uploaded successfully. Response:', image);
+            console.log(' Store: Current clinicImages count:', get().clinicImages.length);
 
             set((state) => ({
               clinicImages: [...state.clinicImages, image],
@@ -334,7 +334,7 @@ export const useClinicStore = create(
               success: { ...state.success, images: 'تم رفع الصورة بنجاح' },
             }));
             
-            console.log('🏪 Store: New clinicImages count:', get().clinicImages.length);
+            console.log(' Store: New clinicImages count:', get().clinicImages.length);
 
             setTimeout(() => {
               set((state) => ({
@@ -344,7 +344,7 @@ export const useClinicStore = create(
 
             return { success: true };
           } catch (error) {
-            console.error('🏪 Store: Upload failed:', error);
+            console.error(' Store: Upload failed:', error);
             set((state) => ({
               loading: { ...state.loading, uploading: false },
               error: { ...state.error, images: error.response?.data?.message || 'فشل رفع الصورة' },

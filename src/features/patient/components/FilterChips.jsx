@@ -245,7 +245,7 @@ const FilterChips = ({
           <FaClock className="text-xs" />
           <span>متاح اليوم</span>
           {availableToday && (
-            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">✓</span>
+            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs"></span>
           )}
         </button>
 

@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true; // Merges mock data with real data for testing
+const USE_MOCK_DATA = false; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for Doctor Dashboard Statistics
@@ -52,7 +52,7 @@ export const useDashboardStats = () => {
       id: 'rating',
       label: 'التقييم العام',
       value: apiData.averageRating || 0,
-      unit: '⭐',
+      unit: '',
       description: 'متوسط التقييمات',
       icon: FaStar,
       color: '#F59E0B', // Amber/Orange
@@ -79,7 +79,7 @@ export const useDashboardStats = () => {
     setLoading(true);
     setError(null);
 
-    // ❌ Removed early return for mock data to allow merging below
+    //  Removed early return for mock data to allow merging below
     try {
       const response = await doctorService.getDashboardStats();
 
@@ -87,7 +87,7 @@ export const useDashboardStats = () => {
         let finalStatsObject = response.data;
 
         if (USE_MOCK_DATA) {
-            console.log('⚠️ Merging MOCK DATA with real dashboard stats');
+            console.log('️ Merging MOCK DATA with real dashboard stats');
             finalStatsObject = {
                 totalPatients: (finalStatsObject.totalPatients || 0) + mockStats.totalPatients,
                 todayAppointments: (finalStatsObject.todayAppointments || 0) + mockStats.todayAppointments,
@@ -104,7 +104,7 @@ export const useDashboardStats = () => {
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل الإحصائيات';
       setError(errorMessage);
-      console.error('❌ Error fetching dashboard stats:', err);
+      console.error(' Error fetching dashboard stats:', err);
     } finally {
       setLoading(false);
     }

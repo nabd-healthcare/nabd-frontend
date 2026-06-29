@@ -145,8 +145,8 @@ const AIDiagnosisTab = ({ patientInfo }) => {
 
     // Build the user message shown in the chat
     const userMsgContent = inputMode === 'text'
-      ? `📝 ملاحظة سريرية: ${clinicalNote.trim()} | العمر: ${age} | النوع: ${sex === 'M' ? 'ذكر' : 'أنثى'}`
-      : `🔍 تحليل أعراض: ${selectedSymptoms.map(s => s.name).join(' ، ')} | العمر: ${age} | النوع: ${sex === 'M' ? 'ذكر' : 'أنثى'}`;
+      ? ` ملاحظة سريرية: ${clinicalNote.trim()} | العمر: ${age} | النوع: ${sex === 'M' ? 'ذكر' : 'أنثى'}`
+      : ` تحليل أعراض: ${selectedSymptoms.map(s => s.name).join(' ، ')} | العمر: ${age} | النوع: ${sex === 'M' ? 'ذكر' : 'أنثى'}`;
 
     const summaryMsg = {
       id: Date.now(), type: 'user',
@@ -157,7 +157,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
     // Show a "Mistral is processing" indicator for text mode
     const loadingMsg = inputMode === 'text' ? {
       id: Date.now() + 0.5, type: 'ai', isProcessing: true,
-      content: '🔄 Mistral يحلل الملاحظة السريرية ويستخرج الأعراض...',
+      content: ' Mistral يحلل الملاحظة السريرية ويستخرج الأعراض...',
       timestamp: new Date()
     } : null;
 
@@ -216,7 +216,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
       }
       setMessages(prev => [...prev, {
         id: Date.now() + 1, type: 'ai', isError: true,
-        content: '⚠️ حدث خطأ في التشخيص. يرجى المحاولة لاحقاً.',
+        content: '️ حدث خطأ في التشخيص. يرجى المحاولة لاحقاً.',
         timestamp: new Date()
       }]);
     } finally {
@@ -285,7 +285,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
                       {message.extractedCodes && message.extractedCodes.length > 0 && (
                         <div className="bg-[#0070CD]/5 border border-[#0070CD]/15 rounded-xl p-3">
                           <p className="text-[9px] font-black text-[#0070CD] uppercase tracking-widest mb-2">
-                            🔬 الأعراض التي تم استخراجها
+                             الأعراض التي تم استخراجها
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             {message.extractedCodes.map(code => (
@@ -398,7 +398,7 @@ const AIDiagnosisTab = ({ patientInfo }) => {
 
           {/* Sex toggle */}
           <div className="flex bg-slate-100 rounded-2xl p-1 shrink-0">
-            {[{ val: 'M', label: 'ذكر', icon: '♂' }, { val: 'F', label: 'أنثى', icon: '♀' }].map(opt => (
+            {[{ val: 'M', label: 'ذكر', icon: '' }, { val: 'F', label: 'أنثى', icon: '' }].map(opt => (
               <button
                 key={opt.val}
                 id={`ai-sex-${opt.val.toLowerCase()}`}

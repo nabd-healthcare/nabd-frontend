@@ -20,7 +20,7 @@ class PatientService {
 
     // MOCK DATA FALLBACK
     if (!response.data?.data) {
-      console.log('⚠️ No reviews found, using mock data');
+      console.log('️ No reviews found, using mock data');
       return {
         items: [
           {
@@ -133,10 +133,10 @@ class PatientService {
    * @param {Object} data - Personal info data
    */
   async updatePersonalInfo(data) {
-    console.log('📝 Updating personal info:', data);
+    console.log(' Updating personal info:', data);
 
     const response = await apiClient.put('/Patients/me/profile', data);
-    console.log('✅ Personal info updated:', response.data);
+    console.log(' Personal info updated:', response.data);
     return response.data;
   }
 
@@ -154,13 +154,13 @@ class PatientService {
    * PUT /Patients/me/address
    */
   async updateAddress(data) {
-    console.log('📍 Updating address:', {
+    console.log(' Updating address:', {
       ...data,
       governorateType: typeof data.governorate,
       governorateValue: data.governorate,
     });
     const response = await apiClient.put('/Patients/me/address', data);
-    console.log('✅ Address updated:', response.data);
+    console.log(' Address updated:', response.data);
     return response.data;
   }
 
@@ -171,7 +171,7 @@ class PatientService {
    * @param {File} imageFile - Profile image file
    */
   async updateProfileImage(imageFile) {
-    console.log('🖼️ Updating profile image:', imageFile?.name);
+    console.log('️ Updating profile image:', imageFile?.name);
 
     const formData = new FormData();
     formData.append('profileImage', imageFile);
@@ -180,7 +180,7 @@ class PatientService {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
 
-    console.log('✅ Profile image updated:', response.data);
+    console.log(' Profile image updated:', response.data);
     return response.data;
   }
 
@@ -245,26 +245,26 @@ class PatientService {
    */
   async getPharmacyResponse(orderId) {
     try {
-      console.log(`📋 Fetching pharmacy response for order: ${orderId}`);
+      console.log(` Fetching pharmacy response for order: ${orderId}`);
       const response = await apiClient.get(`/patients/me/orders/${orderId}/pharmacy-response`);
-      console.log('✅ Pharmacy response fetched:', response.data?.data);
+      console.log(' Pharmacy response fetched:', response.data?.data);
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ Error fetching pharmacy response:', error);
+      console.error(' Error fetching pharmacy response:', error);
       throw error;
     }
   }
 
   async confirmPharmacyOrder(orderId, paymentData) {
     try {
-      console.log('🧾 Confirming pharmacy order:', { orderId, hasPaymentData: !!paymentData });
+      console.log(' Confirming pharmacy order:', { orderId, hasPaymentData: !!paymentData });
 
       const response = await apiClient.put(`/patients/me/orders/${orderId}/confirm`);
 
-      console.log('✅ Order confirmed:', response.data);
+      console.log(' Order confirmed:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error confirming pharmacy order:', error);
+      console.error(' Error confirming pharmacy order:', error);
       throw error;
     }
   }
@@ -277,13 +277,13 @@ class PatientService {
    */
   async getPrescriptionPharmacyResponses(prescriptionId) {
     try {
-      console.log(`📋 Fetching pharmacy responses for prescription: ${prescriptionId}`);
+      console.log(` Fetching pharmacy responses for prescription: ${prescriptionId}`);
 
       // Try the correct endpoint path (with capital P in Patients)
       const response = await apiClient.get(`/Patients/me/prescriptions/${prescriptionId}/pharmacy-responses`);
 
-      console.log('✅ Raw API response:', response.data);
-      console.log('✅ Response structure check:', {
+      console.log(' Raw API response:', response.data);
+      console.log(' Response structure check:', {
         hasData: !!response.data,
         hasPrescriptionId: !!response.data?.prescriptionId,
         hasPharmacyResponses: !!response.data?.pharmacyResponses,
@@ -292,15 +292,15 @@ class PatientService {
 
       // The API returns data directly, not wrapped in a data field
       if (response.data && response.data.prescriptionId) {
-        console.log('✅ Valid prescription pharmacy response found');
+        console.log(' Valid prescription pharmacy response found');
         return response.data;
       } else {
-        console.warn('⚠️ API response does not contain expected prescription data');
+        console.warn('️ API response does not contain expected prescription data');
         return null;
       }
     } catch (error) {
-      console.error('❌ Error fetching prescription pharmacy responses:', error);
-      console.error('❌ Error details:', {
+      console.error(' Error fetching prescription pharmacy responses:', error);
+      console.error(' Error details:', {
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data
@@ -315,13 +315,13 @@ class PatientService {
 
   async getUpcomingAppointments() {
     const response = await apiClient.get('/Patients/me/appointments/upcoming');
-    console.log('📅 Upcoming appointments response:', response.data);
+    console.log(' Upcoming appointments response:', response.data);
     return response.data?.data || response.data || [];
   }
 
   async getPastAppointments() {
     const response = await apiClient.get('/Patients/me/appointments/past');
-    console.log('📅 Past appointments response:', response.data);
+    console.log(' Past appointments response:', response.data);
     return response.data?.data || response.data || [];
   }
 
@@ -423,18 +423,18 @@ class PatientService {
    */
   async getNearbyLaboratories(params = {}) {
     try {
-      console.log('🔍 Fetching nearby laboratories with params:', params);
+      console.log(' Fetching nearby laboratories with params:', params);
       const response = await apiClient.get('/Patients/me/laboratories/nearby', { params });
 
       // Response comes directly in response.data (not nested in response.data.data)
       const data = response.data || {};
 
-      console.log('📦 Raw response:', data);
-      console.log(`✅ Found ${data.totalFound || 0} laboratories within ${data.searchRadiusKm || 0}km`);
+      console.log(' Raw response:', data);
+      console.log(` Found ${data.totalFound || 0} laboratories within ${data.searchRadiusKm || 0}km`);
 
       return data;
     } catch (error) {
-      console.error('❌ Error fetching nearby laboratories:', error);
+      console.error(' Error fetching nearby laboratories:', error);
       throw error;
     }
   }
@@ -450,13 +450,13 @@ class PatientService {
    */
   async createLabOrder(orderData) {
     try {
-      console.log('📝 Creating lab order:', orderData);
+      console.log(' Creating lab order:', orderData);
       const response = await apiClient.post('/Patients/me/lab-orders', orderData);
       const order = response.data?.data || {};
-      console.log('✅ Lab order created successfully:', order);
+      console.log(' Lab order created successfully:', order);
       return order;
     } catch (error) {
-      console.error('❌ Error creating lab order:', error);
+      console.error(' Error creating lab order:', error);
       throw error;
     }
   }
@@ -474,17 +474,17 @@ class PatientService {
    */
   async sendPrescriptionToPharmacy(prescriptionId, pharmacyId) {
     try {
-      console.log(`📤 Sending prescription ${prescriptionId} to pharmacy ${pharmacyId}...`);
+      console.log(` Sending prescription ${prescriptionId} to pharmacy ${pharmacyId}...`);
 
       const response = await apiClient.post(
         `/Patients/me/prescriptions/${prescriptionId}/send-to-pharmacy`,
         { pharmacyId }
       );
 
-      console.log('✅ Prescription sent successfully:', response.data);
+      console.log(' Prescription sent successfully:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error sending prescription to pharmacy:', error);
+      console.error(' Error sending prescription to pharmacy:', error);
       throw error;
     }
   }
@@ -497,12 +497,12 @@ class PatientService {
    */
   async getMyPrescriptions() {
     try {
-      console.log('💊 Fetching patient prescriptions list...');
+      console.log(' Fetching patient prescriptions list...');
       const response = await apiClient.get('/Patients/me/prescriptions/list');
-      console.log('✅ Prescriptions list:', response.data);
+      console.log(' Prescriptions list:', response.data);
       return response.data || [];
     } catch (error) {
-      console.error('❌ Error fetching prescriptions:', error);
+      console.error(' Error fetching prescriptions:', error);
       throw error;
     }
   }
@@ -528,13 +528,13 @@ class PatientService {
    */
   async getPrescriptionDetails(patientId, doctorId, prescriptionId) {
     try {
-      console.log('💊 Fetching prescription details:', { patientId, doctorId, prescriptionId });
+      console.log(' Fetching prescription details:', { patientId, doctorId, prescriptionId });
 
       const response = await apiClient.get(
         `/prescriptions/patient/${patientId}/doctor/${doctorId}/prescription/${prescriptionId}`
       );
 
-      console.log('✅ Prescription details:', response.data);
+      console.log(' Prescription details:', response.data);
 
       // Extract data from wrapper
       return {
@@ -542,7 +542,7 @@ class PatientService {
         data: response.data?.data || response.data,
       };
     } catch (error) {
-      console.error('❌ Error fetching prescription:', error);
+      console.error(' Error fetching prescription:', error);
       return {
         success: false,
         error: error.response?.data?.message || 'فشل تحميل الروشتة',
@@ -568,7 +568,7 @@ class PatientService {
         };
       }
 
-      console.error('❌ Error fetching prescription:', error);
+      console.error(' Error fetching prescription:', error);
       return {
         success: false,
         error: error.response?.data?.message || 'فشل تحميل الروشتة',
@@ -587,12 +587,12 @@ class PatientService {
    */
   async getMyLabResults() {
     try {
-      console.log('🔬 Fetching patient lab results list...');
+      console.log(' Fetching patient lab results list...');
       const response = await apiClient.get('/Patients/me/lab-results/list');
-      console.log('✅ Lab results list:', response.data);
+      console.log(' Lab results list:', response.data);
       return response.data || [];
     } catch (error) {
-      console.error('❌ Error fetching lab results:', error);
+      console.error(' Error fetching lab results:', error);
       throw error;
     }
   }
@@ -608,13 +608,13 @@ class PatientService {
    */
   async getLabResultDetails(patientId, doctorId, labResultId) {
     try {
-      console.log('🔬 Fetching lab result details:', { patientId, doctorId, labResultId });
+      console.log(' Fetching lab result details:', { patientId, doctorId, labResultId });
 
       const response = await apiClient.get(
         `/lab-results/patient/${patientId}/doctor/${doctorId}/lab-result/${labResultId}`
       );
 
-      console.log('✅ Lab result details:', response.data);
+      console.log(' Lab result details:', response.data);
 
       // Extract data from wrapper
       return {
@@ -622,7 +622,7 @@ class PatientService {
         data: response.data?.data || response.data,
       };
     } catch (error) {
-      console.error('❌ Error fetching lab result:', error);
+      console.error(' Error fetching lab result:', error);
       return {
         success: false,
         error: error.response?.data?.message || 'فشل تحميل نتيجة التحليل',
@@ -638,12 +638,12 @@ class PatientService {
    */
   async getLabResultLaboratoryResponses(labResultId) {
     try {
-      console.log(`📋 Fetching laboratory responses for lab result: ${labResultId}`);
+      console.log(` Fetching laboratory responses for lab result: ${labResultId}`);
 
       const response = await apiClient.get(`/Patients/me/lab-results/${labResultId}/laboratory-responses`);
 
-      console.log('✅ Raw API response:', response.data);
-      console.log('✅ Response structure check:', {
+      console.log(' Raw API response:', response.data);
+      console.log(' Response structure check:', {
         hasData: !!response.data,
         hasLabResultId: !!response.data?.labResultId,
         hasLaboratoryResponses: !!response.data?.laboratoryResponses,
@@ -652,15 +652,15 @@ class PatientService {
 
       // The API returns data directly, not wrapped in a data field
       if (response.data && response.data.labResultId) {
-        console.log('✅ Valid lab result laboratory response found');
+        console.log(' Valid lab result laboratory response found');
         return response.data;
       } else {
-        console.warn('⚠️ API response does not contain expected lab result data');
+        console.warn('️ API response does not contain expected lab result data');
         return null;
       }
     } catch (error) {
-      console.error('❌ Error fetching lab result laboratory responses:', error);
-      console.error('❌ Error details:', {
+      console.error(' Error fetching lab result laboratory responses:', error);
+      console.error(' Error details:', {
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data
@@ -678,17 +678,17 @@ class PatientService {
    */
   async sendLabResultToLaboratory(labResultId, laboratoryId) {
     try {
-      console.log(`📤 Sending lab result ${labResultId} to laboratory ${laboratoryId}...`);
+      console.log(` Sending lab result ${labResultId} to laboratory ${laboratoryId}...`);
 
       const response = await apiClient.post(
         `/Patients/me/lab-results/${labResultId}/send-to-laboratory`,
         { laboratoryId }
       );
 
-      console.log('✅ Lab result sent successfully:', response.data);
+      console.log(' Lab result sent successfully:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error sending lab result to laboratory:', error);
+      console.error(' Error sending lab result to laboratory:', error);
       throw error;
     }
   }
@@ -701,12 +701,12 @@ class PatientService {
    */
   async getLaboratoryResponse(orderId) {
     try {
-      console.log(`📋 Fetching laboratory response for order: ${orderId}`);
+      console.log(` Fetching laboratory response for order: ${orderId}`);
       const response = await apiClient.get(`/patients/me/lab-orders/${orderId}/laboratory-response`);
-      console.log('✅ Laboratory response fetched:', response.data?.data);
+      console.log(' Laboratory response fetched:', response.data?.data);
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ Error fetching laboratory response:', error);
+      console.error(' Error fetching laboratory response:', error);
       throw error;
     }
   }
@@ -719,14 +719,14 @@ class PatientService {
    */
   async confirmLaboratoryOrder(orderId) {
     try {
-      console.log('🧾 Confirming laboratory order:', { orderId });
+      console.log(' Confirming laboratory order:', { orderId });
 
       const response = await apiClient.put(`/patients/me/lab-orders/${orderId}/confirm`);
 
-      console.log('✅ Lab order confirmed:', response.data);
+      console.log(' Lab order confirmed:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error confirming laboratory order:', error);
+      console.error(' Error confirming laboratory order:', error);
       throw error;
     }
   }
@@ -752,7 +752,7 @@ class PatientService {
    */
   async submitDoctorRating(data) {
     try {
-      console.log('⭐ Submitting doctor rating:', data);
+      console.log(' Submitting doctor rating:', data);
 
       const response = await apiClient.post(
         '/patients/me/reviews',
@@ -768,10 +768,10 @@ class PatientService {
         }
       );
 
-      console.log('✅ Rating submitted successfully:', response.data);
+      console.log(' Rating submitted successfully:', response.data);
       return response.data;
     } catch (error) {
-      console.error('❌ Error submitting rating:', error);
+      console.error(' Error submitting rating:', error);
       throw error;
     }
   }
@@ -788,13 +788,13 @@ class PatientService {
    */
   async getLabPrescriptions() {
     try {
-      console.log('🔬 Fetching patient lab prescriptions...');
+      console.log(' Fetching patient lab prescriptions...');
       const response = await apiClient.get('/Patients/me/lab-prescriptions');
       const prescriptions = response.data?.data || [];
-      console.log(`✅ Fetched ${prescriptions.length} lab prescriptions`);
+      console.log(` Fetched ${prescriptions.length} lab prescriptions`);
       return prescriptions;
     } catch (error) {
-      console.error('❌ Error fetching lab prescriptions:', error);
+      console.error(' Error fetching lab prescriptions:', error);
       throw error;
     }
   }
@@ -806,13 +806,13 @@ class PatientService {
    */
   async getMyLabOrders() {
     try {
-      console.log('🔬 Fetching patient lab orders...');
+      console.log(' Fetching patient lab orders...');
       const response = await apiClient.get('/Patients/me/lab-orders');
       const orders = response.data?.data || [];
-      console.log(`✅ Fetched ${orders.length} lab orders`);
+      console.log(` Fetched ${orders.length} lab orders`);
       return orders;
     } catch (error) {
-      console.error('❌ Error fetching lab orders:', error);
+      console.error(' Error fetching lab orders:', error);
       throw error;
     }
   }
@@ -824,13 +824,13 @@ class PatientService {
    */
   async getActiveLabOrders() {
     try {
-      console.log('🔬 Fetching active lab orders...');
+      console.log(' Fetching active lab orders...');
       const response = await apiClient.get('/Patients/me/lab-orders/active');
       const orders = response.data?.data || [];
-      console.log(`✅ Fetched ${orders.length} active lab orders`);
+      console.log(` Fetched ${orders.length} active lab orders`);
       return orders;
     } catch (error) {
-      console.error('❌ Error fetching active lab orders:', error);
+      console.error(' Error fetching active lab orders:', error);
       throw error;
     }
   }
@@ -842,13 +842,13 @@ class PatientService {
    */
   async getCompletedLabOrders() {
     try {
-      console.log('🔬 Fetching completed lab orders...');
+      console.log(' Fetching completed lab orders...');
       const response = await apiClient.get('/Patients/me/lab-orders/completed');
       const orders = response.data?.data || [];
-      console.log(`✅ Fetched ${orders.length} completed lab orders`);
+      console.log(` Fetched ${orders.length} completed lab orders`);
       return orders;
     } catch (error) {
-      console.error('❌ Error fetching completed lab orders:', error);
+      console.error(' Error fetching completed lab orders:', error);
       throw error;
     }
   }

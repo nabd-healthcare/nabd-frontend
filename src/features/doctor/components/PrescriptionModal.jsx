@@ -187,7 +187,7 @@ const PrescriptionModal = ({ isOpen, onClose, patient }) => {
                       <div className="grid grid-cols-2 gap-3">
                         {/* Dosage */}
                         <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                          <p className="text-xs font-bold text-teal-600 mb-2">💊 الجرعة</p>
+                          <p className="text-xs font-bold text-teal-600 mb-2"> الجرعة</p>
                           <p className="text-sm font-black text-slate-900">{med.dosage}</p>
                         </div>
 
@@ -202,14 +202,14 @@ const PrescriptionModal = ({ isOpen, onClose, patient }) => {
 
                         {/* Duration */}
                         <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                          <p className="text-xs font-bold text-teal-600 mb-2">⏱️ المدة</p>
+                          <p className="text-xs font-bold text-teal-600 mb-2">️ المدة</p>
                           <p className="text-sm font-black text-slate-900">{med.duration}</p>
                         </div>
 
                         {/* Notes */}
                         {med.notes && (
                           <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200 shadow-sm">
-                            <p className="text-xs font-bold text-amber-700 mb-2">📝 ملاحظات</p>
+                            <p className="text-xs font-bold text-amber-700 mb-2"> ملاحظات</p>
                             <p className="text-sm font-black text-slate-900">{med.notes}</p>
                           </div>
                         )}

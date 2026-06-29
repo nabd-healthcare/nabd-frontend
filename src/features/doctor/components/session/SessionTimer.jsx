@@ -64,7 +64,7 @@ const SessionTimer = ({ timeRemaining, isExpiring, compact = false }) => {
 
       <div className="flex-1">
         <p className="text-xs text-slate-600 font-semibold mb-1">
-          {isExpiring ? '⚠️ الوقت المتبقي' : 'الوقت المتبقي'}
+          {isExpiring ? '️ الوقت المتبقي' : 'الوقت المتبقي'}
         </p>
         <p
           className={`text-3xl font-black ${

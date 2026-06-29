@@ -18,15 +18,15 @@ const PaymentFailedPage = () => {
   useEffect(() => {
     const verifyPaymentStatus = async () => {
       if (!paymentId) {
-        console.error('❌ No payment_id in URL');
+        console.error(' No payment_id in URL');
         return;
       }
 
-      console.log('🔍 Verifying payment:', paymentId);
+      console.log(' Verifying payment:', paymentId);
       const result = await verifyPayment(paymentId);
 
       if (result.success) {
-        console.log('✅ Payment verified:', result.data);
+        console.log(' Payment verified:', result.data);
         setVerificationComplete(true);
       }
     };

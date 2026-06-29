@@ -90,7 +90,7 @@ const MapPicker = ({
       
       // Skip if GPS action is in progress
       if (isGPSActionRef.current) {
-        console.log('🗺️ MapPicker: Skipping props update - GPS action in progress');
+        console.log('️ MapPicker: Skipping props update - GPS action in progress');
         return;
       }
       
@@ -99,7 +99,7 @@ const MapPicker = ({
       const lngChanged = Math.abs(newLng - lastLng) > 0.00001;
       
       if (latChanged || lngChanged) {
-        console.log('🗺️ MapPicker: Props changed, updating position', { 
+        console.log('️ MapPicker: Props changed, updating position', { 
           from: { lat: lastLat, lng: lastLng }, 
           to: { lat: newLat, lng: newLng } 
         });
@@ -109,7 +109,7 @@ const MapPicker = ({
         // Store GPS coordinates when they first arrive
         if (!gpsCoordinatesRef.current) {
           gpsCoordinatesRef.current = { lat: newLat, lng: newLng };
-          console.log('🗺️ MapPicker: Stored GPS coordinates', gpsCoordinatesRef.current);
+          console.log('️ MapPicker: Stored GPS coordinates', gpsCoordinatesRef.current);
         }
       }
     }
@@ -118,8 +118,8 @@ const MapPicker = ({
   // Handle triggerAddressFetch from parent (e.g., "موقعي" button)
   useEffect(() => {
     if (triggerAddressFetch && gpsCoordinatesRef.current) {
-      console.log('🗺️ MapPicker: Parent triggered address fetch');
-      console.log('🗺️ MapPicker: Using GPS coordinates', gpsCoordinatesRef.current);
+      console.log('️ MapPicker: Parent triggered address fetch');
+      console.log('️ MapPicker: Using GPS coordinates', gpsCoordinatesRef.current);
       
       // Set GPS action flag
       isGPSActionRef.current = true;
@@ -131,7 +131,7 @@ const MapPicker = ({
         setTimeout(() => {
           isGPSActionRef.current = false;
           gpsCoordinatesRef.current = null; // Clear stored coordinates
-          console.log('🗺️ MapPicker: GPS action completed');
+          console.log('️ MapPicker: GPS action completed');
         }, 500);
       });
     }
@@ -157,12 +157,12 @@ const MapPicker = ({
           fullAddress: data.display_name
         };
         
-        console.log('🗺️ MapPicker: Address details extracted:', addressDetails);
-        console.log('🗺️ MapPicker: isUserAction:', isUserAction);
+        console.log('️ MapPicker: Address details extracted:', addressDetails);
+        console.log('️ MapPicker: isUserAction:', isUserAction);
         
         // Return address details to parent if user action
         if (onLocationChange && isUserAction) {
-          console.log('🗺️ MapPicker: Calling onLocationChange with addressDetails');
+          console.log('️ MapPicker: Calling onLocationChange with addressDetails');
           onLocationChange(lat, lng, addressDetails);
         }
       }
@@ -177,7 +177,7 @@ const MapPicker = ({
   useEffect(() => {
     if (position) {
       const isUserAction = isUserInteractionRef.current;
-      console.log('🗺️ MapPicker: Position changed, fetching address...', { isUserAction });
+      console.log('️ MapPicker: Position changed, fetching address...', { isUserAction });
       getAddressFromCoordinates(position.lat, position.lng, isUserAction);
       
       // Reset flag after handling

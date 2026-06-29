@@ -41,7 +41,7 @@ const useAppointmentsStore = create(
           set({ loading: true, error: null });
 
           try {
-            console.log('📅 Fetching upcoming appointments...');
+            console.log(' Fetching upcoming appointments...');
 
             // MOCK DATA
             const appointments = [
@@ -67,14 +67,14 @@ const useAppointmentsStore = create(
 
             // const appointments = await patientService.getUpcomingAppointments();
 
-            console.log('✅ Upcoming appointments:', appointments);
+            console.log(' Upcoming appointments:', appointments);
 
             set({
               upcomingAppointments: appointments || [],
               loading: false,
             });
           } catch (error) {
-            console.error('❌ Error fetching upcoming appointments:', error);
+            console.error(' Error fetching upcoming appointments:', error);
             set({
               error: error.response?.data?.message || 'فشل في تحميل المواعيد القادمة',
               loading: false
@@ -89,7 +89,7 @@ const useAppointmentsStore = create(
           set({ loading: true, error: null });
 
           try {
-            console.log('📅 Fetching past appointments...');
+            console.log(' Fetching past appointments...');
 
             // MOCK DATA
             const appointments = [
@@ -175,7 +175,7 @@ const useAppointmentsStore = create(
               loading: false,
             });
           } catch (error) {
-            console.error('❌ Error fetching past appointments:', error);
+            console.error(' Error fetching past appointments:', error);
             set({
               error: error.response?.data?.message || 'فشل في تحميل المواعيد السابقة',
               loading: false
@@ -200,18 +200,18 @@ const useAppointmentsStore = create(
           set({ loading: true, error: null });
 
           try {
-            console.log('📋 Fetching appointment details:', appointmentId);
+            console.log(' Fetching appointment details:', appointmentId);
 
             const appointment = await patientService.getAppointmentDetails(appointmentId);
 
-            console.log('✅ Appointment details:', appointment);
+            console.log(' Appointment details:', appointment);
 
             set({
               selectedAppointment: appointment,
               loading: false,
             });
           } catch (error) {
-            console.error('❌ Error fetching appointment details:', error);
+            console.error(' Error fetching appointment details:', error);
             set({
               error: error.response?.data?.message || 'فشل في تحميل تفاصيل الموعد',
               loading: false
@@ -226,11 +226,11 @@ const useAppointmentsStore = create(
           set({ loading: true, error: null });
 
           try {
-            console.log('❌ Cancelling appointment:', appointmentId, cancellationReason);
+            console.log(' Cancelling appointment:', appointmentId, cancellationReason);
 
             await patientService.cancelAppointment(appointmentId, cancellationReason);
 
-            console.log('✅ Appointment cancelled successfully');
+            console.log(' Appointment cancelled successfully');
 
             // Refresh appointments list
             await get().fetchAllAppointments();
@@ -239,7 +239,7 @@ const useAppointmentsStore = create(
 
             return { success: true };
           } catch (error) {
-            console.error('❌ Error cancelling appointment:', error);
+            console.error(' Error cancelling appointment:', error);
             set({
               error: error.response?.data?.message || 'فشل في إلغاء الموعد',
               loading: false
@@ -255,16 +255,16 @@ const useAppointmentsStore = create(
           set({ loading: true, error: null });
 
           try {
-            console.log('🔄 Rescheduling appointment:', appointmentId);
-            console.log('🔄 New Start Time:', newStartTime);
-            console.log('🔄 New End Time:', newEndTime);
+            console.log(' Rescheduling appointment:', appointmentId);
+            console.log(' New Start Time:', newStartTime);
+            console.log(' New End Time:', newEndTime);
 
             const result = await patientService.rescheduleAppointment(appointmentId, {
               newScheduledStartTime: newStartTime,
               newScheduledEndTime: newEndTime,
             });
 
-            console.log('✅ Appointment rescheduled successfully:', result);
+            console.log(' Appointment rescheduled successfully:', result);
 
             // Refresh appointments list
             await get().fetchAllAppointments();
@@ -273,8 +273,8 @@ const useAppointmentsStore = create(
 
             return { success: true };
           } catch (error) {
-            console.error('❌ Error rescheduling appointment:', error);
-            console.error('❌ Error details:', error.response?.data);
+            console.error(' Error rescheduling appointment:', error);
+            console.error(' Error details:', error.response?.data);
             set({
               error: error.response?.data?.message || 'فشل في إعادة جدولة الموعد',
               loading: false

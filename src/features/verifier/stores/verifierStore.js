@@ -10,9 +10,9 @@ import {
 /**
  * Verifier Store - Zustand State Management
  * 
- * ✅ Using real API endpoints
- * ✅ Document statuses persisted in localStorage
- * ❌ Mock data removed
+ *  Using real API endpoints
+ *  Document statuses persisted in localStorage
+ *  Mock data removed
  */
 
 const useVerifierStore = create(
@@ -68,7 +68,7 @@ const useVerifierStore = create(
             const { activeStatus } = get().filters;
             let doctors = [];
 
-            console.log('🔍 [Verifier] Fetching doctors with status:', activeStatus, 'Loading:', showLoading);
+            console.log(' [Verifier] Fetching doctors with status:', activeStatus, 'Loading:', showLoading);
 
             // Map status to API endpoint
             let response;
@@ -104,7 +104,7 @@ const useVerifierStore = create(
               doctors = Array.isArray(response?.data) ? response.data : (response?.data?.data || []);
             }
 
-            console.log('✅ [Verifier] Fetched doctors:', doctors.length);
+            console.log(' [Verifier] Fetched doctors:', doctors.length);
 
             set({
               applications: {
@@ -114,7 +114,7 @@ const useVerifierStore = create(
               error: { ...get().error, applications: null },
             });
           } catch (error) {
-            console.error('❌ [Verifier] Fetch error:', error);
+            console.error(' [Verifier] Fetch error:', error);
             set({
               loading: { ...get().loading, applications: false },
               error: { ...get().error, applications: error.message || 'فشل في جلب البيانات' },
@@ -147,7 +147,7 @@ const useVerifierStore = create(
               totalDoctors: 0,
             };
 
-            console.log('📊 [Store] Stats breakdown:', {
+            console.log(' [Store] Stats breakdown:', {
               pending: sentRes.status === 'fulfilled' ? sentRes.value : 'failed',
               review: reviewRes.status === 'fulfilled' ? reviewRes.value : 'failed',
               verified: verifiedRes.status === 'fulfilled' ? verifiedRes.value : 'failed',
@@ -155,7 +155,7 @@ const useVerifierStore = create(
 
             stats.totalDoctors = stats.totalPending + stats.totalUnderReview + stats.totalApprovedToday + stats.totalRejected;
 
-            console.log('✅ [Verifier] Stats fetched:', stats);
+            console.log(' [Verifier] Stats fetched:', stats);
 
             set({
               stats,
@@ -163,7 +163,7 @@ const useVerifierStore = create(
               error: { ...get().error, stats: null },
             });
           } catch (error) {
-            console.error('❌ [Verifier] Stats error:', error);
+            console.error(' [Verifier] Stats error:', error);
             // Don't set error state to avoid breaking UI on minor stats fail
           }
         },
@@ -185,8 +185,8 @@ const useVerifierStore = create(
          * Auto-fetches applications when status changes
          */
         setActiveStatus: async (status) => {
-          console.log('🎯 [Store] setActiveStatus called with:', status);
-          console.log('🔍 [Store] Current activeStatus:', get().filters.activeStatus);
+          console.log(' [Store] setActiveStatus called with:', status);
+          console.log(' [Store] Current activeStatus:', get().filters.activeStatus);
 
           set({
             filters: {
@@ -195,10 +195,10 @@ const useVerifierStore = create(
             },
           });
 
-          console.log('✅ [Store] Status updated to:', get().filters.activeStatus);
+          console.log(' [Store] Status updated to:', get().filters.activeStatus);
 
           // Show loader when switching tabs (User Expectation)
-          console.log('🔄 [Store] Fetching applications for status:', status);
+          console.log(' [Store] Fetching applications for status:', status);
           await get().fetchApplications(true);
         },
 
@@ -218,11 +218,11 @@ const useVerifierStore = create(
           set({ loading: { ...get().loading, action: true } });
 
           try {
-            console.log('📄 [Verifier] Fetching documents for doctor:', doctorId);
+            console.log(' [Verifier] Fetching documents for doctor:', doctorId);
 
             const documents = await verifierService.getDoctorDocuments(doctorId);
 
-            console.log('✅ [Verifier] Documents fetched:', documents);
+            console.log(' [Verifier] Documents fetched:', documents);
 
             // Update selected application with documents
             const selectedApp = get().selectedApplication;
@@ -242,7 +242,7 @@ const useVerifierStore = create(
 
             return { success: true, documents };
           } catch (error) {
-            console.error('❌ [Verifier] Fetch documents error:', error);
+            console.error(' [Verifier] Fetch documents error:', error);
             set({
               loading: { ...get().loading, action: false },
               error: { ...get().error, action: error.message || 'فشل في جلب المستندات' },
@@ -293,11 +293,11 @@ const useVerifierStore = create(
               applications: { ...get().applications, doctors: updatedDocs }
             });
 
-            console.log('✅ [Verifier] Approving doctor:', doctorId);
+            console.log(' [Verifier] Approving doctor:', doctorId);
 
             const response = await verifierService.verifyDoctor(doctorId);
 
-            console.log('✅ [Verifier] Doctor approved:', response);
+            console.log(' [Verifier] Doctor approved:', response);
 
             set({
               loading: { ...get().loading, action: false },
@@ -310,7 +310,7 @@ const useVerifierStore = create(
 
             return { success: true, message: 'تم اعتماد الطبيب بنجاح' };
           } catch (error) {
-            console.error('❌ [Verifier] Approve error:', error);
+            console.error(' [Verifier] Approve error:', error);
             // Revert Optimistic Update (Fetch again to restore)
             get().fetchApplications(false);
 
@@ -337,11 +337,11 @@ const useVerifierStore = create(
               applications: { ...get().applications, doctors: updatedDocs }
             });
 
-            console.log('❌ [Verifier] Rejecting doctor:', doctorId);
+            console.log(' [Verifier] Rejecting doctor:', doctorId);
 
             const response = await verifierService.rejectDoctor(doctorId);
 
-            console.log('✅ [Verifier] Doctor rejected:', response);
+            console.log(' [Verifier] Doctor rejected:', response);
 
             set({
               loading: { ...get().loading, action: false },
@@ -354,7 +354,7 @@ const useVerifierStore = create(
 
             return { success: true, message: 'تم رفض الطبيب' };
           } catch (error) {
-            console.error('❌ [Verifier] Reject error:', error);
+            console.error(' [Verifier] Reject error:', error);
             get().fetchApplications(false);
             set({
               loading: { ...get().loading, action: false },
@@ -379,11 +379,11 @@ const useVerifierStore = create(
               applications: { ...get().applications, doctors: updatedDocs }
             });
 
-            console.log('🔄 [Verifier] Starting review for doctor:', doctorId);
+            console.log(' [Verifier] Starting review for doctor:', doctorId);
 
             const response = await verifierService.startReview(doctorId);
 
-            console.log('✅ [Verifier] Review started:', response);
+            console.log(' [Verifier] Review started:', response);
 
             set({
               loading: { ...get().loading, action: false },
@@ -396,7 +396,7 @@ const useVerifierStore = create(
 
             return { success: true, message: 'تم بدء المراجعة' };
           } catch (error) {
-            console.error('❌ [Verifier] Start review error:', error);
+            console.error(' [Verifier] Start review error:', error);
             get().fetchApplications(false);
             set({
               loading: { ...get().loading, action: false },
@@ -461,11 +461,11 @@ const useVerifierStore = create(
           set({ loading: { ...get().loading, action: true } });
 
           try {
-            console.log('✅ [Verifier] Approving document:', documentId);
+            console.log(' [Verifier] Approving document:', documentId);
 
             const response = await verifierService.approveDocument(documentId);
 
-            console.log('✅ [Verifier] Document approved:', response);
+            console.log(' [Verifier] Document approved:', response);
 
             set({
               loading: { ...get().loading, action: false },
@@ -481,7 +481,7 @@ const useVerifierStore = create(
 
             return { success: true, message: response.message || 'تم قبول المستند' };
           } catch (error) {
-            console.error('❌ [Verifier] Approve document error:', error);
+            console.error(' [Verifier] Approve document error:', error);
             set({
               loading: { ...get().loading, action: false },
               error: { ...get().error, action: error.message || 'فشل في قبول المستند' },
@@ -498,11 +498,11 @@ const useVerifierStore = create(
           set({ loading: { ...get().loading, action: true } });
 
           try {
-            console.log('❌ [Verifier] Rejecting document:', documentId, 'Reason:', rejectionReason);
+            console.log(' [Verifier] Rejecting document:', documentId, 'Reason:', rejectionReason);
 
             const response = await verifierService.rejectDocument(documentId, rejectionReason);
 
-            console.log('✅ [Verifier] Document rejected:', response);
+            console.log(' [Verifier] Document rejected:', response);
 
             set({
               loading: { ...get().loading, action: false },
@@ -518,7 +518,7 @@ const useVerifierStore = create(
 
             return { success: true, message: response.message || 'تم رفض المستند' };
           } catch (error) {
-            console.error('❌ [Verifier] Reject document error:', error);
+            console.error(' [Verifier] Reject document error:', error);
             set({
               loading: { ...get().loading, action: false },
               error: { ...get().error, action: error.message || 'فشل في رفض المستند' },
@@ -541,7 +541,7 @@ const useVerifierStore = create(
           const tabKey = tabKeyMap[filters.activeTab];
           const appList = applications[tabKey] || [];
 
-          console.log('🔍 [Store] Filtering applications:', {
+          console.log(' [Store] Filtering applications:', {
             tabKey,
             totalApps: appList.length,
             filterStatus: filters.activeStatus,
@@ -553,7 +553,7 @@ const useVerifierStore = create(
             app => app.verificationStatus === filters.activeStatus
           );
 
-          console.log('✅ [Store] Filtered result:', filtered.length, 'applications');
+          console.log(' [Store] Filtered result:', filtered.length, 'applications');
 
           return filtered;
         },

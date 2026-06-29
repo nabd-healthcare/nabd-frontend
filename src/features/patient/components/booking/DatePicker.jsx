@@ -121,9 +121,9 @@ const DatePicker = ({
 
   // Debug logs
   useEffect(() => {
-    console.log('📅 DatePicker - Weekly Schedule:', weeklySchedule);
-    console.log('📆 DatePicker - Exceptional Dates:', exceptionalDates);
-    console.log('🗓️ DatePicker - Generated Days:', days.filter(d => d).length, 'days');
+    console.log(' DatePicker - Weekly Schedule:', weeklySchedule);
+    console.log(' DatePicker - Exceptional Dates:', exceptionalDates);
+    console.log('️ DatePicker - Generated Days:', days.filter(d => d).length, 'days');
   }, [weeklySchedule, exceptionalDates, days]);
 
 
@@ -268,7 +268,7 @@ const DatePicker = ({
                 key={index}
                 onClick={() => {
                   if (dayData.isAvailable) {
-                    console.log('📅 Selected Date:', dayData.dateStr, '- Status:', dayData.status);
+                    console.log(' Selected Date:', dayData.dateStr, '- Status:', dayData.status);
                     onSelectDate(dayData.dateStr);
                   }
                 }}

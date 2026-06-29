@@ -25,9 +25,9 @@ export const useClinicForm = (initialValues = {}) => {
 
   // Set form values (for initialization)
   const setFormValues = useCallback((newValues) => {
-    console.log('🔧 useClinicForm: setFormValues called with:', newValues);
+    console.log(' useClinicForm: setFormValues called with:', newValues);
     setValues(newValues);
-    console.log('🔧 useClinicForm: setValues called!');
+    console.log(' useClinicForm: setValues called!');
   }, []);
 
   // Reset form

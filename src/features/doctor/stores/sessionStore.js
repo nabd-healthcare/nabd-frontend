@@ -46,7 +46,7 @@ export const useSessionStore = create(
         if (USE_MOCK_DATA) {
           try {
             await simulateApiDelay(800);
-            console.log('⚠️ Using MOCK DATA for startSession');
+            console.log('️ Using MOCK DATA for startSession');
 
             // Find mock appointment
             const mockApt = mockAppointments.find(a => a.id === appointmentId) || appointmentData;
@@ -105,15 +105,15 @@ export const useSessionStore = create(
 
         const sessionData = result.data;
 
-        console.log('🔍 [startSession] Session Data:', sessionData);
-        console.log('🔍 [startSession] appointmentData:', appointmentData);
+        console.log(' [startSession] Session Data:', sessionData);
+        console.log(' [startSession] appointmentData:', appointmentData);
 
         // New API structure: duration (not sessionDurationMinutes)
         const durationMinutes = sessionData.duration || appointmentData.duration || 30;
 
-        console.log('🔍 [startSession] Duration Minutes:', durationMinutes);
-        console.log('🔍 [startSession] sessionData.startTime:', sessionData.startTime);
-        console.log('🔍 [startSession] sessionData.duration:', sessionData.duration);
+        console.log(' [startSession] Duration Minutes:', durationMinutes);
+        console.log(' [startSession] sessionData.startTime:', sessionData.startTime);
+        console.log(' [startSession] sessionData.duration:', sessionData.duration);
 
         // Calculate start time from appointment date + time
         let startTime;
@@ -123,17 +123,17 @@ export const useSessionStore = create(
           // Combine date + time: "2025-11-05" + "09:30" → "2025-11-05T09:30:00"
           const dateTimeStr = `${appointmentData.appointmentDate}T${appointmentData.appointmentTime}:00`;
           startTime = new Date(dateTimeStr);
-          console.log('✅ [startSession] Calculated startTime from appointment:', dateTimeStr);
+          console.log(' [startSession] Calculated startTime from appointment:', dateTimeStr);
         } else {
           startTime = new Date();
-          console.warn('⚠️ [startSession] No startTime found, using current time');
+          console.warn('️ [startSession] No startTime found, using current time');
         }
 
         const endTime = new Date(startTime.getTime() + durationMinutes * 60 * 1000);
         const now = new Date();
         const timeRemaining = Math.max(0, Math.floor((endTime - now) / 1000));
 
-        console.log('⏱️ [startSession] Timer Calculation:', {
+        console.log('️ [startSession] Timer Calculation:', {
           appointmentDate: appointmentData.appointmentDate,
           appointmentTime: appointmentData.appointmentTime,
           startTimeParsed: startTime.toISOString(),
@@ -284,7 +284,7 @@ export const useSessionStore = create(
         const now = new Date();
         const timeRemaining = Math.max(0, Math.floor((endTime - now) / 1000));
 
-        console.log('⏱️ [getActiveSession] Timer Calculation:', {
+        console.log('️ [getActiveSession] Timer Calculation:', {
           startTimeRaw: sessionData.startTime,
           startTimeParsed: startTime.toISOString(),
           startTimeLocal: startTime.toLocaleString('ar-EG'),
@@ -334,10 +334,10 @@ export const useSessionStore = create(
        */
       endSession: async () => {
         const { currentSession } = get();
-        console.log('🔴 Store: Ending session...', currentSession);
+        console.log(' Store: Ending session...', currentSession);
 
         if (!currentSession) {
-          console.warn('⚠️ Store: No active session');
+          console.warn('️ Store: No active session');
           return { success: false, error: 'لا توجد جلسة نشطة' };
         }
 
@@ -346,7 +346,7 @@ export const useSessionStore = create(
         // MOCK DATA HANDLER
         if (USE_MOCK_DATA) {
           await simulateApiDelay(800);
-          console.log('⚠️ Using MOCK DATA for endSession');
+          console.log('️ Using MOCK DATA for endSession');
 
           get().stopTimer();
           set({
@@ -364,15 +364,15 @@ export const useSessionStore = create(
         }
 
         const result = await sessionService.endSession(currentSession.appointmentId);
-        console.log('📥 Store: End session result:', result);
+        console.log(' Store: End session result:', result);
 
         if (!result.success) {
-          console.error('❌ Store: Failed to end session:', result.error);
+          console.error(' Store: Failed to end session:', result.error);
           set({ error: result.error, loading: false });
           return { success: false, error: result.error };
         }
 
-        console.log('✅ Store: Session ended successfully, clearing data...');
+        console.log(' Store: Session ended successfully, clearing data...');
 
         // Stop timer
         get().stopTimer();
@@ -403,7 +403,7 @@ export const useSessionStore = create(
         // MOCK DATA HANDLER
         if (USE_MOCK_DATA) {
           await simulateApiDelay(500);
-          console.log('⚠️ Using MOCK DATA for fetchSessionDocumentation');
+          console.log('️ Using MOCK DATA for fetchSessionDocumentation');
 
           const mockDoc = {
             chiefComplaint: 'يعاني من صداع نصفي متكرر',
@@ -434,12 +434,12 @@ export const useSessionStore = create(
         const { patientInfo } = get();
         if (!patientInfo) return { success: false, error: 'لا توجد معلومات مريض' };
 
-        console.log('🔍 [Store] Fetching medical record for patient:', patientInfo.patientId);
+        console.log(' [Store] Fetching medical record for patient:', patientInfo.patientId);
 
         // MOCK DATA HANDLER
         if (USE_MOCK_DATA) {
           await simulateApiDelay(600);
-          console.log('⚠️ Using MOCK DATA for medical record');
+          console.log('️ Using MOCK DATA for medical record');
 
           const mockRecord = {
             chronicDiseases: [
@@ -465,15 +465,15 @@ export const useSessionStore = create(
 
         const result = await sessionService.getPatientMedicalRecord(patientInfo.patientId);
 
-        console.log('🔍 [Store] Medical record result:', result);
-        console.log('🔍 [Store] result.success:', result.success);
-        console.log('🔍 [Store] result.data:', result.data);
+        console.log(' [Store] Medical record result:', result);
+        console.log(' [Store] result.success:', result.success);
+        console.log(' [Store] result.data:', result.data);
 
         if (result.success) {
-          console.log('✅ [Store] Setting medical record:', result.data);
+          console.log(' [Store] Setting medical record:', result.data);
           set({ patientMedicalRecord: result.data });
         } else {
-          console.error('❌ [Store] Failed to fetch medical record:', result.error);
+          console.error(' [Store] Failed to fetch medical record:', result.error);
         }
 
         return result;
@@ -489,12 +489,12 @@ export const useSessionStore = create(
 
         set({ loading: true, error: null });
 
-        console.log('🏪 Store - Creating prescription with data:', prescriptionData);
+        console.log(' Store - Creating prescription with data:', prescriptionData);
 
         // MOCK DATA HANDLER
         if (USE_MOCK_DATA) {
           await simulateApiDelay(800);
-          console.log('⚠️ Using MOCK DATA for createPrescription');
+          console.log('️ Using MOCK DATA for createPrescription');
 
           const newPrescription = {
             id: `pres_${Date.now()}`,
@@ -570,7 +570,7 @@ export const useSessionStore = create(
         // MOCK DATA HANDLER
         if (USE_MOCK_DATA) {
           await simulateApiDelay(600);
-          console.log('⚠️ Using MOCK DATA for addDocumentation');
+          console.log('️ Using MOCK DATA for addDocumentation');
 
           const newDoc = {
             ...documentation,
@@ -656,7 +656,7 @@ export const useSessionStore = create(
           } else {
             // Time's up - auto end session
             get().stopTimer();
-            console.log('⏰ Session Time Expired');
+            console.log(' Session Time Expired');
           }
         }, 1000);
 

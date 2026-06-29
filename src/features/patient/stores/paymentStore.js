@@ -39,7 +39,7 @@ export const usePaymentStore = create(
        * @param {number} amount - Order amount
        */
       openPaymentModal: (orderType, orderId, amount) => {
-        console.log('💳 [PaymentStore] Opening payment modal:', { orderType, orderId, amount });
+        console.log(' [PaymentStore] Opening payment modal:', { orderType, orderId, amount });
 
         set({
           isPaymentModalOpen: true,
@@ -56,7 +56,7 @@ export const usePaymentStore = create(
        * Close payment modal
        */
       closePaymentModal: () => {
-        console.log('💳 [PaymentStore] Closing payment modal');
+        console.log(' [PaymentStore] Closing payment modal');
 
         set({
           isPaymentModalOpen: false,
@@ -69,7 +69,7 @@ export const usePaymentStore = create(
        * @param {number} method - PaymentMethod enum
        */
       setPaymentMethod: (method) => {
-        console.log('💳 [PaymentStore] Setting payment method:', method);
+        console.log(' [PaymentStore] Setting payment method:', method);
         set({ selectedPaymentMethod: method });
       },
 
@@ -78,7 +78,7 @@ export const usePaymentStore = create(
        * @param {number} type - PaymentType enum
        */
       setPaymentType: (type) => {
-        console.log('💳 [PaymentStore] Setting payment type:', type);
+        console.log(' [PaymentStore] Setting payment type:', type);
         set({ selectedPaymentType: type });
       },
 
@@ -88,7 +88,7 @@ export const usePaymentStore = create(
       initiatePayment: async () => {
         const { orderType, orderId, selectedPaymentMethod, selectedPaymentType } = get();
 
-        console.log('💳 [PaymentStore] Initiating payment:', {
+        console.log(' [PaymentStore] Initiating payment:', {
           orderType,
           orderId,
           selectedPaymentMethod,
@@ -111,7 +111,7 @@ export const usePaymentStore = create(
             throw new Error('Invalid order type');
           }
 
-          console.log('✅ [PaymentStore] Payment initiated successfully:', result);
+          console.log(' [PaymentStore] Payment initiated successfully:', result);
 
           const paymentData = result.data;
 
@@ -126,13 +126,13 @@ export const usePaymentStore = create(
 
           // If payment requires redirect (Online payment), redirect to Paymob
           if (paymentData.requiresRedirect && paymentData.paymentUrl) {
-            console.log('🔗 [PaymentStore] Redirecting to payment URL:', paymentData.paymentUrl);
+            console.log(' [PaymentStore] Redirecting to payment URL:', paymentData.paymentUrl);
             window.location.href = paymentData.paymentUrl;
           }
 
           return { success: true, data: paymentData };
         } catch (error) {
-          console.error('❌ [PaymentStore] Payment initiation failed:', error);
+          console.error(' [PaymentStore] Payment initiation failed:', error);
 
           const errorMessage =
             error.response?.data?.message ||
@@ -153,14 +153,14 @@ export const usePaymentStore = create(
        * @param {string} paymentId - Payment ID
        */
       verifyPayment: async (paymentId) => {
-        console.log('🔍 [PaymentStore] Verifying payment:', paymentId);
+        console.log(' [PaymentStore] Verifying payment:', paymentId);
 
         set({ loading: true, error: null });
 
         try {
           const result = await paymentService.getPaymentDetails(paymentId);
 
-          console.log('✅ [PaymentStore] Payment verified:', result);
+          console.log(' [PaymentStore] Payment verified:', result);
 
           set({
             currentPayment: result.data,
@@ -171,7 +171,7 @@ export const usePaymentStore = create(
 
           return { success: true, data: result.data };
         } catch (error) {
-          console.error('❌ [PaymentStore] Payment verification failed:', error);
+          console.error(' [PaymentStore] Payment verification failed:', error);
 
           const errorMessage =
             error.response?.data?.message ||
@@ -192,14 +192,14 @@ export const usePaymentStore = create(
        * @param {string} paymentId - Payment ID
        */
       cancelPayment: async (paymentId) => {
-        console.log('🚫 [PaymentStore] Cancelling payment:', paymentId);
+        console.log(' [PaymentStore] Cancelling payment:', paymentId);
 
         set({ loading: true, error: null });
 
         try {
           const result = await paymentService.cancelPayment(paymentId);
 
-          console.log('✅ [PaymentStore] Payment cancelled:', result);
+          console.log(' [PaymentStore] Payment cancelled:', result);
 
           set({
             currentPayment: result.data,
@@ -209,7 +209,7 @@ export const usePaymentStore = create(
 
           return { success: true, data: result.data };
         } catch (error) {
-          console.error('❌ [PaymentStore] Payment cancellation failed:', error);
+          console.error(' [PaymentStore] Payment cancellation failed:', error);
 
           const errorMessage =
             error.response?.data?.message ||
@@ -229,7 +229,7 @@ export const usePaymentStore = create(
        * Reset payment state
        */
       resetPayment: () => {
-        console.log('🔄 [PaymentStore] Resetting payment state');
+        console.log(' [PaymentStore] Resetting payment state');
 
         set({
           currentPayment: null,

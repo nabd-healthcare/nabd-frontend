@@ -145,9 +145,9 @@ class DoctorService {
 
   async getClinicAddress() {
     const response = await apiClient.get('/Doctors/me/clinic/address');
-    console.log('📥 Service: Raw axios response:', response);
-    console.log('📦 Service: response.data:', response.data);
-    console.log('📍 Service: Coordinates in response.data:', {
+    console.log(' Service: Raw axios response:', response);
+    console.log(' Service: response.data:', response.data);
+    console.log(' Service: Coordinates in response.data:', {
       latitude: response.data?.data?.latitude,
       longitude: response.data?.data?.longitude,
       latType: typeof response.data?.data?.latitude,
@@ -313,7 +313,7 @@ class DoctorService {
       return `${year}-${month}-${day}`;
     })();
 
-    console.log('📅 Fetching appointments for date:', today);
+    console.log(' Fetching appointments for date:', today);
 
     const response = await apiClient.get('/Doctors/me/dashboard/appointments/today', {
       params: {
@@ -440,13 +440,13 @@ class DoctorService {
 
   async createLabPrescription(labPrescriptionData) {
     try {
-      console.log('📋 Creating lab prescription...', labPrescriptionData);
+      console.log(' Creating lab prescription...', labPrescriptionData);
       const response = await apiClient.post('/Doctors/me/lab-prescriptions', labPrescriptionData);
-      console.log('✅ Lab prescription created successfully:', response.data);
+      console.log(' Lab prescription created successfully:', response.data);
       // Extract data from wrapper
       return response.data?.data || response.data;
     } catch (error) {
-      console.error('❌ Error creating lab prescription:', error.response?.data || error);
+      console.error(' Error creating lab prescription:', error.response?.data || error);
       throw error;
     }
   }

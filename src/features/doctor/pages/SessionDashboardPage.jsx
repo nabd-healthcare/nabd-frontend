@@ -27,7 +27,7 @@ const SessionDashboardPage = () => {
     }
 
     const initSession = async () => {
-      console.log('🚀 Initializing session for appointment:', appointmentId);
+      console.log(' Initializing session for appointment:', appointmentId);
       
       // For now, you'll need appointment data to start session
       // In real app, fetch appointment details first or pass via navigation state
@@ -43,9 +43,9 @@ const SessionDashboardPage = () => {
       const result = await startOrResumeSession(mockAppointment);
       
       if (!result.success) {
-        console.error('❌ Failed to start session:', result.error);
+        console.error(' Failed to start session:', result.error);
       } else {
-        console.log('✅ Session started successfully');
+        console.log(' Session started successfully');
       }
     };
 

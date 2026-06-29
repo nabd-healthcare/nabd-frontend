@@ -266,10 +266,10 @@ const DoctorProfilePage = () => {
     try {
       const res = await doctorService.submitForReview();
       if (res.succeeded || res.isSuccess) {
-        alert('✅ تم إرسال الملف للمراجعة بنجاح');
+        alert(' تم إرسال الملف للمراجعة بنجاح');
         await fetchProfileData(); await fetchProfessionalDocuments();
       }
-    } catch (e) { alert(`❌ ${e.response?.data?.message || e.message}`); }
+    } catch (e) { alert(` ${e.response?.data?.message || e.message}`); }
   }, [fetchProfileData, fetchProfessionalDocuments]);
 
   const sections = [

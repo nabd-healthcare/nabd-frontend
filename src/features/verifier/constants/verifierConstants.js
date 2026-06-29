@@ -85,27 +85,27 @@ export const DOCUMENT_STATUS_COLORS = {
   [DOCUMENT_STATUS.NOT_SUBMITTED]: {
     bg: 'bg-slate-100',
     text: 'text-slate-700',
-    icon: '📄',
+    icon: '',
   },
   [DOCUMENT_STATUS.PENDING]: {
     bg: 'bg-amber-100',
     text: 'text-amber-700',
-    icon: '⏳',
+    icon: '',
   },
   [DOCUMENT_STATUS.APPROVED]: {
     bg: 'bg-green-100',
     text: 'text-green-700',
-    icon: '✅',
+    icon: '',
   },
   [DOCUMENT_STATUS.REJECTED]: {
     bg: 'bg-red-100',
     text: 'text-red-700',
-    icon: '❌',
+    icon: '',
   },
   [DOCUMENT_STATUS.CLARIFICATION_NEEDED]: {
     bg: 'bg-yellow-100',
     text: 'text-yellow-700',
-    icon: '📝',
+    icon: '',
   },
 };
 

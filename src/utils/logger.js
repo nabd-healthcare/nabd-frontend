@@ -34,13 +34,13 @@ export const logger = {
 
   api: (method, url, data) => {
     if (isDev) {
-      console.log(`🌐 API ${method}:`, url, data || '');
+      console.log(` API ${method}:`, url, data || '');
     }
   },
 
   apiResponse: (method, url, status, data) => {
     if (isDev) {
-      const icon = status >= 200 && status < 300 ? '✅' : '❌';
+      const icon = status >= 200 && status < 300 ? '' : '';
       console.log(`${icon} API ${method} ${status}:`, url, data || '');
     }
   },

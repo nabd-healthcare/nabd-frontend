@@ -22,24 +22,24 @@ const ActiveSessionWarning = () => {
 
   const checkForActiveSession = async () => {
     try {
-      console.log('🔍 [ActiveSessionWarning] Checking for active session...');
+      console.log(' [ActiveSessionWarning] Checking for active session...');
       
       // Use new endpoint to get doctor's active session
       const result = await sessionService.getDoctorActiveSession();
       
-      console.log('🔍 [ActiveSessionWarning] Result:', result);
+      console.log(' [ActiveSessionWarning] Result:', result);
       
       if (result.success && result.isActive && result.data) {
-        console.log('⚠️ [ActiveSessionWarning] Found active session!');
-        console.log('⚠️ Appointment ID:', result.data.appointmentId);
-        console.log('⚠️ Patient Name:', result.data.patientName);
-        console.log('⚠️ Session Status:', result.data.status);
-        console.log('⚠️ Full Data:', result.data);
+        console.log('️ [ActiveSessionWarning] Found active session!');
+        console.log('️ Appointment ID:', result.data.appointmentId);
+        console.log('️ Patient Name:', result.data.patientName);
+        console.log('️ Session Status:', result.data.status);
+        console.log('️ Full Data:', result.data);
         
         setActiveSession(result.data);
         
         // Load session into store immediately
-        console.log('📥 [ActiveSessionWarning] Loading session into store...');
+        console.log(' [ActiveSessionWarning] Loading session into store...');
         const appointmentData = {
           duration: result.data.sessionDurationMinutes || 30,
           patient: {
@@ -50,12 +50,12 @@ const ActiveSessionWarning = () => {
         };
         
         await getActiveSession(result.data.appointmentId, appointmentData);
-        console.log('✅ [ActiveSessionWarning] Session loaded into store');
+        console.log(' [ActiveSessionWarning] Session loaded into store');
       } else {
-        console.log('✅ [ActiveSessionWarning] No active session');
+        console.log(' [ActiveSessionWarning] No active session');
       }
     } catch (error) {
-      console.error('❌ [ActiveSessionWarning] Error:', error);
+      console.error(' [ActiveSessionWarning] Error:', error);
     } finally {
       setLoading(false);
     }
@@ -63,7 +63,7 @@ const ActiveSessionWarning = () => {
 
   const handleGoToSession = () => {
     if (!activeSession) {
-      console.error('❌ [ActiveSessionWarning] No active session data');
+      console.error(' [ActiveSessionWarning] No active session data');
       alert('حدث خطأ. لا توجد بيانات جلسة نشطة');
       return;
     }
@@ -71,23 +71,23 @@ const ActiveSessionWarning = () => {
     const appointmentId = activeSession.appointmentId;
     
     if (!appointmentId) {
-      console.error('❌ [ActiveSessionWarning] No appointmentId found!');
-      console.error('❌ Session data:', activeSession);
+      console.error(' [ActiveSessionWarning] No appointmentId found!');
+      console.error(' Session data:', activeSession);
       alert('حدث خطأ. لم يتم العثور على معرف الموعد');
       return;
     }
 
-    console.log('🚀 [ActiveSessionWarning] Navigating to session');
-    console.log('🚀 Appointment ID:', appointmentId);
-    console.log('🚀 Patient Name:', activeSession.patientName);
-    console.log('🚀 Session Status:', activeSession.status);
+    console.log(' [ActiveSessionWarning] Navigating to session');
+    console.log(' Appointment ID:', appointmentId);
+    console.log(' Patient Name:', activeSession.patientName);
+    console.log(' Session Status:', activeSession.status);
     
     // Hide the warning immediately
     setDismissed(true);
     
     // Navigate to session page
     const sessionUrl = `/doctor/session/${appointmentId}`;
-    console.log('🚀 Navigation URL:', sessionUrl);
+    console.log(' Navigation URL:', sessionUrl);
     navigate(sessionUrl);
   };
 

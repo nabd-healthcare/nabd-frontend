@@ -3,7 +3,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockAppointments, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true; // Merges mock data with real data for testing
+const USE_MOCK_DATA = false; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for ALL Appointments (Past, Today, Future)
@@ -14,10 +14,10 @@ export const useAllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [statistics, setStatistics] = useState(null); // ✅ Add statistics state
+  const [statistics, setStatistics] = useState(null); //  Add statistics state
   const [pagination, setPagination] = useState({
     pageNumber: 1,
-    pageSize: 12, // ✅ Backend pagination: 12 items per page
+    pageSize: 12, //  Backend pagination: 12 items per page
     totalCount: 0,
     totalPages: 0,
     hasPreviousPage: false,
@@ -26,35 +26,35 @@ export const useAllAppointments = () => {
 
   /**
    * Fetch ALL appointments from API (NO DATE FILTER)
-   * ✅ Using the new /Doctors/me/appointments endpoint
+   *  Using the new /Doctors/me/appointments endpoint
    */
   const fetchAppointments = async (pageNumber = 1, pageSize = 12) => {
-    console.log('🚀 useAllAppointments: fetchAppointments called');
-    console.log('✅ Using /Doctors/me/appointments endpoint (NEW)');
-    console.log('📄 Page:', pageNumber, '| Size:', pageSize);
+    console.log(' useAllAppointments: fetchAppointments called');
+    console.log(' Using /Doctors/me/appointments endpoint (NEW)');
+    console.log(' Page:', pageNumber, '| Size:', pageSize);
 
     setLoading(true);
     setError(null);
 
-    // ❌ Removed early return for mock data to allow merging below
+    //  Removed early return for mock data to allow merging below
 
     try {
       const response = await doctorService.getAllAppointments({
         pageNumber,
         pageSize
-        // ✅ Backend handles sorting: InProgress → CheckedIn → Others by date
+        //  Backend handles sorting: InProgress → CheckedIn → Others by date
       });
 
       console.log('═══════════════════════════════════════');
-      console.log('📡 ALL Appointments API Response:', response);
+      console.log(' ALL Appointments API Response:', response);
       console.log('═══════════════════════════════════════');
 
       if (response.isSuccess && response.data) {
         const { data: appointmentsData, statistics: statsData, ...paginationData } = response.data;
 
-        console.log('📋 ALL Appointments Data (NO FILTER):', appointmentsData);
-        console.log('📋 Count:', appointmentsData?.length);
-        console.log('📊 Statistics from API:', statsData); // ✅ Log statistics
+        console.log(' ALL Appointments Data (NO FILTER):', appointmentsData);
+        console.log(' Count:', appointmentsData?.length);
+        console.log(' Statistics from API:', statsData); //  Log statistics
 
         let finalAppointments = [];
         let finalStats = statsData || { total: 0, pending: 0, confirmed: 0, checkedIn: 0, inProgress: 0, completed: 0, noShow: 0, cancelled: 0 };
@@ -64,9 +64,9 @@ export const useAllAppointments = () => {
           finalAppointments = appointmentsData.map(mapAppointment);
         }
 
-        // ✅ Merge Mock Data if enabled
+        //  Merge Mock Data if enabled
         if (USE_MOCK_DATA) {
-           console.log('⚠️ Merging MOCK DATA with real appointments');
+           console.log('️ Merging MOCK DATA with real appointments');
            const mappedMock = mockAppointments.map(mapAppointment);
            finalAppointments = [...finalAppointments, ...mappedMock];
            
@@ -83,13 +83,13 @@ export const useAllAppointments = () => {
            finalPagination.totalCount += mappedMock.length;
         }
 
-        console.log('✅ Final Mapped Appointments:', finalAppointments);
+        console.log(' Final Mapped Appointments:', finalAppointments);
 
         setAppointments(finalAppointments);
         setPagination(finalPagination);
         setStatistics(finalStats);
       } else {
-        console.error('❌ Response validation failed:', {
+        console.error(' Response validation failed:', {
           isSuccess: response.isSuccess,
           hasData: !!response.data,
           message: response.message
@@ -100,7 +100,7 @@ export const useAllAppointments = () => {
       const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل المواعيد';
       setError(errorMessage);
       console.error('═══════════════════════════════════════');
-      console.error('❌ Error fetching all appointments:', err);
+      console.error(' Error fetching all appointments:', err);
       console.error('═══════════════════════════════════════');
     } finally {
       setLoading(false);
@@ -119,12 +119,12 @@ export const useAllAppointments = () => {
       phoneNumber: apiData.patientPhoneNumber,
       time: formatTime(apiData.appointmentTime),
       appointmentDate: apiData.appointmentDate,
-      bookingDate: apiData.bookingDate || apiData.createdAt, // ✅ تاريخ الحجز
+      bookingDate: apiData.bookingDate || apiData.createdAt, //  تاريخ الحجز
       duration: apiData.duration,
       status: apiData.appointmentType === 'regular' ? 'كشف عام' : 'متابعة',
       appointmentType: apiData.appointmentType,
       apiStatus: apiData.status,
-      isCancelled: apiData.status === 6, // ✅ Status 6 = Cancelled (ملغي)
+      isCancelled: apiData.status === 6, //  Status 6 = Cancelled (ملغي)
       notes: apiData.notes,
       price: apiData.price,
     };
@@ -150,7 +150,7 @@ export const useAllAppointments = () => {
       const hour12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
       return `${hour12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
     } catch (error) {
-      console.error('❌ Error formatting time:', time24, error);
+      console.error(' Error formatting time:', time24, error);
       return '--:--';
     }
   };
@@ -184,7 +184,7 @@ export const useAllAppointments = () => {
    * Refresh appointments - always from page 1 to avoid stale state
    */
   const refreshCurrentPage = () => {
-    console.log('🔄 Refreshing all appointments - from page 1');
+    console.log(' Refreshing all appointments - from page 1');
     return fetchAppointments(1, 12);
   };
 
@@ -193,7 +193,7 @@ export const useAllAppointments = () => {
     loading,
     error,
     pagination,
-    statistics, // ✅ Return statistics
+    statistics, //  Return statistics
     refreshAppointments: refreshCurrentPage,
     goToNextPage,
     goToPreviousPage,

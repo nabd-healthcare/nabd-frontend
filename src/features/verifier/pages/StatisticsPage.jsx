@@ -8,7 +8,7 @@ import useVerifier from '../hooks/useVerifier';
  * Comprehensive statistics and analytics for verifier
  */
 const StatisticsPage = () => {
-  console.log('📊 [StatisticsPage] Component rendering!');
+  console.log(' [StatisticsPage] Component rendering!');
   const { stats, loading } = useVerifier();
 
   // Calculate percentages

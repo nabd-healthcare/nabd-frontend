@@ -8,8 +8,8 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   const { isAuthenticated, user, loading } = useAuthStore();
   const location = useLocation();
 
-  // 🐛 Debug logging
-  console.log('🔒 ProtectedRoute Debug:', {
+  //  Debug logging
+  console.log(' ProtectedRoute Debug:', {
     isAuthenticated,
     user: user,
     'user.role': user?.role,
@@ -28,7 +28,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   }
 
   if (!isAuthenticated) {
-    console.log('❌ Not authenticated, redirecting to /login');
+    console.log(' Not authenticated, redirecting to /login');
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
@@ -42,12 +42,12 @@ const ProtectedRoute = ({ children, roles = [] }) => {
     // If roles is an array, take the first one
     if (!rawUserRole && user?.roles && Array.isArray(user.roles)) {
       rawUserRole = user.roles[0];
-      console.log('📋 Found roles array, using first role:', rawUserRole);
+      console.log(' Found roles array, using first role:', rawUserRole);
     }
     
     const userRole = rawUserRole?.toLowerCase();
     
-    console.log('🔍 Role Check:', {
+    console.log(' Role Check:', {
       rawUserRole,
       userRoleLowerCase: userRole,
       requiredRoles: roles,
@@ -56,7 +56,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
     
     const hasAccess = roles.some(role => role.toLowerCase() === userRole);
     
-    console.log('🎯 Access Check Result:', {
+    console.log(' Access Check Result:', {
       hasAccess,
       userRoleType: typeof userRole,
       userRoleValue: userRole,
@@ -74,7 +74,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
     });
     
     if (!hasAccess) {
-      console.log('❌ Role mismatch! Access DENIED', {
+      console.log(' Role mismatch! Access DENIED', {
         user: user,
         userRole: userRole,
         requiredRoles: roles,
@@ -90,10 +90,10 @@ const ProtectedRoute = ({ children, roles = [] }) => {
       return <Navigate to="/unauthorized" replace />;
     }
     
-    console.log('✅ Role match! Access GRANTED');
+    console.log(' Role match! Access GRANTED');
   }
 
-  console.log('✅ Access granted!');
+  console.log(' Access granted!');
   return children;
 };
 

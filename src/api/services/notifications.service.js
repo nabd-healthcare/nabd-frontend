@@ -65,10 +65,10 @@ class NotificationsService {
   async markAsRead(notificationId) {
     try {
       const response = await apiClient.put(`/notifications/${notificationId}/mark-as-read`);
-      console.log('✅ [Notifications API] Marked as read:', notificationId);
+      console.log(' [Notifications API] Marked as read:', notificationId);
       return response.data;
     } catch (error) {
-      console.error('❌ [Notifications API] Failed to mark as read:', error);
+      console.error(' [Notifications API] Failed to mark as read:', error);
       throw error;
     }
   }
@@ -80,10 +80,10 @@ class NotificationsService {
   async markAllAsRead() {
     try {
       const response = await apiClient.put('/notifications/mark-all-as-read');
-      console.log('✅ [Notifications API] All marked as read');
+      console.log(' [Notifications API] All marked as read');
       return response.data;
     } catch (error) {
-      console.error('❌ [Notifications API] Failed to mark all as read:', error);
+      console.error(' [Notifications API] Failed to mark all as read:', error);
       throw error;
     }
   }
@@ -95,10 +95,10 @@ class NotificationsService {
   async deleteNotification(notificationId) {
     try {
       const response = await apiClient.delete(`/notifications/${notificationId}`);
-      console.log('✅ [Notifications API] Deleted:', notificationId);
+      console.log(' [Notifications API] Deleted:', notificationId);
       return response.data;
     } catch (error) {
-      console.error('❌ [Notifications API] Failed to delete:', error);
+      console.error(' [Notifications API] Failed to delete:', error);
       throw error;
     }
   }
@@ -110,10 +110,10 @@ class NotificationsService {
   async getAppointmentDetails(appointmentId) {
     try {
       const response = await apiClient.get(`/Appointments/${appointmentId}`);
-      console.log('📥 [Notifications API] Appointment details:', response.data);
+      console.log(' [Notifications API] Appointment details:', response.data);
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ [Notifications API] Failed to fetch appointment details:', error);
+      console.error(' [Notifications API] Failed to fetch appointment details:', error);
       throw error;
     }
   }

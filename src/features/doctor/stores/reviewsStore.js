@@ -64,11 +64,11 @@ const useReviewsStore = create(
         }));
 
         try {
-          console.log('📥 Fetching reviews:', { pageNumber: pagination.pageNumber, pageSize: pagination.pageSize });
+          console.log(' Fetching reviews:', { pageNumber: pagination.pageNumber, pageSize: pagination.pageSize });
 
           if (USE_MOCK_DATA) {
             // Use mock data
-            console.log('🧪 Using mock reviews data');
+            console.log(' Using mock reviews data');
 
             // Simulate API delay
             await new Promise(resolve => setTimeout(resolve, 500));
@@ -96,13 +96,13 @@ const useReviewsStore = create(
               loading: { ...get().loading, reviews: false }
             });
 
-            console.log('✅ Mock reviews loaded');
+            console.log(' Mock reviews loaded');
             return;
           }
 
           const response = await doctorService.getReviews(pagination.pageNumber, pagination.pageSize);
 
-          console.log('✅ Reviews fetched:', response);
+          console.log(' Reviews fetched:', response);
 
           if (response) {
             set({
@@ -119,7 +119,7 @@ const useReviewsStore = create(
             });
           }
         } catch (error) {
-          console.error('❌ Error fetching reviews:', error);
+          console.error(' Error fetching reviews:', error);
           set((state) => ({
             loading: { ...state.loading, reviews: false },
             error: { ...state.error, reviews: error.message || 'فشل في جلب التقييمات' }
@@ -137,11 +137,11 @@ const useReviewsStore = create(
         }));
 
         try {
-          console.log('📊 Fetching review statistics...');
+          console.log(' Fetching review statistics...');
 
           if (USE_MOCK_DATA) {
             // Use mock statistics
-            console.log('🧪 Using mock statistics data');
+            console.log(' Using mock statistics data');
 
             // Simulate API delay
             await new Promise(resolve => setTimeout(resolve, 300));
@@ -151,20 +151,20 @@ const useReviewsStore = create(
               loading: { ...get().loading, statistics: false }
             });
 
-            console.log('✅ Mock statistics loaded');
+            console.log(' Mock statistics loaded');
             return;
           }
 
           const statistics = await doctorService.getReviewStatistics();
 
-          console.log('✅ Statistics fetched:', statistics);
+          console.log(' Statistics fetched:', statistics);
 
           set({
             statistics,
             loading: { ...get().loading, statistics: false }
           });
         } catch (error) {
-          console.error('❌ Error fetching statistics:', error);
+          console.error(' Error fetching statistics:', error);
           set((state) => ({
             loading: { ...state.loading, statistics: false },
             error: { ...state.error, statistics: error.message || 'فشل في جلب الإحصائيات' }
@@ -231,7 +231,7 @@ const useReviewsStore = create(
         }));
 
         try {
-          console.log('📄 Fetching review details:', reviewId);
+          console.log(' Fetching review details:', reviewId);
 
           if (USE_MOCK_DATA) {
             // Find review in mock data
@@ -243,7 +243,7 @@ const useReviewsStore = create(
                 loading: { ...get().loading, reply: false }
               });
 
-              console.log('✅ Mock review details loaded');
+              console.log(' Mock review details loaded');
               return { success: true, data: reviewDetails };
             } else {
               throw new Error('Review not found');
@@ -252,7 +252,7 @@ const useReviewsStore = create(
 
           const reviewDetails = await doctorService.getReviewDetails(reviewId);
 
-          console.log('✅ Review details fetched:', reviewDetails);
+          console.log(' Review details fetched:', reviewDetails);
 
           set({
             selectedReview: reviewDetails,
@@ -261,7 +261,7 @@ const useReviewsStore = create(
 
           return { success: true, data: reviewDetails };
         } catch (error) {
-          console.error('❌ Error fetching review details:', error);
+          console.error(' Error fetching review details:', error);
           set((state) => ({
             loading: { ...state.loading, reply: false },
             error: { ...state.error, reply: error.message || 'فشل في جلب تفاصيل التقييم' }

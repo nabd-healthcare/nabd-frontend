@@ -5,7 +5,7 @@ import { MOCK_DOCTORS } from '@/features/verifier/data/mockDoctors';
  * Verifier Service
  * Handles all verification-related API calls for admin/verifier role
  * 
- * ⚠️ IMPORTANT - Authorization:
+ * ️ IMPORTANT - Authorization:
  * - All endpoints in this service require ADMIN/VERIFIER role
  * - These endpoints will NOT work with Doctor token
  * - Doctor can only use: POST /api/Doctors/me/submit-for-review (in doctor.service.js)
@@ -44,7 +44,7 @@ class VerifierService {
         pageSize: pageSize
       };
     } catch (error) {
-      console.warn('⚠️ API Failed, using Mock Data only');
+      console.warn('️ API Failed, using Mock Data only');
       const mockPending = MOCK_DOCTORS.filter(d => d.verificationStatus === 5);
       return {
         data: mockPending,
@@ -79,7 +79,7 @@ class VerifierService {
         totalCount: allDoctors.length
       };
     } catch (error) {
-      console.warn('⚠️ API Failed, using Mock Data only');
+      console.warn('️ API Failed, using Mock Data only');
       const mockReview = MOCK_DOCTORS.filter(d => d.verificationStatus === 1);
       return { data: mockReview, totalCount: mockReview.length };
     }
@@ -88,7 +88,7 @@ class VerifierService {
   /**
    * Get verified doctors (verified by current verifier only)
    * GET /api/Doctors/status/verified
-   * ⚠️ Returns only doctors verified by the logged-in verifier
+   * ️ Returns only doctors verified by the logged-in verifier
    * @param {number} pageNumber - Page number (default: 1)
    * @param {number} pageSize - Page size (default: 10)
    * @returns {Promise<Object>} Paginated list of doctors verified by current verifier
@@ -97,8 +97,8 @@ class VerifierService {
     const response = await apiClient.get('/Verifier/doctors/status/verified', {
       params: { pageNumber, pageSize }
     });
-    console.log('📥 [Verifier Service] Verified response:', response.data);
-    console.log('📋 [Verifier Service] Doctors array:', response.data?.data?.data);
+    console.log(' [Verifier Service] Verified response:', response.data);
+    console.log(' [Verifier Service] Doctors array:', response.data?.data?.data);
     return response.data?.data || { data: [], totalCount: 0 };
   }
 
@@ -113,8 +113,8 @@ class VerifierService {
     const response = await apiClient.get('/Verifier/doctors/status/rejected', {
       params: { pageNumber, pageSize }
     });
-    console.log('📥 [Verifier Service] Rejected response:', response.data);
-    console.log('📋 [Verifier Service] Doctors array:', response.data?.data?.data);
+    console.log(' [Verifier Service] Rejected response:', response.data);
+    console.log(' [Verifier Service] Doctors array:', response.data?.data?.data);
     return response.data?.data || { data: [], totalCount: 0 };
   }
 
@@ -128,7 +128,7 @@ class VerifierService {
    */
   async startReview(doctorId) {
     const response = await apiClient.post(`/Verifier/doctors/${doctorId}/start-review`);
-    console.log('🔄 [Verifier Service] Start review response:', response.data);
+    console.log(' [Verifier Service] Start review response:', response.data);
     return response.data;
   }
 
@@ -141,7 +141,7 @@ class VerifierService {
    */
   async verifyDoctor(doctorId) {
     const response = await apiClient.post(`/Verifier/doctors/${doctorId}/verify`);
-    console.log('✅ [Verifier Service] Verify doctor response:', response.data);
+    console.log(' [Verifier Service] Verify doctor response:', response.data);
     return response.data;
   }
 
@@ -153,7 +153,7 @@ class VerifierService {
    */
   async rejectDoctor(doctorId) {
     const response = await apiClient.post(`/Verifier/doctors/${doctorId}/reject`);
-    console.log('❌ [Verifier Service] Reject doctor response:', response.data);
+    console.log(' [Verifier Service] Reject doctor response:', response.data);
     return response.data;
   }
 
@@ -167,7 +167,7 @@ class VerifierService {
    */
   async getDoctorDocuments(doctorId) {
     const response = await apiClient.get(`/Verifier/doctors/${doctorId}/documents`);
-    console.log('📄 [Verifier Service] Doctor documents response:', response.data);
+    console.log(' [Verifier Service] Doctor documents response:', response.data);
     return response.data?.data || [];
   }
 
@@ -179,7 +179,7 @@ class VerifierService {
    */
   async approveDocument(documentId) {
     const response = await apiClient.post(`/Verifier/documents/${documentId}/approve`);
-    console.log('✅ [Verifier Service] Approve document response:', response.data);
+    console.log(' [Verifier Service] Approve document response:', response.data);
     return response.data;
   }
 
@@ -193,7 +193,7 @@ class VerifierService {
   async rejectDocument(documentId, rejectionReason = null) {
     const body = rejectionReason ? { rejectionReason } : {};
     const response = await apiClient.post(`/Verifier/documents/${documentId}/reject`, body);
-    console.log('❌ [Verifier Service] Reject document response:', response.data);
+    console.log(' [Verifier Service] Reject document response:', response.data);
     return response.data;
   }
 

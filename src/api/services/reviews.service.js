@@ -18,14 +18,14 @@ class ReviewsService {
    */
   async getDoctorReviews(params = {}) {
     try {
-      console.log('📊 Fetching doctor reviews with params:', params);
+      console.log(' Fetching doctor reviews with params:', params);
       
       const response = await apiClient.get('/Doctors/me/reviews', { params });
       
-      console.log('✅ Reviews fetched successfully:', response.data);
+      console.log(' Reviews fetched successfully:', response.data);
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ Error fetching reviews:', error);
+      console.error(' Error fetching reviews:', error);
       throw error;
     }
   }
@@ -36,14 +36,14 @@ class ReviewsService {
    */
   async getReviewStatistics() {
     try {
-      console.log('📈 Fetching review statistics');
+      console.log(' Fetching review statistics');
       
       const response = await apiClient.get('/Doctors/me/reviews/statistics');
       
-      console.log('✅ Statistics fetched successfully:', response.data);
+      console.log(' Statistics fetched successfully:', response.data);
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ Error fetching statistics:', error);
+      console.error(' Error fetching statistics:', error);
       throw error;
     }
   }
@@ -56,16 +56,16 @@ class ReviewsService {
    */
   async replyToReview(reviewId, reply) {
     try {
-      console.log('💬 Replying to review:', reviewId);
+      console.log(' Replying to review:', reviewId);
       
       const response = await apiClient.post(`/Reviews/${reviewId}/reply`, {
         doctorReply: reply
       });
       
-      console.log('✅ Reply sent successfully');
+      console.log(' Reply sent successfully');
       return response.data;
     } catch (error) {
-      console.error('❌ Error sending reply:', error);
+      console.error(' Error sending reply:', error);
       throw error;
     }
   }
@@ -77,14 +77,14 @@ class ReviewsService {
    */
   async getReviewDetails(reviewId) {
     try {
-      console.log('🔍 Fetching review details:', reviewId);
+      console.log(' Fetching review details:', reviewId);
       
       const response = await apiClient.get(`/Reviews/${reviewId}`);
       
-      console.log('✅ Review details fetched successfully');
+      console.log(' Review details fetched successfully');
       return response.data?.data || null;
     } catch (error) {
-      console.error('❌ Error fetching review details:', error);
+      console.error(' Error fetching review details:', error);
       throw error;
     }
   }

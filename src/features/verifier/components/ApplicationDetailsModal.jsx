@@ -43,15 +43,15 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
       if (!application.id) return;
 
       setLoadingDocuments(true);
-      console.log('📄 [Modal] Fetching documents for doctor:', application.id);
+      console.log(' [Modal] Fetching documents for doctor:', application.id);
 
       const result = await fetchDoctorDocuments(application.id);
 
       if (result.success && result.documents) {
-        console.log('✅ [Modal] Documents loaded:', result.documents);
+        console.log(' [Modal] Documents loaded:', result.documents);
         setDocuments(result.documents);
       } else {
-        console.error('❌ [Modal] Failed to load documents:', result.error);
+        console.error(' [Modal] Failed to load documents:', result.error);
         // Keep using application.documents as fallback
       }
 
@@ -97,12 +97,12 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
       // Handle authentication errors
       if (result.error?.includes('refresh token') || result.error?.includes('401') || result.error?.includes('Unauthorized')) {
         onClose();
-        alert('🔒 انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
+        alert(' انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       } else {
-        alert(`❌ حدث خطأ أثناء قبول المستند: ${result.error || 'خطأ غير معروف'}`);
+        alert(` حدث خطأ أثناء قبول المستند: ${result.error || 'خطأ غير معروف'}`);
       }
     }
   };
@@ -124,12 +124,12 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
       // Handle authentication errors
       if (result.error?.includes('refresh token') || result.error?.includes('401') || result.error?.includes('Unauthorized')) {
         onClose();
-        alert('🔒 انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
+        alert(' انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       } else {
-        alert(`❌ حدث خطأ أثناء رفض المستند: ${result.error || 'خطأ غير معروف'}`);
+        alert(` حدث خطأ أثناء رفض المستند: ${result.error || 'خطأ غير معروف'}`);
       }
     }
   };
@@ -151,19 +151,19 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
     setActionLoading(false);
 
     if (result.success) {
-      alert('✅ تم قبول الطلب بنجاح');
+      alert(' تم قبول الطلب بنجاح');
       onClose();
     } else {
       // Check if it's an authentication error
       if (result.error?.includes('refresh token') || result.error?.includes('401') || result.error?.includes('Unauthorized')) {
-        onClose(); // ✅ Close modal first
-        alert('🔒 انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
+        onClose(); //  Close modal first
+        alert(' انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
         // Redirect to login immediately
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       } else {
-        alert(`❌ حدث خطأ أثناء قبول الطلب: ${result.error || 'خطأ غير معروف'}`);
+        alert(` حدث خطأ أثناء قبول الطلب: ${result.error || 'خطأ غير معروف'}`);
       }
     }
   };
@@ -171,7 +171,7 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
   // Handle reject all
   const handleRejectAll = async () => {
     if (!generalNotes.trim()) {
-      alert('⚠️ يرجى كتابة سبب الرفض في الملاحظات العامة');
+      alert('️ يرجى كتابة سبب الرفض في الملاحظات العامة');
       return;
     }
 
@@ -182,19 +182,19 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
     setActionLoading(false);
 
     if (result.success) {
-      alert('✅ تم رفض الطلب');
+      alert(' تم رفض الطلب');
       onClose();
     } else {
       // Check if it's an authentication error
       if (result.error?.includes('refresh token') || result.error?.includes('401') || result.error?.includes('Unauthorized')) {
-        onClose(); // ✅ Close modal first
-        alert('🔒 انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
+        onClose(); //  Close modal first
+        alert(' انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
         // Redirect to login immediately
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       } else {
-        alert(`❌ حدث خطأ أثناء رفض الطلب: ${result.error || 'خطأ غير معروف'}`);
+        alert(` حدث خطأ أثناء رفض الطلب: ${result.error || 'خطأ غير معروف'}`);
       }
     }
   };
@@ -208,19 +208,19 @@ const ApplicationDetailsModal = ({ application, onClose }) => {
     setActionLoading(false);
 
     if (result.success) {
-      alert('✅ تم تحويل الطلب إلى "تحت المراجعة"');
+      alert(' تم تحويل الطلب إلى "تحت المراجعة"');
       onClose();
     } else {
       // Check if it's an authentication error
       if (result.error?.includes('refresh token') || result.error?.includes('401') || result.error?.includes('Unauthorized')) {
-        onClose(); // ✅ Close modal first
-        alert('🔒 انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
+        onClose(); //  Close modal first
+        alert(' انتهت صلاحية الجلسة. سيتم توجيهك لتسجيل الدخول...');
         // Redirect to login immediately
         setTimeout(() => {
           window.location.href = '/login';
         }, 1500);
       } else {
-        alert(`❌ حدث خطأ أثناء تحويل الطلب: ${result.error || 'خطأ غير معروف'}`);
+        alert(` حدث خطأ أثناء تحويل الطلب: ${result.error || 'خطأ غير معروف'}`);
       }
     }
   };

@@ -39,7 +39,7 @@ const StatusFilter = ({ activeStatus, onStatusChange, stats }) => {
           <button
             key={status}
             onClick={() => {
-              console.log('🔘 [StatusFilter] Button clicked! Status:', status, 'Label:', STATUS_LABELS[status]);
+              console.log(' [StatusFilter] Button clicked! Status:', status, 'Label:', STATUS_LABELS[status]);
               onStatusChange(status);
             }}
             className={`

@@ -52,7 +52,7 @@ export const useDoctors = ({ autoFetch = true } = {}) => {
   // Auto-fetch doctors on mount
   useEffect(() => {
     if (autoFetch) {
-      console.log('🔄 useDoctors: Auto-fetching doctors on mount');
+      console.log(' useDoctors: Auto-fetching doctors on mount');
       fetchDoctors();
     }
   }, [autoFetch, fetchDoctors]);

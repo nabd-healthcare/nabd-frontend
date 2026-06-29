@@ -35,7 +35,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
     // Get patient ID (could be 'id' or 'patientId')
     const patientId = patient?.patientId || patient?.id;
     
-    console.log('🔄 useEffect triggered:', {
+    console.log(' useEffect triggered:', {
       isOpen,
       'patient?.id': patient?.id,
       'patient?.patientId': patient?.patientId,
@@ -46,21 +46,21 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
     
     // Only fetch if modal is open and we have both IDs
     if (!isOpen) {
-      console.log('⏸️ Modal is closed, skipping fetch');
+      console.log('️ Modal is closed, skipping fetch');
       return;
     }
     
     if (!patientId) {
-      console.log('⚠️ No patientId available');
+      console.log('️ No patientId available');
       return;
     }
     
     if (!user?.id) {
-      console.log('⚠️ No doctorId available, waiting...');
+      console.log('️ No doctorId available, waiting...');
       return;
     }
     
-    console.log('🔍 Fetching prescriptions for patient:', patientId, 'doctor:', user.id);
+    console.log(' Fetching prescriptions for patient:', patientId, 'doctor:', user.id);
     fetchPrescriptions(patientId, user.id);
     
   }, [isOpen, patient?.id, patient?.patientId, user?.id, fetchPrescriptions]);
@@ -137,7 +137,7 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
           {/* Body */}
           <div className="p-6 max-h-[calc(100vh-200px)] overflow-y-auto">
             {(() => {
-              console.log('🎨 Render state:', {
+              console.log(' Render state:', {
                 detailsLoading,
                 detailsError,
                 prescriptions,

@@ -21,7 +21,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
   // Helper function to safely format appointment date
   const getFormattedAppointmentDate = () => {
     // Debug: Log available date fields
-    console.log('🔍 [Modal] Available date fields:', {
+    console.log(' [Modal] Available date fields:', {
       appointmentDate: appointmentDetails?.appointmentDate,
       createdAt: appointmentDetails?.createdAt,
       updatedAt: appointmentDetails?.updatedAt,
@@ -41,20 +41,20 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
     for (const dateStr of dateOptions) {
       if (dateStr) {
         try {
-          console.log('🔍 [Modal] Trying to format date:', dateStr);
+          console.log(' [Modal] Trying to format date:', dateStr);
           const formatted = formatDateTime(dateStr);
-          console.log('✅ [Modal] Formatted result:', formatted);
+          console.log(' [Modal] Formatted result:', formatted);
           if (formatted && formatted !== '') {
             return formatted;
           }
         } catch (error) {
-          console.warn('❌ [Modal] Failed to format date:', dateStr, error);
+          console.warn(' [Modal] Failed to format date:', dateStr, error);
           continue;
         }
       }
     }
 
-    console.warn('⚠️ [Modal] No valid date found, using fallback');
+    console.warn('️ [Modal] No valid date found, using fallback');
     return 'غير محدد';
   };
 
@@ -78,7 +78,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
         );
         setAppointmentDetails(details);
       } catch (err) {
-        console.error('❌ Failed to fetch appointment details:', err);
+        console.error(' Failed to fetch appointment details:', err);
         setError('فشل تحميل تفاصيل الجلسة');
       } finally {
         setLoading(false);
@@ -241,7 +241,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                     {notification?.timestamp && (
                       <div className="text-center">
                         <p className="text-l text-amber-600 bg-amber-50 px-3 py-2 rounded-lg inline-block">
-                          ⚠️ {getRelativeTime(notification.timestamp)}
+                          ️ {getRelativeTime(notification.timestamp)}
                         </p>
                       </div>
                     )}

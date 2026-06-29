@@ -52,7 +52,7 @@ export const PaymentStatus = {
  */
 export const initiateAppointmentPayment = async (appointmentId, paymentMethod, paymentType) => {
   try {
-    console.log('💳 [PaymentService] Initiating appointment payment:', {
+    console.log(' [PaymentService] Initiating appointment payment:', {
       appointmentId,
       paymentMethod,
       paymentType,
@@ -67,14 +67,14 @@ export const initiateAppointmentPayment = async (appointmentId, paymentMethod, p
       }
     );
 
-    console.log('✅ [PaymentService] Payment initiated:', response.data);
+    console.log(' [PaymentService] Payment initiated:', response.data);
 
     return {
       success: true,
       data: response.data?.data || response.data,
     };
   } catch (error) {
-    console.error('❌ [PaymentService] Failed to initiate appointment payment:', error);
+    console.error(' [PaymentService] Failed to initiate appointment payment:', error);
     throw error;
   }
 };
@@ -88,7 +88,7 @@ export const initiateAppointmentPayment = async (appointmentId, paymentMethod, p
  */
 export const initiatePharmacyOrderPayment = async (pharmacyOrderId, paymentMethod, paymentType) => {
   try {
-    console.log('💳 [PaymentService] Initiating pharmacy order payment:', {
+    console.log(' [PaymentService] Initiating pharmacy order payment:', {
       pharmacyOrderId,
       paymentMethod,
       paymentType,
@@ -103,14 +103,14 @@ export const initiatePharmacyOrderPayment = async (pharmacyOrderId, paymentMetho
       }
     );
 
-    console.log('✅ [PaymentService] Payment initiated:', response.data);
+    console.log(' [PaymentService] Payment initiated:', response.data);
 
     return {
       success: true,
       data: response.data?.data || response.data,
     };
   } catch (error) {
-    console.error('❌ [PaymentService] Failed to initiate pharmacy order payment:', error);
+    console.error(' [PaymentService] Failed to initiate pharmacy order payment:', error);
     throw error;
   }
 };
@@ -124,7 +124,7 @@ export const initiatePharmacyOrderPayment = async (pharmacyOrderId, paymentMetho
  */
 export const initiateLabOrderPayment = async (labOrderId, paymentMethod, paymentType) => {
   try {
-    console.log('💳 [PaymentService] Initiating lab order payment:', {
+    console.log(' [PaymentService] Initiating lab order payment:', {
       labOrderId,
       paymentMethod,
       paymentType,
@@ -139,14 +139,14 @@ export const initiateLabOrderPayment = async (labOrderId, paymentMethod, payment
       }
     );
 
-    console.log('✅ [PaymentService] Payment initiated:', response.data);
+    console.log(' [PaymentService] Payment initiated:', response.data);
 
     return {
       success: true,
       data: response.data?.data || response.data,
     };
   } catch (error) {
-    console.error('❌ [PaymentService] Failed to initiate lab order payment:', error);
+    console.error(' [PaymentService] Failed to initiate lab order payment:', error);
     throw error;
   }
 };
@@ -158,18 +158,18 @@ export const initiateLabOrderPayment = async (labOrderId, paymentMethod, payment
  */
 export const getPaymentDetails = async (paymentId) => {
   try {
-    console.log('🔍 [PaymentService] Fetching payment details:', paymentId);
+    console.log(' [PaymentService] Fetching payment details:', paymentId);
 
     const response = await apiClient.get(`/api/payments/${paymentId}`);
 
-    console.log('✅ [PaymentService] Payment details fetched:', response.data);
+    console.log(' [PaymentService] Payment details fetched:', response.data);
 
     return {
       success: true,
       data: response.data?.data || response.data,
     };
   } catch (error) {
-    console.error('❌ [PaymentService] Failed to fetch payment details:', error);
+    console.error(' [PaymentService] Failed to fetch payment details:', error);
     throw error;
   }
 };
@@ -181,11 +181,11 @@ export const getPaymentDetails = async (paymentId) => {
  */
 export const cancelPayment = async (paymentId) => {
   try {
-    console.log('🚫 [PaymentService] Cancelling payment:', paymentId);
+    console.log(' [PaymentService] Cancelling payment:', paymentId);
 
     const response = await apiClient.post(`/api/payments/${paymentId}/cancel`);
 
-    console.log('✅ [PaymentService] Payment cancelled:', response.data);
+    console.log(' [PaymentService] Payment cancelled:', response.data);
 
     return {
       success: true,
@@ -205,7 +205,7 @@ export const testPaymentSuccess = async (paymentId) => {
     const response = await apiClient.post(`/Payments/${paymentId}/test-success`);
     return response.data;
   } catch (error) {
-    console.error('❌ [PaymentService] Failed to test success:', error);
+    console.error(' [PaymentService] Failed to test success:', error);
     throw error;
   }
 };

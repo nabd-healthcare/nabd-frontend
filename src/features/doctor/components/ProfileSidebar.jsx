@@ -14,18 +14,18 @@ const ProfileSidebar = ({ formData, activeSection, setActiveSection, onSubmitFor
   useEffect(() => {
     const fetchVerificationStatus = async () => {
       try {
-        console.log('🔍 [ProfileSidebar] Fetching verification status...');
+        console.log(' [ProfileSidebar] Fetching verification status...');
         const doctorData = await doctorService.getVerificationStatus();
-        console.log('✅ [ProfileSidebar] Doctor data:', doctorData);
+        console.log(' [ProfileSidebar] Doctor data:', doctorData);
         
         if (doctorData?.verificationStatus !== undefined) {
           setVerificationStatus(doctorData.verificationStatus);
           // Update user in auth store
           updateUserProfile({ verificationStatus: doctorData.verificationStatus });
-          console.log('✅ [ProfileSidebar] Updated verificationStatus:', doctorData.verificationStatus);
+          console.log(' [ProfileSidebar] Updated verificationStatus:', doctorData.verificationStatus);
         }
       } catch (error) {
-        console.error('❌ [ProfileSidebar] Error fetching verification status:', error);
+        console.error(' [ProfileSidebar] Error fetching verification status:', error);
       }
     };
     

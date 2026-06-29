@@ -20,7 +20,7 @@ export const decodeToken = (token) => {
     );
     return JSON.parse(jsonPayload);
   } catch (error) {
-    console.error('❌ Failed to decode token:', error);
+    console.error(' Failed to decode token:', error);
     return null;
   }
 };

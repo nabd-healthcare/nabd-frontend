@@ -58,22 +58,22 @@ const UserTypeSelectionPage = () => {
 
     try {
       // Register new user with selected type
-      console.log('📤 Registering user with type:', selectedType);
+      console.log(' Registering user with type:', selectedType);
       const response = await authService.googleLogin(googleToken, selectedType);
 
-      console.log('📦 Backend Response:', response);
+      console.log(' Backend Response:', response);
 
       // Backend returns: { isSuccess, message, data, errors, statusCode }
       const { isSuccess, data, statusCode, message } = response;
 
-      console.log('📦 Full Data Object:', data);
+      console.log(' Full Data Object:', data);
 
       // Convert statusCode to number (might be string)
       const statusNum = typeof statusCode === 'string' ? parseInt(statusCode, 10) : statusCode;
 
       // Verify user was created successfully
       if (isSuccess && data && (statusNum === 200 || statusNum === 201)) {
-        console.log('✅ User registered successfully with type:', selectedType);
+        console.log(' User registered successfully with type:', selectedType);
         console.log('Status Code:', statusNum);
         console.log('User Object:', data.user);
         console.log('User Role from Backend:', data.user?.role);
@@ -92,11 +92,11 @@ const UserTypeSelectionPage = () => {
 
         // If backend didn't return role, use selectedType
         if (!role || role === 'null' || role === null) {
-          console.log('⚠️ Backend did not return role, using selectedType:', selectedType);
+          console.log('️ Backend did not return role, using selectedType:', selectedType);
           role = selectedType.toLowerCase();
         }
 
-        console.log('📍 Final Role for Navigation:', role);
+        console.log(' Final Role for Navigation:', role);
 
         const dashboardRoutes = {
           patient: '/patient/search',
@@ -104,14 +104,14 @@ const UserTypeSelectionPage = () => {
         };
 
         const targetRoute = dashboardRoutes[role] || '/doctor/dashboard';
-        console.log('🎯 Navigating to:', targetRoute);
+        console.log(' Navigating to:', targetRoute);
         navigate(targetRoute);
       } else {
         throw new Error(message || 'Unexpected response from backend');
       }
 
     } catch (error) {
-      console.error('❌ Google registration failed:', error);
+      console.error(' Google registration failed:', error);
       const backendResponse = error.response?.data;
       const errorMessage = backendResponse?.message || error.message || 'فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.';
       setError(errorMessage);

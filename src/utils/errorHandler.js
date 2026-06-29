@@ -60,7 +60,7 @@ export const handleApiError = (error) => {
 
 export const logError = (error, context = '') => {
   if (import.meta.env.DEV) {
-    console.error(`❌ Error${context ? ` in ${context}` : ''}:`, {
+    console.error(` Error${context ? ` in ${context}` : ''}:`, {
       message: error.message,
       status: error.response?.status,
       data: error.response?.data,

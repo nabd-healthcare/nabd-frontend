@@ -32,11 +32,11 @@ const RescheduleAppointmentModal = ({ isOpen, onClose, onConfirm, loading: exter
       // Extract doctorId from appointment
       const doctorId = appointment.doctorId;
       
-      console.log('🔍 Reschedule Modal - Appointment:', appointment);
-      console.log('🔍 Doctor ID:', doctorId);
+      console.log(' Reschedule Modal - Appointment:', appointment);
+      console.log(' Doctor ID:', doctorId);
       
       if (doctorId) {
-        console.log('✅ Fetching availability for doctor:', doctorId);
+        console.log(' Fetching availability for doctor:', doctorId);
         
         // Set service details from appointment (for duration calculation)
         const serviceDetails = {
@@ -46,7 +46,7 @@ const RescheduleAppointmentModal = ({ isOpen, onClose, onConfirm, loading: exter
           price: appointment.consultationFee || 0,
         };
         
-        console.log('🔍 Setting service details:', serviceDetails);
+        console.log(' Setting service details:', serviceDetails);
         
         // Manually set service details in the store
         useBookingStore.setState({
@@ -56,7 +56,7 @@ const RescheduleAppointmentModal = ({ isOpen, onClose, onConfirm, loading: exter
         // Fetch doctor availability
         fetchDoctorAvailability(doctorId);
       } else {
-        console.error('❌ No doctor ID found in appointment!');
+        console.error(' No doctor ID found in appointment!');
       }
     }
   }, [isOpen, appointment]);
@@ -103,11 +103,11 @@ const RescheduleAppointmentModal = ({ isOpen, onClose, onConfirm, loading: exter
     const startISO = `${selectedDate}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
     const endISO = `${selectedDate}T${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}:00`;
 
-    console.log('🔄 Reschedule - Selected Time:', selectedTime);
-    console.log('🔄 Reschedule - Selected Date:', selectedDate);
-    console.log('🔄 Reschedule - Duration:', serviceDuration, 'minutes');
-    console.log('🔄 Reschedule - Start ISO:', startISO);
-    console.log('🔄 Reschedule - End ISO:', endISO);
+    console.log(' Reschedule - Selected Time:', selectedTime);
+    console.log(' Reschedule - Selected Date:', selectedDate);
+    console.log(' Reschedule - Duration:', serviceDuration, 'minutes');
+    console.log(' Reschedule - Start ISO:', startISO);
+    console.log(' Reschedule - End ISO:', endISO);
 
     onConfirm(startISO, endISO);
   };

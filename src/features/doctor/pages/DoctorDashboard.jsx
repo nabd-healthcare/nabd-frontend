@@ -62,30 +62,30 @@ const DoctorDashboard = () => {
 
     const initializeSignalR = async () => {
       try {
-        console.log('[DoctorDashboard] 🔌 Initializing SignalR connection...');
+        console.log('[DoctorDashboard]  Initializing SignalR connection...');
         console.log('[DoctorDashboard] Connection state before:', signalRService.getConnectionState());
 
         // Connect to SignalR if not already connected
         if (!signalRService.isConnected) {
           await signalRService.connect(accessToken);
-          console.log('[DoctorDashboard] ✅ SignalR connected successfully');
+          console.log('[DoctorDashboard]  SignalR connected successfully');
         } else {
           console.log('[DoctorDashboard] ℹ️ SignalR already connected');
         }
 
         console.log('[DoctorDashboard] Connection state after:', signalRService.getConnectionState());
-        console.log('[DoctorDashboard] 📡 Registering listener for NewAppointmentToday');
+        console.log('[DoctorDashboard]  Registering listener for NewAppointmentToday');
 
         // Setup listener for new appointments
         const handleNewAppointment = (appointmentData) => {
           if (!isSubscribed) {
-            console.log('[DoctorDashboard] ⚠️ Component unmounted, ignoring event');
+            console.log('[DoctorDashboard] ️ Component unmounted, ignoring event');
             return;
           }
 
           console.log('═══════════════════════════════════════');
-          console.log('📡 [SignalR] NewAppointmentToday EVENT RECEIVED!');
-          console.log('📡 [SignalR] Raw data:', JSON.stringify(appointmentData, null, 2));
+          console.log(' [SignalR] NewAppointmentToday EVENT RECEIVED!');
+          console.log(' [SignalR] Raw data:', JSON.stringify(appointmentData, null, 2));
           console.log('═══════════════════════════════════════');
 
           try {
@@ -108,20 +108,20 @@ const DoctorDashboard = () => {
               price: appointmentData.price,
             };
 
-            console.log('✅ [SignalR] Formatted appointment:', newAppointment);
-            console.log('🔄 [SignalR] Calling refreshAppointments()...');
+            console.log(' [SignalR] Formatted appointment:', newAppointment);
+            console.log(' [SignalR] Calling refreshAppointments()...');
 
             // Refresh appointments to get the new one
             refreshAppointments();
 
-            console.log('🔄 [SignalR] Calling refreshStats()...');
+            console.log(' [SignalR] Calling refreshStats()...');
             // Refresh stats to update counters
             refreshStats();
 
             // Show notification to doctor
             const notificationMessage = `موعد جديد: ${appointmentData.patientName} - ${formattedTime}`;
 
-            console.log('🔔 [SignalR] Showing notification:', notificationMessage);
+            console.log(' [SignalR] Showing notification:', notificationMessage);
 
             // Browser notification if supported and permitted
             if ('Notification' in window && Notification.permission === 'granted') {
@@ -133,33 +133,33 @@ const DoctorDashboard = () => {
             }
 
 
-            console.log('✅ [SignalR] Dashboard updated with new appointment');
+            console.log(' [SignalR] Dashboard updated with new appointment');
             console.log('═══════════════════════════════════════');
           } catch (error) {
-            console.error('❌ [SignalR] Error handling new appointment:', error);
-            console.error('❌ [SignalR] Error stack:', error.stack);
+            console.error(' [SignalR] Error handling new appointment:', error);
+            console.error(' [SignalR] Error stack:', error.stack);
           }
         };
 
         // Register the primary listener
         signalRService.on('NewAppointmentToday', handleNewAppointment);
-        console.log('[DoctorDashboard] ✅ Listener registered for: NewAppointmentToday');
+        console.log('[DoctorDashboard]  Listener registered for: NewAppointmentToday');
 
-        // ⚠️ DEBUGGING: Try alternative event names (case variations)
+        // ️ DEBUGGING: Try alternative event names (case variations)
         signalRService.on('newAppointmentToday', (data) => {
-          console.log('⚠️ [DEBUG] Received event: newAppointmentToday (lowercase)', data);
+          console.log('️ [DEBUG] Received event: newAppointmentToday (lowercase)', data);
           handleNewAppointment(data);
         });
 
         signalRService.on('ReceiveNotification', (notification) => {
-          console.log('⚠️ [DEBUG] Received event: ReceiveNotification');
-          console.log('⚠️ [DEBUG] Full notification object:', JSON.stringify(notification, null, 2));
-          console.log('⚠️ [DEBUG] notification.title:', notification.title);
-          console.log('⚠️ [DEBUG] notification.data:', notification.data);
+          console.log('️ [DEBUG] Received event: ReceiveNotification');
+          console.log('️ [DEBUG] Full notification object:', JSON.stringify(notification, null, 2));
+          console.log('️ [DEBUG] notification.title:', notification.title);
+          console.log('️ [DEBUG] notification.data:', notification.data);
 
           // Check if it's a new appointment notification
           if (notification.title === 'NewAppointmentToday') {
-            console.log('📌 This is a NewAppointmentToday notification, processing...');
+            console.log(' This is a NewAppointmentToday notification, processing...');
 
             // الـ appointment data موجود في notification.data
             const appointmentData = notification.data;
@@ -167,7 +167,7 @@ const DoctorDashboard = () => {
             if (appointmentData) {
               handleNewAppointment(appointmentData);
             } else {
-              console.error('❌ [DEBUG] notification.data is empty or null!');
+              console.error(' [DEBUG] notification.data is empty or null!');
             }
           } else {
             console.log('ℹ️ [DEBUG] Different notification type:', notification.title);
@@ -176,15 +176,15 @@ const DoctorDashboard = () => {
 
         // Generic catch-all for debugging
         signalRService.on('receiveNotification', (data) => {
-          console.log('⚠️ [DEBUG] Received event: receiveNotification (lowercase)', data);
+          console.log('️ [DEBUG] Received event: receiveNotification (lowercase)', data);
         });
 
-        console.log('[DoctorDashboard] ✅ All listeners registered successfully');
+        console.log('[DoctorDashboard]  All listeners registered successfully');
 
       } catch (error) {
-        console.error('[DoctorDashboard] ❌ SignalR initialization failed:', error);
-        console.error('[DoctorDashboard] ❌ Error details:', error.message);
-        console.error('[DoctorDashboard] ❌ Error stack:', error.stack);
+        console.error('[DoctorDashboard]  SignalR initialization failed:', error);
+        console.error('[DoctorDashboard]  Error details:', error.message);
+        console.error('[DoctorDashboard]  Error stack:', error.stack);
       }
     };
 
@@ -192,7 +192,7 @@ const DoctorDashboard = () => {
 
     // Cleanup
     return () => {
-      console.log('[DoctorDashboard] 🧹 Cleaning up SignalR listeners');
+      console.log('[DoctorDashboard]  Cleaning up SignalR listeners');
       isSubscribed = false;
       signalRService.off('NewAppointmentToday');
       signalRService.off('newAppointmentToday');
@@ -207,13 +207,13 @@ const DoctorDashboard = () => {
       try {
         const result = await sessionService.getDoctorActiveSession();
         if (result.success && result.isActive && result.data) {
-          console.log('🟢 Found active session:', result.data.appointmentId);
+          console.log(' Found active session:', result.data.appointmentId);
           setActiveSessionFromAPI(result.data);
         } else {
           setActiveSessionFromAPI(null);
         }
       } catch (error) {
-        console.error('❌ Error checking active session:', error);
+        console.error(' Error checking active session:', error);
       }
     };
 
@@ -233,8 +233,8 @@ const DoctorDashboard = () => {
    * Handle enter session (start, resume, or view completed)
    */
   const handleStartAppointment = async (appointment) => {
-    console.log('🔵 handleStartAppointment called');
-    console.log('🔵 Appointment ID:', appointment.id);
+    console.log(' handleStartAppointment called');
+    console.log(' Appointment ID:', appointment.id);
 
     // Navigate to the session page directly with appointment data
     navigate(`/doctor/session/${appointment.id}`, { state: { appointment } });
@@ -245,14 +245,14 @@ const DoctorDashboard = () => {
    * Now includes InProgress appointments in the list
    */
   const { displayedAppointments, activeSession, nextAppointment } = useMemo(() => {
-    console.log('🔄 useMemo: Processing appointments', appointments.length);
-    console.log('🔄 Active session from API:', activeSessionFromAPI?.appointmentId);
+    console.log(' useMemo: Processing appointments', appointments.length);
+    console.log(' Active session from API:', activeSessionFromAPI?.appointmentId);
 
     // Update appointments with active session status
     const updatedAppointments = appointments.map(apt => {
       // If this appointment has an active session, update its status
       if (activeSessionFromAPI && apt.id === activeSessionFromAPI.appointmentId) {
-        console.log('🟢 Updating appointment status to InProgress:', apt.id);
+        console.log(' Updating appointment status to InProgress:', apt.id);
         return {
           ...apt,
           apiStatus: 'InProgress' // Force InProgress status
@@ -272,7 +272,7 @@ const DoctorDashboard = () => {
         statusStr === 'inprogress' || statusStr === '3' ||
         statusStr === 'completed' || statusStr === '4';
 
-      console.log(`📋 Appointment ${apt.id}:`, {
+      console.log(` Appointment ${apt.id}:`, {
         patientName: apt.patientName,
         apiStatus: apt.apiStatus,
         isDisplayed
@@ -296,9 +296,9 @@ const DoctorDashboard = () => {
               statusStr === 'checkedin' || statusStr === '2');
     });
 
-    console.log('✅ Displayed appointments:', displayed.length);
-    console.log('✅ Active session:', active ? active.patientName : 'None');
-    console.log('✅ Next appointment:', next ? next.patientName : 'None');
+    console.log(' Displayed appointments:', displayed.length);
+    console.log(' Active session:', active ? active.patientName : 'None');
+    console.log(' Next appointment:', next ? next.patientName : 'None');
 
     return { displayedAppointments: displayed, activeSession: active, nextAppointment: next };
   }, [appointments, activeSessionFromAPI]);
@@ -508,7 +508,7 @@ const DoctorDashboard = () => {
                   {/* Quick Action/Tip Widget */}
                   <div className="mt-8 p-6 bg-slate-50 rounded-3xl border border-slate-100 relative overflow-hidden group">
                      <div className="relative z-10 text-right">
-                        <p className="text-[#1F2E3C] font-black text-base mb-2">تلميح اليوم 💡</p>
+                        <p className="text-[#1F2E3C] font-black text-base mb-2">تلميح اليوم </p>
                         <p className="text-slate-500 text-sm font-bold leading-relaxed">
                           يمكنك استخدام الذكاء الاصطناعي لتشخيص الحالات المعقدة بسرعة أكبر. قم بتجربة أداة التشخيص الآن.
                         </p>

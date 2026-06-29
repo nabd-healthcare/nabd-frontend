@@ -44,14 +44,14 @@ export const useSessionManager = () => {
 
       if (isCompleted) {
         // For completed sessions: Just fetch the data (read-only)
-        console.log('📖 Opening completed session for review:', appointment.id);
+        console.log(' Opening completed session for review:', appointment.id);
         const sessionResult = await getActiveSession(appointment.id);
 
         if (!sessionResult.success) {
           throw new Error(sessionResult.error);
         }
 
-        console.log('✅ Completed session loaded:', sessionResult.message);
+        console.log(' Completed session loaded:', sessionResult.message);
         return {
           success: true,
           data: sessionResult.data,
@@ -60,7 +60,7 @@ export const useSessionManager = () => {
         };
       } else {
         // For pending/active sessions: Check if already started, then resume or start new
-        console.log('🚀 Starting/resuming active session:', appointment.id);
+        console.log(' Starting/resuming active session:', appointment.id);
 
         const appointmentData = {
           duration: appointment.duration || 30,
@@ -78,7 +78,7 @@ export const useSessionManager = () => {
 
         if (isInProgress) {
           // Session already started - just fetch it (resume)
-          console.log('🔄 Resuming existing session:', appointment.id);
+          console.log(' Resuming existing session:', appointment.id);
           const resumeResult = await getActiveSession(appointment.id, appointmentData);
 
           if (!resumeResult.success) {
@@ -86,7 +86,7 @@ export const useSessionManager = () => {
           }
 
           if (!resumeResult.data) {
-            console.log('⚠️ Session not found despite InProgress status. Starting new...');
+            console.log('️ Session not found despite InProgress status. Starting new...');
             const startResult = await startSession(appointment.id, appointmentData);
             if (!startResult.success) throw new Error(startResult.error);
             return {
@@ -97,7 +97,7 @@ export const useSessionManager = () => {
             };
           }
 
-          console.log('✅ Session resumed:', resumeResult.message);
+          console.log(' Session resumed:', resumeResult.message);
           return {
             success: true,
             data: resumeResult.data,
@@ -113,7 +113,7 @@ export const useSessionManager = () => {
             throw new Error(startResult.error);
           }
 
-          console.log('✅ Session started:', startResult.message);
+          console.log(' Session started:', startResult.message);
           return {
             success: true,
             data: startResult.data,
@@ -123,7 +123,7 @@ export const useSessionManager = () => {
         }
       }
     } catch (error) {
-      console.error('❌ Session Error:', error);
+      console.error(' Session Error:', error);
 
       let errorMessage = error.message || 'فشل بدء الجلسة. يرجى المحاولة مرة أخرى.';
 

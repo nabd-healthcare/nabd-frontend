@@ -45,38 +45,38 @@ export const usePatientsStore = create(
          * Only returns patients with COMPLETED appointments
          */
         fetchPatients: async (pageNumber = 1, pageSize = 20) => {
-          console.log('🚀 fetchPatients called:', { pageNumber, pageSize });
+          console.log(' fetchPatients called:', { pageNumber, pageSize });
           set({ loading: true, error: null });
 
-          // ❌ Removed early return for mock data to allow merging below
+          //  Removed early return for mock data to allow merging below
 
           try {
             const response = await doctorService.getPatients({ pageNumber, pageSize });
 
             console.log('═══════════════════════════════════════');
-            console.log('📡 Patients API Response:', response);
-            console.log('📡 response.isSuccess:', response.isSuccess);
-            console.log('📡 response.data exists:', !!response.data);
-            console.log('📡 Full Response:', JSON.stringify(response, null, 2));
+            console.log(' Patients API Response:', response);
+            console.log(' response.isSuccess:', response.isSuccess);
+            console.log(' response.data exists:', !!response.data);
+            console.log(' Full Response:', JSON.stringify(response, null, 2));
             console.log('═══════════════════════════════════════');
 
             if (response.isSuccess && response.data) {
               const { data: patientsData, ...paginationData } = response.data;
 
-              console.log('👥 Patients Data:', patientsData);
-              console.log('👥 Patients Count:', patientsData?.length);
-              console.log('👥 Pagination:', paginationData);
+              console.log(' Patients Data:', patientsData);
+              console.log(' Patients Count:', patientsData?.length);
+              console.log(' Pagination:', paginationData);
 
               if (patientsData && patientsData.length > 0) {
-                console.log('🔍 First Patient:', patientsData[0]);
-                console.log('🔍 First Patient Keys:', Object.keys(patientsData[0]));
+                console.log(' First Patient:', patientsData[0]);
+                console.log(' First Patient Keys:', Object.keys(patientsData[0]));
               }
 
               let finalPatients = patientsData || [];
               let finalPagination = paginationData;
 
               if (USE_MOCK_DATA) {
-                console.log('⚠️ Merging MOCK DATA for patients');
+                console.log('️ Merging MOCK DATA for patients');
                 const enrichedMockPatients = mockPatients.map(p => ({
                   ...p,
                   totalSessions: Math.floor(Math.random() * 10) + 1,
@@ -93,9 +93,9 @@ export const usePatientsStore = create(
                 loading: false,
               });
 
-              console.log('✅ Patients loaded successfully:', finalPatients.length);
+              console.log(' Patients loaded successfully:', finalPatients.length);
             } else {
-              console.error('❌ Response validation failed:', {
+              console.error(' Response validation failed:', {
                 isSuccess: response.isSuccess,
                 hasData: !!response.data,
                 message: response.message
@@ -107,12 +107,12 @@ export const usePatientsStore = create(
             }
           } catch (error) {
             console.error('═══════════════════════════════════════');
-            console.error('❌ Error fetching patients:', error);
-            console.error('❌ Error response:', error.response);
-            console.error('❌ Error response data:', error.response?.data);
+            console.error(' Error fetching patients:', error);
+            console.error(' Error response:', error.response);
+            console.error(' Error response data:', error.response?.data);
             console.error('═══════════════════════════════════════');
 
-            console.error('❌ API Failed, failed to fetch patients');
+            console.error(' API Failed, failed to fetch patients');
             set({
               error: 'فشل في تحميل المرضى',
               loading: false
@@ -143,7 +143,7 @@ export const usePatientsStore = create(
               return null;
             }
           } catch (error) {
-            console.error('❌ Error fetching patient:', error);
+            console.error(' Error fetching patient:', error);
             set({
               error: error.response?.data?.message || error.message || 'حدث خطأ في تحميل بيانات المريض',
               loading: false
@@ -204,7 +204,7 @@ export const usePatientsStore = create(
           if (USE_MOCK_DATA) {
             try {
               await simulateApiDelay(400);
-              console.log('⚠️ Using MOCK DATA for medical record');
+              console.log('️ Using MOCK DATA for medical record');
 
               const mockRecord = {
                 chronicDiseases: [
@@ -251,7 +251,7 @@ export const usePatientsStore = create(
               return null;
             }
           } catch (error) {
-            console.error('❌ Error fetching medical record:', error);
+            console.error(' Error fetching medical record:', error);
             set({
               detailsError: error.response?.data?.message || error.message || 'حدث خطأ في تحميل السجل الطبي',
               detailsLoading: false
@@ -283,7 +283,7 @@ export const usePatientsStore = create(
               return null;
             }
           } catch (error) {
-            console.error('❌ Error fetching session documentations:', error);
+            console.error(' Error fetching session documentations:', error);
             set({
               detailsError: error.response?.data?.message || error.message || 'حدث خطأ في تحميل توثيق الجلسات',
               detailsLoading: false
@@ -302,7 +302,7 @@ export const usePatientsStore = create(
           if (USE_MOCK_DATA) {
             try {
               await simulateApiDelay(400);
-              console.log('⚠️ Using MOCK DATA for prescriptions');
+              console.log('️ Using MOCK DATA for prescriptions');
 
               const mockPrescriptions = [
                 {
@@ -355,26 +355,26 @@ export const usePatientsStore = create(
           }
 
           try {
-            console.log('📋 Fetching prescriptions for patient:', patientId, 'doctor:', doctorId);
+            console.log(' Fetching prescriptions for patient:', patientId, 'doctor:', doctorId);
             const response = await doctorService.getPatientPrescriptions(patientId, doctorId);
 
-            console.log('📋 Prescriptions response:', response);
-            console.log('📋 Response.isSuccess:', response.isSuccess);
-            console.log('📋 Response.data:', response.data);
-            console.log('📋 Response.data type:', typeof response.data);
-            console.log('📋 Response.data is array:', Array.isArray(response.data));
+            console.log(' Prescriptions response:', response);
+            console.log(' Response.isSuccess:', response.isSuccess);
+            console.log(' Response.data:', response.data);
+            console.log(' Response.data type:', typeof response.data);
+            console.log(' Response.data is array:', Array.isArray(response.data));
 
             if (response.isSuccess && response.data) {
-              console.log('✅ Setting prescriptions:', response.data);
+              console.log(' Setting prescriptions:', response.data);
               set({
                 prescriptions: response.data,
                 detailsLoading: false,
               });
               return response.data;
             } else {
-              console.log('❌ Response not successful or no data');
-              console.log('❌ isSuccess:', response.isSuccess);
-              console.log('❌ data:', response.data);
+              console.log(' Response not successful or no data');
+              console.log(' isSuccess:', response.isSuccess);
+              console.log(' data:', response.data);
               set({
                 detailsError: response.message || 'فشل في تحميل الروشتات',
                 detailsLoading: false
@@ -382,7 +382,7 @@ export const usePatientsStore = create(
               return null;
             }
           } catch (error) {
-            console.error('❌ Error fetching prescriptions:', error);
+            console.error(' Error fetching prescriptions:', error);
             set({
               detailsError: error.response?.data?.message || error.message || 'حدث خطأ في تحميل الروشتات',
               detailsLoading: false
@@ -399,7 +399,7 @@ export const usePatientsStore = create(
           if (USE_MOCK_DATA) {
             try {
               await simulateApiDelay(300);
-              console.log('⚠️ Using MOCK DATA for prescription details');
+              console.log('️ Using MOCK DATA for prescription details');
 
               const mockDetails = {
                 id: prescriptionId,
@@ -446,20 +446,20 @@ export const usePatientsStore = create(
           }
 
           try {
-            console.log('💊 Fetching prescription details:', { patientId, doctorId, prescriptionId });
+            console.log(' Fetching prescription details:', { patientId, doctorId, prescriptionId });
             const response = await doctorService.getPrescriptionDetails(patientId, doctorId, prescriptionId);
 
-            console.log('💊 Prescription details response:', response);
+            console.log(' Prescription details response:', response);
 
             if (response.isSuccess && response.data) {
-              console.log('✅ Prescription details loaded:', response.data);
+              console.log(' Prescription details loaded:', response.data);
               return response.data;
             } else {
-              console.error('❌ Failed to load prescription details');
+              console.error(' Failed to load prescription details');
               return null;
             }
           } catch (error) {
-            console.error('❌ Error fetching prescription details:', error);
+            console.error(' Error fetching prescription details:', error);
             return null;
           }
         },

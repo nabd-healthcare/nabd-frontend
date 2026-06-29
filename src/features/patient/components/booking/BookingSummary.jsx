@@ -110,7 +110,7 @@ const BookingSummary = ({
             <div className="flex-1 min-w-0">
               <p className="text-xs opacity-75">نوع الكشف</p>
               <p className="font-bold truncate">{serviceDetails?.name}</p>
-              <p className="text-xs opacity-75">⏱️ {serviceDetails?.duration} دقيقة</p>
+              <p className="text-xs opacity-75">️ {serviceDetails?.duration} دقيقة</p>
             </div>
 
             {/* Vertical Divider */}

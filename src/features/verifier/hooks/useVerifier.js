@@ -81,7 +81,7 @@ const useVerifier = ({
 
   // Computed values - recalculate when applications or filters change
   const filteredApplications = getFilteredApplications();
-  console.log('🎯 [useVerifier] Filtered applications:', filteredApplications.length, filteredApplications);
+  console.log(' [useVerifier] Filtered applications:', filteredApplications.length, filteredApplications);
 
   const isLoading = loading.applications || loading.stats;
   const hasError = error.applications || error.stats;

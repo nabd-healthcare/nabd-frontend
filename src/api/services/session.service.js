@@ -15,14 +15,14 @@ class SessionService {
    */
   async startSession(appointmentId) {
     try {
-      console.log('🔵 Starting session for appointment:', appointmentId);
+      console.log(' Starting session for appointment:', appointmentId);
       const response = await apiClient.post(`/Appointments/${appointmentId}/start-session`);
 
-      console.log('🔵 Start Session Response:', response.data);
+      console.log(' Start Session Response:', response.data);
 
       // API always returns 200 OK (even if session exists)
       if (response.data?.isSuccess) {
-        console.log('✅ Session started successfully:', response.data.message);
+        console.log(' Session started successfully:', response.data.message);
         return {
           success: true,
           data: response.data.data,
@@ -30,14 +30,14 @@ class SessionService {
         };
       }
 
-      console.log('⚠️ Session start failed (isSuccess=false):', response.data);
+      console.log('️ Session start failed (isSuccess=false):', response.data);
       return {
         success: false,
         error: response.data?.message || 'فشل بدء الجلسة',
       };
     } catch (error) {
-      console.log('🔴 Start Session Error:', error);
-      console.log('🔴 Error Response:', error.response?.data);
+      console.log(' Start Session Error:', error);
+      console.log(' Error Response:', error.response?.data);
       return {
         success: false,
         error: this._extractError(error),
@@ -51,24 +51,24 @@ class SessionService {
    */
   async getDoctorActiveSession() {
     try {
-      console.log('🔵 Checking for doctor active session...');
+      console.log(' Checking for doctor active session...');
       const response = await apiClient.get('/Doctors/me/sessions/active');
 
-      console.log('🔵 Doctor Active Session Response:', response.data);
+      console.log(' Doctor Active Session Response:', response.data);
 
       if (response.data?.isSuccess) {
         const sessionData = response.data.data;
 
-        console.log('🔍 Session Data:', sessionData);
-        console.log('🔍 Session Status:', sessionData?.status, 'Type:', typeof sessionData?.status);
+        console.log(' Session Data:', sessionData);
+        console.log(' Session Status:', sessionData?.status, 'Type:', typeof sessionData?.status);
 
         // Status can be: 3 (InProgress) or 'InProgress' string
         const isInProgress = sessionData?.status === 3 || sessionData?.status === 'InProgress';
 
         if (sessionData && isInProgress) {
-          console.log('✅ Found active InProgress session');
-          console.log('✅ Appointment ID:', sessionData.appointmentId);
-          console.log('✅ Patient Name:', sessionData.patientName);
+          console.log(' Found active InProgress session');
+          console.log(' Appointment ID:', sessionData.appointmentId);
+          console.log(' Patient Name:', sessionData.patientName);
 
           return {
             success: true,
@@ -92,7 +92,7 @@ class SessionService {
     } catch (error) {
       // 404 means no active session - not an error
       if (error.response?.status === 404) {
-        console.log('✅ No active session found (404)');
+        console.log(' No active session found (404)');
         return {
           success: true,
           data: null,
@@ -100,8 +100,8 @@ class SessionService {
         };
       }
 
-      console.error('❌ Error checking active session:', error);
-      console.error('❌ Error response:', error.response?.data);
+      console.error(' Error checking active session:', error);
+      console.error(' Error response:', error.response?.data);
       return {
         success: false,
         error: this._extractError(error),
@@ -125,7 +125,7 @@ class SessionService {
           // Check if session is in progress
           const isActive = sessionData.status === 'InProgress';
 
-          console.log(`📊 Session status: ${sessionData.status}, isActive: ${isActive}`);
+          console.log(` Session status: ${sessionData.status}, isActive: ${isActive}`);
 
           return {
             success: true,
@@ -165,12 +165,12 @@ class SessionService {
    */
   async endSession(appointmentId) {
     try {
-      console.log('🔴 Ending session for appointment:', appointmentId);
+      console.log(' Ending session for appointment:', appointmentId);
       const response = await apiClient.post(`/Appointments/${appointmentId}/end-session`);
-      console.log('📥 End session response:', response.data);
+      console.log(' End session response:', response.data);
 
       if (response.data?.isSuccess) {
-        console.log('✅ Session ended successfully');
+        console.log(' Session ended successfully');
         return {
           success: true,
           data: response.data.data,
@@ -178,13 +178,13 @@ class SessionService {
         };
       }
 
-      console.warn('⚠️ Session end failed:', response.data?.message);
+      console.warn('️ Session end failed:', response.data?.message);
       return {
         success: false,
         error: response.data?.message || 'فشل إنهاء الجلسة',
       };
     } catch (error) {
-      console.error('❌ Error ending session:', error);
+      console.error(' Error ending session:', error);
       return {
         success: false,
         error: this._extractError(error),
@@ -224,23 +224,23 @@ class SessionService {
    */
   async addSessionDocumentation(appointmentId, documentationData, isUpdate = false) {
     try {
-      console.log(`📝 ${isUpdate ? 'Updating' : 'Creating'} documentation for appointment:`, appointmentId);
-      console.log('📝 Documentation data:', documentationData);
+      console.log(` ${isUpdate ? 'Updating' : 'Creating'} documentation for appointment:`, appointmentId);
+      console.log(' Documentation data:', documentationData);
 
-      // ✅ Ensure sessionType is included (required by backend)
+      //  Ensure sessionType is included (required by backend)
       // sessionType: 1 = كشف عادي (RegularCheckup), 2 = متابعة (ReExamination)
       const payload = {
         ...documentationData,
         sessionType: documentationData.sessionType || 1, // Default to RegularCheckup if not provided
       };
 
-      console.log('📤 Sending payload with sessionType:', payload);
+      console.log(' Sending payload with sessionType:', payload);
 
       const response = isUpdate
         ? await apiClient.put(`/Appointments/${appointmentId}/documentation`, payload)
         : await apiClient.post(`/Appointments/${appointmentId}/documentation`, payload);
 
-      console.log('✅ Documentation saved:', response.data);
+      console.log(' Documentation saved:', response.data);
 
       return {
         success: true,
@@ -248,7 +248,7 @@ class SessionService {
         message: response.data?.message,
       };
     } catch (error) {
-      console.error('❌ Error saving documentation:', error);
+      console.error(' Error saving documentation:', error);
       return {
         success: false,
         error: this._extractError(error),
@@ -268,11 +268,11 @@ class SessionService {
    */
   async createPrescription(prescriptionData) {
     try {
-      console.log('💊 Creating prescription:', prescriptionData);
+      console.log(' Creating prescription:', prescriptionData);
 
       // Validate medications array
       if (!prescriptionData.medications || !Array.isArray(prescriptionData.medications)) {
-        console.error('❌ Invalid medications data:', prescriptionData.medications);
+        console.error(' Invalid medications data:', prescriptionData.medications);
         return {
           success: false,
           error: 'قائمة الأدوية غير صحيحة',
@@ -305,11 +305,11 @@ class SessionService {
         })),
       };
 
-      console.log('💊 Request body:', JSON.stringify(requestBody, null, 2));
+      console.log(' Request body:', JSON.stringify(requestBody, null, 2));
 
       const response = await apiClient.post('/Prescriptions', requestBody);
 
-      console.log('✅ Prescription created:', response.data);
+      console.log(' Prescription created:', response.data);
 
       return {
         success: true,
@@ -317,11 +317,11 @@ class SessionService {
         message: response.data?.message || 'تم حفظ الروشتة بنجاح',
       };
     } catch (error) {
-      console.error('❌ Error creating prescription:', error);
-      console.error('❌ Error response:', error.response?.data);
-      console.error('❌ Error status:', error.response?.status);
-      console.error('❌ Error message:', error.response?.data?.message);
-      console.error('❌ Validation errors:', error.response?.data?.errors);
+      console.error(' Error creating prescription:', error);
+      console.error(' Error response:', error.response?.data);
+      console.error(' Error status:', error.response?.status);
+      console.error(' Error message:', error.response?.data?.message);
+      console.error(' Validation errors:', error.response?.data?.errors);
 
       // Extract detailed error message
       let errorMessage = 'حدث خطأ أثناء حفظ الروشتة';
@@ -354,17 +354,17 @@ class SessionService {
     try {
       const response = await apiClient.get(`/Doctors/me/patients/${patientId}/medical-record`);
 
-      console.log('🔍 [Session] Medical Record Response:', response.data);
+      console.log(' [Session] Medical Record Response:', response.data);
 
       const rawData = response.data?.data || response.data;
 
       // Check if data has medicalHistory array (new API structure)
       if (rawData.medicalHistory && Array.isArray(rawData.medicalHistory)) {
-        console.log('🔄 [Session] Converting medicalHistory array to structured format');
-        console.log('🔍 [Session] medicalHistory array:', rawData.medicalHistory);
-        console.log('🔍 [Session] medicalHistory length:', rawData.medicalHistory.length);
-        console.log('🔍 [Session] First item:', rawData.medicalHistory[0]);
-        console.log('🔍 [Session] First item keys:', Object.keys(rawData.medicalHistory[0] || {}));
+        console.log(' [Session] Converting medicalHistory array to structured format');
+        console.log(' [Session] medicalHistory array:', rawData.medicalHistory);
+        console.log(' [Session] medicalHistory length:', rawData.medicalHistory.length);
+        console.log(' [Session] First item:', rawData.medicalHistory[0]);
+        console.log(' [Session] First item keys:', Object.keys(rawData.medicalHistory[0] || {}));
 
         // Transform medicalHistory array to structured format
         const transformedData = {
@@ -418,7 +418,7 @@ class SessionService {
           }
         });
 
-        console.log('✅ [Session] Transformed data:', transformedData);
+        console.log(' [Session] Transformed data:', transformedData);
 
         return {
           success: true,
@@ -445,8 +445,8 @@ class SessionService {
    */
   _extractError(error) {
     // Log full error for debugging
-    console.error('🔴 API Error:', error);
-    console.error('🔴 Response:', error.response);
+    console.error(' API Error:', error);
+    console.error(' Response:', error.response);
 
     // Check for response data message (most common)
     if (error.response?.data?.message) {

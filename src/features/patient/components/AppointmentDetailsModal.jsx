@@ -163,7 +163,7 @@ const AppointmentDetailsModal = ({ isOpen, onClose, appointment }) => {
         }
       }
     } catch (err) {
-      console.error('❌ Error fetching prescription:', err);
+      console.error(' Error fetching prescription:', err);
       setPrescription(null);
       setError('فشل تحميل الروشتة');
     } finally {

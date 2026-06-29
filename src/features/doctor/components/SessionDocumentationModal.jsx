@@ -173,7 +173,7 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {Object.entries(sessionDoc.presentIllness).map(([key, value]) => (
                           <div key={key} className="bg-white rounded-xl p-4 border-2 border-orange-200 shadow-sm">
-                            <h4 className="text-sm font-bold text-orange-700 mb-2">{key === 'onset' ? '🕐 البداية' : key === 'duration' ? '⏱️ المدة' : key === 'character' ? '📝 الطبيعة' : key === 'severity' ? '⚡ الشدة' : key === 'aggravatingFactors' ? '📈 المحفزات' : key === 'relievingFactors' ? '📉 المخففات' : '🔗 الأعراض المصاحبة'}</h4>
+                            <h4 className="text-sm font-bold text-orange-700 mb-2">{key === 'onset' ? ' البداية' : key === 'duration' ? '️ المدة' : key === 'character' ? ' الطبيعة' : key === 'severity' ? ' الشدة' : key === 'aggravatingFactors' ? ' المحفزات' : key === 'relievingFactors' ? ' المخففات' : ' الأعراض المصاحبة'}</h4>
                             <p className="text-sm font-medium text-slate-800">{value}</p>
                           </div>
                         ))}
@@ -206,11 +206,11 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                          { label: '👤 المظهر العام', value: sessionDoc.physicalExam.generalAppearance },
-                          { label: '❤️ القلب', value: sessionDoc.physicalExam.cardiovascular },
-                          { label: '🫁 التنفس', value: sessionDoc.physicalExam.respiratory },
-                          { label: '🫃 البطن', value: sessionDoc.physicalExam.abdomen },
-                          { label: '🧠 العصبي', value: sessionDoc.physicalExam.neurological, span: true }
+                          { label: ' المظهر العام', value: sessionDoc.physicalExam.generalAppearance },
+                          { label: '️ القلب', value: sessionDoc.physicalExam.cardiovascular },
+                          { label: ' التنفس', value: sessionDoc.physicalExam.respiratory },
+                          { label: ' البطن', value: sessionDoc.physicalExam.abdomen },
+                          { label: ' العصبي', value: sessionDoc.physicalExam.neurological, span: true }
                         ].map((item, i) => (
                           <div key={i} className={`bg-white rounded-xl p-4 border-2 border-blue-200 shadow-sm ${item.span ? 'md:col-span-2' : ''}`}>
                             <h4 className="text-sm font-bold text-blue-700 mb-2">{item.label}</h4>
@@ -231,11 +231,11 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                     </div>
                     <div className="p-6 space-y-4">
                       <div className="bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl p-5 border-2 border-purple-300 shadow-md">
-                        <h4 className="text-base font-black text-purple-900 mb-3">🎯 التشخيص الأساسي</h4>
+                        <h4 className="text-base font-black text-purple-900 mb-3"> التشخيص الأساسي</h4>
                         <p className="text-base font-bold text-slate-900">{sessionDoc.assessment.primaryDiagnosis}</p>
                       </div>
                       <div className="bg-white rounded-xl p-5 border-2 border-purple-200 shadow-sm">
-                        <h4 className="text-sm font-bold text-purple-700 mb-3">🔍 التشخيص التفريقي</h4>
+                        <h4 className="text-sm font-bold text-purple-700 mb-3"> التشخيص التفريقي</h4>
                         <ul className="space-y-2">
                           {sessionDoc.assessment.differentialDiagnosis.map((d, i) => (
                             <li key={i} className="flex items-center gap-2 text-sm font-medium text-slate-800">
@@ -246,11 +246,11 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                         </ul>
                       </div>
                       <div className="bg-white rounded-xl p-5 border-2 border-purple-200 shadow-sm">
-                        <h4 className="text-sm font-bold text-purple-700 mb-3">💭 الانطباع السريري</h4>
+                        <h4 className="text-sm font-bold text-purple-700 mb-3"> الانطباع السريري</h4>
                         <p className="text-sm font-medium text-slate-800 leading-relaxed">{sessionDoc.assessment.clinicalImpression}</p>
                       </div>
                       <div className="bg-white rounded-xl p-5 border-2 border-purple-200 shadow-sm">
-                        <h4 className="text-sm font-bold text-purple-700 mb-3">⚠️ عوامل الخطر</h4>
+                        <h4 className="text-sm font-bold text-purple-700 mb-3">️ عوامل الخطر</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {sessionDoc.assessment.riskFactors.map((f, i) => (
                             <div key={i} className="flex items-center gap-2 bg-purple-50 rounded-lg p-2">
@@ -273,10 +273,10 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                     </div>
                     <div className="p-6 space-y-4">
                       {[
-                        { title: '🚨 الإجراءات الفورية', items: sessionDoc.treatmentPlan.immediate, color: 'red' },
-                        { title: '🔬 الفحوصات', items: sessionDoc.treatmentPlan.investigations, color: 'emerald' },
-                        { title: '💊 الأدوية', items: sessionDoc.treatmentPlan.medications, color: 'emerald' },
-                        { title: '🏃 نمط الحياة', items: sessionDoc.treatmentPlan.lifestyle, color: 'emerald' }
+                        { title: ' الإجراءات الفورية', items: sessionDoc.treatmentPlan.immediate, color: 'red' },
+                        { title: ' الفحوصات', items: sessionDoc.treatmentPlan.investigations, color: 'emerald' },
+                        { title: ' الأدوية', items: sessionDoc.treatmentPlan.medications, color: 'emerald' },
+                        { title: ' نمط الحياة', items: sessionDoc.treatmentPlan.lifestyle, color: 'emerald' }
                       ].map((section, i) => (
                         <div key={i} className={`bg-white rounded-xl p-5 border-2 border-${section.color}-${section.color === 'red' ? '300' : '200'} shadow-sm`}>
                           <h4 className={`text-sm font-bold text-${section.color}-700 mb-3`}>{section.title}</h4>
@@ -291,7 +291,7 @@ const SessionDocumentationModal = ({ isOpen, onClose, patient }) => {
                         </div>
                       ))}
                       <div className="bg-gradient-to-br from-teal-100 to-emerald-100 rounded-xl p-5 border-2 border-teal-300 shadow-md">
-                        <h4 className="text-sm font-bold text-teal-900 mb-2">📅 المتابعة</h4>
+                        <h4 className="text-sm font-bold text-teal-900 mb-2"> المتابعة</h4>
                         <p className="text-sm font-bold text-slate-900">{sessionDoc.treatmentPlan.followUp}</p>
                       </div>
                     </div>

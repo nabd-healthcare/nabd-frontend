@@ -82,7 +82,7 @@ const VerifyResetOtpPage = () => {
       setOtp(['', '', '', '', '', '']);
       inputRefs.current[0]?.focus();
       // Show success message (optional)
-      console.log('✅ تم إعادة إرسال رمز التحقق');
+      console.log(' تم إعادة إرسال رمز التحقق');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'فشل إعادة إرسال الرمز';
       setError(errorMessage);

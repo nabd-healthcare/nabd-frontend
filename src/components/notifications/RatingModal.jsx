@@ -117,12 +117,12 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
         isAnonymous,
       };
 
-      console.log('📝 Submitting rating:', payload);
+      console.log(' Submitting rating:', payload);
 
       // Call the API service
       const response = await patientService.submitDoctorRating(payload);
 
-      console.log('✅ Rating submitted successfully:', response);
+      console.log(' Rating submitted successfully:', response);
 
       // Call success callback
       if (onSubmitSuccess) {
@@ -132,7 +132,7 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
       // Close modal
       onClose();
     } catch (err) {
-      console.error('❌ Error submitting rating:', err);
+      console.error(' Error submitting rating:', err);
       setError(err.response?.data?.message || 'حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.');
     } finally {
       setIsSubmitting(false);

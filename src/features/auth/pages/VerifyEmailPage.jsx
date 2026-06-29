@@ -96,18 +96,18 @@ const VerifyEmailPage = () => {
       // Get user from store after verification
       const { user } = useAuthStore.getState();
       
-      console.log('✅ Email verified successfully');
+      console.log(' Email verified successfully');
       console.log('User:', user);
       console.log('User Role:', user?.role);
       console.log('User Role Type:', typeof user?.role);
-      console.log('🔍 CRITICAL - isEmailVerified:', user?.isEmailVerified);
-      console.log('🔍 User Email:', user?.email);
+      console.log(' CRITICAL - isEmailVerified:', user?.isEmailVerified);
+      console.log(' User Email:', user?.email);
       
       // Navigate based on user role (role is already lowercase from store)
       let redirectPath = '/doctor/dashboard'; // default
       
       const roleLower = user?.role?.toLowerCase();
-      console.log('🔄 Role (lowercase):', roleLower);
+      console.log(' Role (lowercase):', roleLower);
       
       if (roleLower === 'patient') {
         redirectPath = '/patient/search';
@@ -121,8 +121,8 @@ const VerifyEmailPage = () => {
         redirectPath = '/verifier/statistics';
       }
       
-      console.log('🎯 Navigating to:', redirectPath);
-      console.log('📍 Role used for navigation:', roleLower);
+      console.log(' Navigating to:', redirectPath);
+      console.log(' Role used for navigation:', roleLower);
       navigate(redirectPath, { replace: true });
     } catch (error) {
       // Error handled in store

@@ -18,7 +18,7 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
 
   useEffect(() => {
     if (!isConfigured) {
-      console.warn('⚠️ Google OAuth is not configured. Please add VITE_GOOGLE_CLIENT_ID to .env');
+      console.warn('️ Google OAuth is not configured. Please add VITE_GOOGLE_CLIENT_ID to .env');
     }
   }, [isConfigured]);
 
@@ -31,13 +31,13 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
     
     try {
       const idToken = credentialResponse.credential;
-      console.log('🔐 Google authentication successful, verifying with backend...');
+      console.log(' Google authentication successful, verifying with backend...');
       
       // Step 1: Check if user exists (send without userType)
       const response = await authService.googleLogin(idToken, null);
       
-      console.log('📦 Backend Response:', response);
-      console.log('📦 Response Data:', response.data);
+      console.log(' Backend Response:', response);
+      console.log(' Response Data:', response.data);
       
       // Backend returns: { isSuccess, message, data, errors, statusCode }
       const { isSuccess, data, statusCode, message } = response;
@@ -45,11 +45,11 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
       // Convert statusCode to number (backend might send as string)
       const statusNum = typeof statusCode === 'string' ? parseInt(statusCode, 10) : statusCode;
       
-      console.log('✅ Parsed Status Code:', statusNum, '(type:', typeof statusNum, ')');
+      console.log(' Parsed Status Code:', statusNum, '(type:', typeof statusNum, ')');
       
       // Success - User exists or created
       if (isSuccess && data) {
-        console.log('✅ Authentication successful');
+        console.log(' Authentication successful');
         console.log('Status Code:', statusNum);
         console.log('User Data:', data.user);
         
@@ -66,7 +66,7 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
         
         // If no role or invalid role, redirect to user type selection
         if (!userRole || userRole === 'null' || userRole === null || userRole === '' || !isValidRole) {
-          console.log('⚠️ User has no valid role assigned, redirecting to user type selection...');
+          console.log('️ User has no valid role assigned, redirecting to user type selection...');
           console.log('Reason: role =', userRole, '| isValidRole =', isValidRole);
           const idToken = credentialResponse.credential;
           navigate('/select-user-type', { 
@@ -77,9 +77,9 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
         }
         
         if (statusNum === 200) {
-          console.log('✅ Existing user logged in with role:', userRole);
+          console.log(' Existing user logged in with role:', userRole);
         } else if (statusNum === 201) {
-          console.log('✅ New user created with role:', userRole);
+          console.log(' New user created with role:', userRole);
         }
         
         handleSuccessfulAuth(data);
@@ -93,14 +93,14 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
       const status = error.response?.status;
       const backendResponse = error.response?.data;
       
-      console.log('❌ Error caught!');
+      console.log(' Error caught!');
       console.log('Error Status:', status);
       console.log('Error Response:', backendResponse);
       console.log('Full Error:', error);
       
       // User not found (404) - redirect to user type selection
       if (status === 404) {
-        console.log('🎯 New user detected (404), redirecting to user type selection...');
+        console.log(' New user detected (404), redirecting to user type selection...');
         const idToken = credentialResponse.credential;
         navigate('/select-user-type', { 
           state: { googleToken: idToken },
@@ -111,13 +111,13 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
       
       // Check if backend returned isSuccess: false (but didn't throw 404)
       if (backendResponse?.isSuccess === false || backendResponse?.isSuccess === 'false') {
-        console.log('⚠️ Backend returned isSuccess: false');
+        console.log('️ Backend returned isSuccess: false');
         console.log('Message:', backendResponse?.message);
         
         // Check if message indicates user not found
         const msg = (backendResponse?.message || '').toLowerCase();
         if (msg.includes('not found') || msg.includes('لم يتم العثور') || msg.includes('select user type')) {
-          console.log('🎯 User not found (via message), redirecting to selection...');
+          console.log(' User not found (via message), redirecting to selection...');
           const idToken = credentialResponse.credential;
           navigate('/select-user-type', { 
             state: { googleToken: idToken },
@@ -128,7 +128,7 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
       }
       
       // Real error - show message
-      console.error('❌ Google authentication failed:', error);
+      console.error(' Google authentication failed:', error);
       const errorMessage = backendResponse?.message || error.message || 'فشل المصادقة باستخدام جوجل';
       toast.error(errorMessage);
       
@@ -169,7 +169,7 @@ const GoogleLoginButton = ({ userType = 'patient' }) => { // eslint-disable-line
    * Handle Google login error
    */
   const handleGoogleError = () => {
-    console.error('❌ Google login error');
+    console.error(' Google login error');
     toast.error('فشل تسجيل الدخول باستخدام جوجل');
   };
 

@@ -30,21 +30,21 @@ export const useTodayAppointments = () => {
    * Fetch today's appointments from API
    */
   const fetchAppointments = async (pageNumber = 1, pageSize = 5) => {
-    console.log('🚀 fetchAppointments called with:', { pageNumber, pageSize });
-    console.log('📅 Today\'s date:', getTodayDate());
+    console.log(' fetchAppointments called with:', { pageNumber, pageSize });
+    console.log(' Today\'s date:', getTodayDate());
 
     setLoading(true);
     setError(null);
 
-    // ❌ Removed early return for mock data to allow merging below
+    //  Removed early return for mock data to allow merging below
     try {
       const response = await doctorService.getTodayAppointments({ pageNumber, pageSize });
 
       console.log('═══════════════════════════════════════');
-      console.log('📡 RAW API Response:', response);
-      console.log('📡 response.isSuccess:', response.isSuccess);
-      console.log('📡 response.data exists:', !!response.data);
-      console.log('📡 Full Response Structure:', JSON.stringify(response, null, 2));
+      console.log(' RAW API Response:', response);
+      console.log(' response.isSuccess:', response.isSuccess);
+      console.log(' response.data exists:', !!response.data);
+      console.log(' Full Response Structure:', JSON.stringify(response, null, 2));
       console.log('═══════════════════════════════════════');
 
       if (response.isSuccess && response.data) {
@@ -59,12 +59,12 @@ export const useTodayAppointments = () => {
           paginationData = rest;
         }
 
-        console.log('📋 Appointments Data (ALL from API):', appointmentsData);
-        console.log('📋 Is Array?', Array.isArray(appointmentsData));
-        console.log('📋 Count (Before Filter):', appointmentsData?.length);
-        console.log('📋 Pagination Data:', paginationData);
+        console.log(' Appointments Data (ALL from API):', appointmentsData);
+        console.log(' Is Array?', Array.isArray(appointmentsData));
+        console.log(' Count (Before Filter):', appointmentsData?.length);
+        console.log(' Pagination Data:', paginationData);
 
-        // ✅ Backend handles pagination correctly - just use the data
+        //  Backend handles pagination correctly - just use the data
         if (!appointmentsData || appointmentsData.length === 0) {
           console.log('ℹ️ No appointments today.');
           setAppointments([]);
@@ -72,14 +72,14 @@ export const useTodayAppointments = () => {
           return;
         }
 
-        console.log('🔍 First Appointment RAW:', appointmentsData[0]);
-        console.log('🔍 First Appointment Date:', appointmentsData[0]?.appointmentDate);
-        console.log('🔍 First Appointment Keys:', Object.keys(appointmentsData[0]));
+        console.log(' First Appointment RAW:', appointmentsData[0]);
+        console.log(' First Appointment Date:', appointmentsData[0]?.appointmentDate);
+        console.log(' First Appointment Keys:', Object.keys(appointmentsData[0]));
 
-        // ✅ Backend already filters by date, no need to filter again
+        //  Backend already filters by date, no need to filter again
         console.log('═══════════════════════════════════════');
-        console.log('✅ Today\'s Appointments from API:', appointmentsData);
-        console.log('✅ Today Appointments Count:', appointmentsData.length);
+        console.log(' Today\'s Appointments from API:', appointmentsData);
+        console.log(' Today Appointments Count:', appointmentsData.length);
         console.log('═══════════════════════════════════════');
 
         let finalAppointments = [];
@@ -88,17 +88,17 @@ export const useTodayAppointments = () => {
           finalAppointments = appointmentsData.map(mapAppointment);
         }
 
-        // ✅ Merge Mock Data if enabled
+        //  Merge Mock Data if enabled
         if (USE_MOCK_DATA) {
-           console.log('⚠️ Merging MOCK DATA with real today appointments');
+           console.log('️ Merging MOCK DATA with real today appointments');
            const mappedMock = mockAppointments.map(mapAppointment);
            finalAppointments = [...finalAppointments, ...mappedMock];
         }
 
-        console.log('✅ Final Today Appointments:', finalAppointments);
+        console.log(' Final Today Appointments:', finalAppointments);
         setAppointments(finalAppointments);
       } else {
-        console.error('❌ Response validation failed:', {
+        console.error(' Response validation failed:', {
           isSuccess: response.isSuccess,
           hasData: !!response.data,
           message: response.message
@@ -109,7 +109,7 @@ export const useTodayAppointments = () => {
       const errorMessage = err.response?.data?.message || err.message || 'فشل في تحميل المواعيد';
       setError(errorMessage);
       console.error('═══════════════════════════════════════');
-      console.error('❌ Error fetching today appointments:', err);
+      console.error(' Error fetching today appointments:', err);
       console.error('═══════════════════════════════════════');
     } finally {
       setLoading(false);
@@ -123,7 +123,7 @@ export const useTodayAppointments = () => {
     // Check if it's mock data (simple check)
     const isMock = apiData.id.startsWith('apt');
 
-    console.log('🔄 Mapping appointment:', apiData);
+    console.log(' Mapping appointment:', apiData);
 
     const mapped = {
       id: apiData.id,
@@ -141,7 +141,7 @@ export const useTodayAppointments = () => {
       price: apiData.price,
     };
 
-    console.log('✅ Mapped to:', mapped);
+    console.log(' Mapped to:', mapped);
     return mapped;
   };
 
@@ -169,7 +169,7 @@ export const useTodayAppointments = () => {
    * Refresh appointments - fetch all today's appointments
    */
   const refreshCurrentPage = () => {
-    console.log('🔄 Refreshing today\'s appointments');
+    console.log(' Refreshing today\'s appointments');
     return fetchAppointments(1, 100); // Get all appointments (up to 100)
   };
 

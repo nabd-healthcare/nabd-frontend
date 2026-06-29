@@ -27,7 +27,7 @@ const BookingSuccess = ({ bookingResult, onClose, onDownload }) => {
     : false;
   
   if (bookingResult) {
-    console.log('💳 [BookingSuccess] Payment check:', {
+    console.log(' [BookingSuccess] Payment check:', {
       bookingId: bookingResult.id,
       paymentStatus: bookingResult.paymentStatus,
       isPaymentRequired,
@@ -222,7 +222,7 @@ const BookingSuccess = ({ bookingResult, onClose, onDownload }) => {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-amber-800 font-bold mb-1">
-                    ⚠️ تنبيه هام
+                    ️ تنبيه هام
                   </p>
                   <p className="text-xs text-amber-700 leading-relaxed">
                     يرجى إتمام الدفع خلال 30 دقيقة للحفاظ على الموعد. في حالة عدم الدفع، سيتم إلغاء الحجز تلقائياً.
@@ -238,7 +238,7 @@ const BookingSuccess = ({ bookingResult, onClose, onDownload }) => {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-blue-800 font-bold mb-1">
-                    📌 ملاحظات هامة
+                     ملاحظات هامة
                   </p>
                   <p className="text-xs text-blue-700 leading-relaxed">
                     يرجى الحضور قبل الموعد بـ 15 دقيقة. في حالة التأخير، يمكنك إلغاء أو تعديل الموعد قبل 24 ساعة على الأقل.

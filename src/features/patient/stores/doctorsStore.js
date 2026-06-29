@@ -93,16 +93,16 @@ export const useDoctorsStore = create(
                 // We will drop MinPrice to avoid 400 Bad Request since it isn't defined in the backend API class.
             }
 
-            console.log('📡 Fetching doctors with filters:', params);
+            console.log(' Fetching doctors with filters:', params);
 
             const response = await patientService.getDoctorsList(params);
 
-            console.log('📦 API Response:', response);
+            console.log(' API Response:', response);
 
             if (response.isSuccess) {
               const { data, totalCount, totalPages, hasPreviousPage, hasNextPage } = response.data;
 
-              console.log('✅ Doctors loaded:', {
+              console.log(' Doctors loaded:', {
                 count: data?.length,
                 totalCount,
                 totalPages,
@@ -124,7 +124,7 @@ export const useDoctorsStore = create(
               set({ error: response.message || 'فشل تحميل الأطباء', loading: false });
             }
           } catch (error) {
-            console.error('❌ Error fetching doctors:', error);
+            console.error(' Error fetching doctors:', error);
             set({
               error: error.message || 'حدث خطأ أثناء تحميل الأطباء',
               loading: false,
@@ -375,7 +375,7 @@ export const useDoctorsStore = create(
             if (minRating > 0) params.MinRating = minRating;
             if (priceRange && Array.isArray(priceRange) && priceRange[1] < 1000) params.MaxConsultationFee = priceRange[1];
 
-            console.log('📡 Fetching next page to fill incomplete row...', params);
+            console.log(' Fetching next page to fill incomplete row...', params);
             const response = await patientService.getDoctorsList(params);
 
             if (response.isSuccess && response.data?.data) {
@@ -387,10 +387,10 @@ export const useDoctorsStore = create(
                 doctors: [...doctors, ...additionalDoctors],
                 filteredDoctors: [...filteredDoctors, ...additionalDoctors]
               });
-              console.log(`✅ Filled incomplete row with ${additionalDoctors.length} doctors.`);
+              console.log(` Filled incomplete row with ${additionalDoctors.length} doctors.`);
             }
           } catch (error) {
-            console.error('❌ Error filling incomplete row:', error);
+            console.error(' Error filling incomplete row:', error);
           }
         },
 

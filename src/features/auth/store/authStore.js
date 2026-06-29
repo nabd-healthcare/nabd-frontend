@@ -39,11 +39,11 @@ export const useAuthStore = create(
             const data = await authService.login(email, password);
 
             // Debug: Log what we received from API
-            console.log('🔐 Login Response:', {
+            console.log(' Login Response:', {
               fullData: data,
               user: data.data?.user || data.user,
-              accessToken: data.data?.accessToken || data.accessToken ? '✅ exists' : '❌ missing',
-              refreshToken: data.data?.refreshToken || data.refreshToken ? '✅ exists' : '❌ missing',
+              accessToken: data.data?.accessToken || data.accessToken ? ' exists' : ' missing',
+              refreshToken: data.data?.refreshToken || data.refreshToken ? ' exists' : ' missing',
             });
 
             // Extract user from nested data structure
@@ -51,8 +51,8 @@ export const useAuthStore = create(
             const accessToken = data.data?.accessToken || data.accessToken;
             const refreshToken = data.data?.refreshToken || data.refreshToken;
 
-            console.log('🔍 Raw user object from API:', JSON.stringify(user, null, 2));
-            console.log('🔍 User properties:', {
+            console.log(' Raw user object from API:', JSON.stringify(user, null, 2));
+            console.log(' User properties:', {
               role: user?.role,
               roles: user?.roles,
               userType: user?.userType,
@@ -63,13 +63,13 @@ export const useAuthStore = create(
             // Normalize user object - convert roles array to single role
             if (user && user.roles && Array.isArray(user.roles)) {
               user.role = user.roles[0]?.toLowerCase(); // Take first role and convert to lowercase
-              console.log('✅ Normalized role from array:', user.roles, '→', user.role);
+              console.log(' Normalized role from array:', user.roles, '→', user.role);
             }
 
             // Also check if role exists in other properties
             if (!user.role && user.userType) {
               user.role = user.userType.toLowerCase();
-              console.log('✅ Using userType as role:', user.role);
+              console.log(' Using userType as role:', user.role);
             }
 
             // Check all possible role properties
@@ -78,7 +78,7 @@ export const useAuthStore = create(
               for (const prop of possibleRoleProps) {
                 if (user[prop]) {
                   user.role = typeof user[prop] === 'string' ? user[prop].toLowerCase() : user[prop];
-                  console.log(`✅ Using ${prop} as role:`, user.role);
+                  console.log(` Using ${prop} as role:`, user.role);
                   break;
                 }
               }
@@ -90,10 +90,10 @@ export const useAuthStore = create(
               const emailLower = user.email.toLowerCase();
               if (emailLower.includes('patient')) {
                 user.role = 'patient';
-                console.log('⚠️ FALLBACK: Detected patient from email');
+                console.log('️ FALLBACK: Detected patient from email');
               } else if (emailLower.includes('doctor')) {
                 user.role = 'doctor';
-                console.log('⚠️ FALLBACK: Detected doctor from email');
+                console.log('️ FALLBACK: Detected doctor from email');
               }
             }
 
@@ -105,21 +105,21 @@ export const useAuthStore = create(
             // Normalize profile image field name
             if (user && user.profileImage && !user.profileImageUrl) {
               user.profileImageUrl = user.profileImage;
-              console.log('✅ Normalized profileImage → profileImageUrl:', user.profileImageUrl);
+              console.log(' Normalized profileImage → profileImageUrl:', user.profileImageUrl);
             }
 
-            // ✅ DEFENSIVE CHECK: If backend doesn't return isEmailVerified, assume true
+            //  DEFENSIVE CHECK: If backend doesn't return isEmailVerified, assume true
             // (because successful login means email is verified)
             if (user && user.isEmailVerified === undefined) {
               user.isEmailVerified = true;
-              console.log('⚠️ Backend did not return isEmailVerified, assuming TRUE after successful login');
+              console.log('️ Backend did not return isEmailVerified, assuming TRUE after successful login');
             }
 
-            console.log('💾 Storing user:', user);
-            console.log('💾 Final user.role:', user?.role);
-            console.log('🖼️ Profile Image URL:', user?.profileImageUrl);
-            console.log('📧 Email Verified:', user?.isEmailVerified);
-            console.log('🔍 All user properties:', Object.keys(user || {}));
+            console.log(' Storing user:', user);
+            console.log(' Final user.role:', user?.role);
+            console.log('️ Profile Image URL:', user?.profileImageUrl);
+            console.log(' Email Verified:', user?.isEmailVerified);
+            console.log(' All user properties:', Object.keys(user || {}));
 
             set({
               user: user,
@@ -137,8 +137,8 @@ export const useAuthStore = create(
               errorMessage.toLowerCase().includes('not verified') ||
               errorMessage.toLowerCase().includes('البريد الإلكتروني غير مفعل');
 
-            console.log('❌ Login Error:', errorMessage);
-            console.log('📧 Is Email Verification Error?', isEmailNotVerified);
+            console.log(' Login Error:', errorMessage);
+            console.log(' Is Email Verification Error?', isEmailNotVerified);
 
             // Don't set error in store if it's email verification (will be handled by redirect)
             if (!isEmailNotVerified) {
@@ -156,18 +156,18 @@ export const useAuthStore = create(
           set({ loading: true, error: null });
           try {
             console.log(' محاولة التسجيل:', { userType, email: userData.email });
-            console.log('🔄 محاولة التسجيل:', { userType, email: userData.email });
+            console.log(' محاولة التسجيل:', { userType, email: userData.email });
 
             const data = userType === 'doctor'
               ? await authService.registerDoctor(userData)
               : await authService.registerPatient(userData);
 
-            console.log('✅ نجح التسجيل:', data);
+            console.log(' نجح التسجيل:', data);
             set({ loading: false });
             return data;
           } catch (error) {
-            console.error('❌ فشل التسجيل:', error);
-            console.error('📋 تفاصيل الخطأ:', {
+            console.error(' فشل التسجيل:', error);
+            console.error(' تفاصيل الخطأ:', {
               status: error.response?.status,
               data: error.response?.data,
               message: error.message,
@@ -198,43 +198,43 @@ export const useAuthStore = create(
           try {
             const data = await authService.verifyEmail(email, otpCode);
 
-            console.log('📧 Verify Email Response:', data);
+            console.log(' Verify Email Response:', data);
 
             // Extract user from nested data structure
             const user = data.data?.user || data.user;
             const accessToken = data.data?.accessToken || data.accessToken;
             const refreshToken = data.data?.refreshToken || data.refreshToken;
 
-            console.log('👤 User from API:', user);
-            console.log('🔑 User Role (raw):', user?.role);
+            console.log(' User from API:', user);
+            console.log(' User Role (raw):', user?.role);
 
             // Normalize user object - convert roles array to single role
             if (user && user.roles && Array.isArray(user.roles)) {
               user.role = user.roles[0]?.toLowerCase();
-              console.log('✅ Normalized role from array:', user.roles, '→', user.role);
+              console.log(' Normalized role from array:', user.roles, '→', user.role);
             }
 
             // Check if role exists but not lowercase
             if (user?.role && typeof user.role === 'string') {
               user.role = user.role.toLowerCase();
-              console.log('✅ Converted role to lowercase:', user.role);
+              console.log(' Converted role to lowercase:', user.role);
             }
 
             // Normalize profile image field name
             if (user && user.profileImage && !user.profileImageUrl) {
               user.profileImageUrl = user.profileImage;
-              console.log('✅ Normalized profileImage → profileImageUrl:', user.profileImageUrl);
+              console.log(' Normalized profileImage → profileImageUrl:', user.profileImageUrl);
             }
 
-            // ✅ CRITICAL FIX: Mark email as verified after successful verification
+            //  CRITICAL FIX: Mark email as verified after successful verification
             if (user) {
               user.isEmailVerified = true;
-              console.log('✅ Email verified flag set to TRUE');
+              console.log(' Email verified flag set to TRUE');
             }
 
-            console.log('💾 Final user object:', user);
-            console.log('💾 Final role:', user?.role);
-            console.log('📧 Email Verified:', user?.isEmailVerified);
+            console.log(' Final user object:', user);
+            console.log(' Final role:', user?.role);
+            console.log(' Email Verified:', user?.isEmailVerified);
 
             set({
               user: user,

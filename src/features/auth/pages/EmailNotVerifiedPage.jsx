@@ -40,12 +40,12 @@ const EmailNotVerifiedPage = () => {
       const errorMessage = err.response?.data?.message || '';
       const errorLower = errorMessage.toLowerCase();
       
-      // ✅ CRITICAL FIX: Check if email is already verified
+      //  CRITICAL FIX: Check if email is already verified
       if (errorLower.includes('already verified') || 
           errorLower.includes('مفعّل بالفعل') ||
           errorLower.includes('تم التفعيل')) {
         
-        console.log('✅ Email already verified, redirecting to login...');
+        console.log(' Email already verified, redirecting to login...');
         
         // Navigate to login with success message
         navigate('/login', {

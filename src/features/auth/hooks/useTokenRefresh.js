@@ -41,11 +41,11 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
     // Minimum delay of 10s to prevent tight loops.
     let refreshTime = Math.max(10000, remainingTime - bufferTime);
 
-    console.log('📅 Token refresh scheduled in:', refreshTime / 1000 / 60, 'minutes');
+    console.log(' Token refresh scheduled in:', refreshTime / 1000 / 60, 'minutes');
 
     // Schedule refresh
     refreshTimerRef.current = setTimeout(() => {
-      console.log('⏰ Token refresh timer triggered');
+      console.log(' Token refresh timer triggered');
       // Call refresh directly to avoid circular dependency
       if (!isRefreshingRef.current) {
         isRefreshingRef.current = true;
@@ -54,14 +54,14 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
             if (response.isSuccess && response.data) {
               const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data;
               setTokens(newAccessToken, newRefreshToken);
-              console.log('✅ Token refreshed successfully');
+              console.log(' Token refreshed successfully');
               scheduleTokenRefresh(newAccessToken);
             } else {
               throw new Error(response.message || 'Failed to refresh token');
             }
           })
           .catch(error => {
-            console.error('❌ Token refresh failed:', error);
+            console.error(' Token refresh failed:', error);
             logout();
           })
           .finally(() => {
@@ -77,23 +77,23 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
   const refreshAccessToken = useCallback(async () => {
     // Prevent multiple simultaneous refresh attempts
     if (isRefreshingRef.current) {
-      console.log('🔄 Token refresh already in progress...');
+      console.log(' Token refresh already in progress...');
       return;
     }
 
     // Check if we have required tokens
     if (!accessToken || !refreshToken) {
-      console.warn('⚠️ Missing tokens for refresh');
+      console.warn('️ Missing tokens for refresh');
       return;
     }
 
     // Check if token actually needs refresh
     if (!isTokenExpired(accessToken, bufferMinutes)) {
-      console.log('✅ Token still valid, no refresh needed');
+      console.log(' Token still valid, no refresh needed');
       return;
     }
 
-    console.log('🔄 Starting token refresh...');
+    console.log(' Starting token refresh...');
     isRefreshingRef.current = true;
 
     try {
@@ -105,8 +105,8 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
         // Update tokens in auth store
         setTokens(newAccessToken, newRefreshToken);
 
-        console.log('✅ Token refreshed successfully');
-        console.log('⏰ New token expires in:', getTokenRemainingTime(newAccessToken) / 1000 / 60, 'minutes');
+        console.log(' Token refreshed successfully');
+        console.log(' New token expires in:', getTokenRemainingTime(newAccessToken) / 1000 / 60, 'minutes');
 
         // Schedule next refresh
         scheduleTokenRefresh(newAccessToken);
@@ -114,10 +114,10 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
         throw new Error(response.message || 'Failed to refresh token');
       }
     } catch (error) {
-      console.error('❌ Token refresh failed:', error);
+      console.error(' Token refresh failed:', error);
 
       // If refresh fails, logout user
-      console.log('🚪 Logging out due to refresh failure...');
+      console.log(' Logging out due to refresh failure...');
       logout();
     } finally {
       isRefreshingRef.current = false;
@@ -130,11 +130,11 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
   useEffect(() => {
     if (!enabled || !accessToken) return;
 
-    console.log('🔐 Initializing token refresh system...');
+    console.log(' Initializing token refresh system...');
 
     // Check if token is already expired
     if (isTokenExpired(accessToken, 0)) {
-      console.log('⚠️ Token already expired, refreshing immediately...');
+      console.log('️ Token already expired, refreshing immediately...');
       refreshAccessToken();
     } else {
       // Schedule refresh
@@ -144,7 +144,7 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
     // Cleanup on unmount
     return () => {
       if (refreshTimerRef.current) {
-        console.log('🧹 Cleaning up token refresh timer');
+        console.log(' Cleaning up token refresh timer');
         clearTimeout(refreshTimerRef.current);
         refreshTimerRef.current = null;
       }
@@ -155,7 +155,7 @@ const useTokenRefresh = ({ enabled = true, bufferMinutes = 5 } = {}) => {
    * Manual refresh trigger (for testing or forced refresh)
    */
   const manualRefresh = useCallback(() => {
-    console.log('🔄 Manual token refresh triggered');
+    console.log(' Manual token refresh triggered');
     refreshAccessToken();
   }, [refreshAccessToken]);
 

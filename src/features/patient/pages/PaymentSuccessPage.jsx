@@ -18,15 +18,15 @@ const PaymentSuccessPage = () => {
   useEffect(() => {
     const verifyPaymentStatus = async () => {
       if (!paymentId) {
-        console.error('❌ No payment_id in URL');
+        console.error(' No payment_id in URL');
         return;
       }
 
-      console.log('🔍 Verifying payment:', paymentId);
+      console.log(' Verifying payment:', paymentId);
       const result = await verifyPayment(paymentId);
 
       if (result.success) {
-        console.log('✅ Payment verified:', result.data);
+        console.log(' Payment verified:', result.data);
         setVerificationComplete(true);
       }
     };
@@ -98,7 +98,7 @@ const PaymentSuccessPage = () => {
         </div>
 
         <h2 className="text-3xl font-black text-[#0F172A] mb-4">
-          تم الدفع بنجاح! 🎉
+          تم الدفع بنجاح! 
         </h2>
         <p className="text-[#64748B] font-bold text-lg mb-8">
           تمت عملية الدفع بنجاح. شكراً لاستخدامك نبض.

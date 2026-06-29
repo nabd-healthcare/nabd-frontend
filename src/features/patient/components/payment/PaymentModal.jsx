@@ -64,7 +64,7 @@ const PaymentModal = ({ isOpen, onClose, orderType, orderId, amount, orderDetail
       localStorage.setItem('vodafoneNumber', vodafoneNumber);
     }
     
-    console.log('💳 [PaymentModal] Proceeding to payment:', {
+    console.log(' [PaymentModal] Proceeding to payment:', {
       selectedPaymentMethod,
       selectedPaymentType,
       vodafoneNumber,
@@ -75,18 +75,18 @@ const PaymentModal = ({ isOpen, onClose, orderType, orderId, amount, orderDetail
     
     const result = await initiatePayment();
     
-    console.log('💳 [PaymentModal] Payment initiation result:', result);
+    console.log(' [PaymentModal] Payment initiation result:', result);
     
     // If payment is cash, close modal and show success
     if (result.success && selectedPaymentMethod === PaymentMethod.CASH_ON_DELIVERY) {
-      console.log('💳 [PaymentModal] Cash payment confirmed, closing modal');
+      console.log(' [PaymentModal] Cash payment confirmed, closing modal');
       onClose();
       // You can show a success toast here
     }
     
     // If online payment, user will be redirected to Paymob
     if (result.success && selectedPaymentMethod === PaymentMethod.ONLINE) {
-      console.log('💳 [PaymentModal] Online payment - waiting for redirect...');
+      console.log(' [PaymentModal] Online payment - waiting for redirect...');
     }
   };
 
@@ -357,7 +357,7 @@ const PaymentModal = ({ isOpen, onClose, orderType, orderId, amount, orderDetail
 
           {/* Important Notes */}
           <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-            <p className="text-sm text-blue-800 font-bold mb-2">📌 ملاحظات هامة</p>
+            <p className="text-sm text-blue-800 font-bold mb-2"> ملاحظات هامة</p>
             <ul className="text-xs text-blue-700 space-y-1 mr-4 list-disc">
               {selectedPaymentMethod === PaymentMethod.ONLINE ? (
                 <>

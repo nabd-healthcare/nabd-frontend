@@ -39,7 +39,7 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error('❌ Request Error:', error);
+    console.error(' Request Error:', error);
     return Promise.reject(error);
   }
 );
@@ -89,7 +89,7 @@ apiClient.interceptors.response.use(
         const newRefreshToken = data.data?.refreshToken || data.refreshToken;
 
         if (!newAccessToken) {
-          console.error('❌ Failed to extract tokens from refresh response:', data);
+          console.error(' Failed to extract tokens from refresh response:', data);
           throw new Error('No valid tokens returned from refresh endpoint');
         }
 
