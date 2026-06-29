@@ -244,7 +244,7 @@ const DoctorDashboard = () => {
    * Separate appointments by status
    * Now includes InProgress appointments in the list
    */
-  const { displayedAppointments, activeSession } = useMemo(() => {
+  const { displayedAppointments, activeSession, nextAppointment } = useMemo(() => {
     console.log('🔄 useMemo: Processing appointments', appointments.length);
     console.log('🔄 Active session from API:', activeSessionFromAPI?.appointmentId);
 
