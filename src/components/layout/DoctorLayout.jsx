@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import DoctorNavbar from '@/features/doctor/components/DoctorNavbar';
 
 /**
@@ -8,13 +8,16 @@ import DoctorNavbar from '@/features/doctor/components/DoctorNavbar';
  * @component
  */
 const DoctorLayout = () => {
+  const location = useLocation();
+  const isSessionPage = location.pathname.includes('/doctor/session');
+
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Top Navigation - Primary sticky control bar */}
-      <DoctorNavbar />
+      {/* Top Navigation - Primary sticky control bar (Hidden in Session Page) */}
+      {!isSessionPage && <DoctorNavbar />}
 
       {/* Main Content Area - Full width with top-nav offset */}
-      <main className="min-h-[calc(100vh-80px)]">
+      <main className={!isSessionPage ? "min-h-[calc(100vh-80px)]" : "min-h-screen"}>
         <Outlet />
       </main>
     </div>

@@ -10,7 +10,7 @@ const MedicalRecordTab = ({ patientMedicalRecord, loading, onFetchMedicalRecord,
     return (
       <div className="flex flex-col items-center justify-center h-[400px] bg-white border border-slate-100 rounded-[2.5rem]">
         <div className="w-12 h-12 border-4 border-[#0070CD] border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-[#0070CD]/60">Accessing Cloud Records...</p>
+        <p className="text-[10px] font-black uppercase tracking-widest text-[#0070CD]/60">جاري جلب السجلات السحابية...</p>
       </div>
     );
   }
@@ -19,12 +19,12 @@ const MedicalRecordTab = ({ patientMedicalRecord, loading, onFetchMedicalRecord,
     return (
       <div className="flex flex-col items-center justify-center h-[400px] bg-white border border-slate-100 rounded-[2.5rem] p-12 text-center">
         <FaNotesMedical className="text-4xl text-slate-100 mb-4" />
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">No historical records synchronized</p>
+        <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">لا توجد سجلات طبية متزامنة</p>
         <button
           onClick={onFetchMedicalRecord}
           className="px-8 py-3 bg-[#0070CD] text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:shadow-xl hover:scale-105 transition-all shadow-[#0070CD]/20"
         >
-          Initialize Sync
+          بدء المزامنة
         </button>
       </div>
     );

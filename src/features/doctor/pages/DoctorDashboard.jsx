@@ -236,8 +236,8 @@ const DoctorDashboard = () => {
     console.log('🔵 handleStartAppointment called');
     console.log('🔵 Appointment ID:', appointment.id);
 
-    // Navigate to the session page directly
-    navigate(`/doctor/session/${appointment.id}`);
+    // Navigate to the session page directly with appointment data
+    navigate(`/doctor/session/${appointment.id}`, { state: { appointment } });
   };
 
   /**
