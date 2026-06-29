@@ -56,6 +56,14 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
     return 'غير محدد';
   };
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
