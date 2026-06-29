@@ -37,7 +37,6 @@ const DoctorSidebar = () => {
     const handleLogout = () => {
         if (window.confirm('هل أنت متأكد من تسجيل الخروج من النظام؟')) {
             logout();
-            navigate('/login');
         }
     };
 

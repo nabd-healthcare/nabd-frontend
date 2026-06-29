@@ -31,7 +31,6 @@ const VerifierNavbar = ({ activeTab, onTabChange }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
   };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);

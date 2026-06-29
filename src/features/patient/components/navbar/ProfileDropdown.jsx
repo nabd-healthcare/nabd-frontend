@@ -21,10 +21,8 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose }) => {
     try {
       onClose();
       await logout();
-      setTimeout(() => navigate('/login'), 100);
     } catch (error) {
       console.error('Logout error:', error);
-      forceLogout();
     }
   };
 

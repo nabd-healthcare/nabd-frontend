@@ -261,12 +261,14 @@ const DoctorDashboard = () => {
       return apt;
     });
 
-    // Display appointments that are: Pending, Confirmed, InProgress, or Completed (optional, usually kept if doctor wants to see today's full list)
+    // Display appointments that are: Scheduled(0), PendingPayment(7), Confirmed(1), CheckedIn(2), InProgress(3), or Completed(4)
     const displayed = updatedAppointments.filter(apt => {
       const statusStr = String(apt.apiStatus).toLowerCase();
       const isDisplayed = 
-        statusStr === 'pending' || statusStr === '1' ||
-        statusStr === 'confirmed' || statusStr === '2' ||
+        statusStr === 'scheduled' || statusStr === '0' ||
+        statusStr === 'pendingpayment' || statusStr === '7' || statusStr === 'pending' ||
+        statusStr === 'confirmed' || statusStr === '1' ||
+        statusStr === 'checkedin' || statusStr === '2' ||
         statusStr === 'inprogress' || statusStr === '3' ||
         statusStr === 'completed' || statusStr === '4';
 
@@ -281,16 +283,18 @@ const DoctorDashboard = () => {
 
     const active = updatedAppointments.find(apt => {
       // InProgress (active session)
-      return apt.apiStatus === 'InProgress' || apt.apiStatus === 3;
+      return String(apt.apiStatus).toLowerCase() === 'inprogress' || String(apt.apiStatus) === '3';
     });
 
-    const next = displayed.find(apt => 
-      apt.apiStatus !== 'InProgress' && apt.apiStatus !== 3 && 
-      apt.apiStatus !== 'Completed' && apt.apiStatus !== 4 &&
-      apt.apiStatus !== 'completed' &&
-      (String(apt.apiStatus).toLowerCase() === 'pending' || String(apt.apiStatus) === '1' || 
-       String(apt.apiStatus).toLowerCase() === 'confirmed' || String(apt.apiStatus) === '2')
-    );
+    const next = displayed.find(apt => {
+      const statusStr = String(apt.apiStatus).toLowerCase();
+      return statusStr !== 'inprogress' && statusStr !== '3' && 
+             statusStr !== 'completed' && statusStr !== '4' &&
+             (statusStr === 'scheduled' || statusStr === '0' ||
+              statusStr === 'pendingpayment' || statusStr === '7' || statusStr === 'pending' || 
+              statusStr === 'confirmed' || statusStr === '1' || 
+              statusStr === 'checkedin' || statusStr === '2');
+    });
 
     console.log('✅ Displayed appointments:', displayed.length);
     console.log('✅ Active session:', active ? active.patientName : 'None');

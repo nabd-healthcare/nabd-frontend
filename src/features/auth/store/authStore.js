@@ -270,6 +270,7 @@ export const useAuthStore = create(
               loading: false,
               error: null,
             });
+            window.location.href = '/login';
           }
         },
 

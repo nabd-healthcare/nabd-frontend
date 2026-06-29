@@ -48,7 +48,16 @@ export const useTodayAppointments = () => {
       console.log('═══════════════════════════════════════');
 
       if (response.isSuccess && response.data) {
-        const { data: appointmentsData, ...paginationData } = response.data;
+        let appointmentsData;
+        let paginationData = {};
+
+        if (Array.isArray(response.data)) {
+          appointmentsData = response.data;
+        } else {
+          appointmentsData = response.data.data;
+          const { data, ...rest } = response.data;
+          paginationData = rest;
+        }
 
         console.log('📋 Appointments Data (ALL from API):', appointmentsData);
         console.log('📋 Is Array?', Array.isArray(appointmentsData));
