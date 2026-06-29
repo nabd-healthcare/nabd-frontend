@@ -116,15 +116,25 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [onClose]);
 
+  // Disable background scroll
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  const displayDoctorName = appointmentDetails?.doctor?.fullName || appointmentDetails?.doctor?.user?.fullName || appointmentDetails?.doctorName;
+
   return (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
         onClick={handleBackdropClick}
       >
         <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-fadeIn">
           {/* Header */}
-          <div className="bg-gradient-to-r from-teal-500 to-emerald-500 p-6 text-white relative">
+          <div className="bg-[#0070CD] p-6 text-white relative">
             <button
               onClick={handleClose}
               className="absolute top-4 left-4 text-white/80 hover:text-white transition-colors"
@@ -144,14 +154,14 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
           <div className="p-6">
             {loading ? (
               <div className="flex justify-center items-center py-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0070CD]"></div>
               </div>
             ) : error ? (
               <div className="text-center py-8">
                 <p className="text-red-500 mb-4">{error}</p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+                  className="px-4 py-2 bg-[#0070CD] text-white rounded-lg hover:bg-[#005ba6] transition-colors"
                 >
                   إعادة المحاولة
                 </button>
@@ -167,15 +177,15 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                 {appointmentDetails && (
                   <div className="space-y-4 mb-6">
                     {/* Doctor Name */}
-                    {appointmentDetails.doctorName && (
+                    {displayDoctorName && (
                       <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                          <span className="text-teal-600 font-bold">د</span>
+                        <div className="w-10 h-10 bg-[#0070CD]/10 rounded-full flex items-center justify-center">
+                          <span className="text-[#0070CD] font-bold">د</span>
                         </div>
                         <div>
                           <p className="text-xs text-slate-500">الطبيب</p>
                           <p className="font-semibold text-slate-800">
-                            {appointmentDetails.doctorName}
+                            {displayDoctorName}
                           </p>
                         </div>
                       </div>
@@ -184,7 +194,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                     {/* Date & Time */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
-                        <FaCalendarAlt className="text-teal-500" />
+                        <FaCalendarAlt className="text-[#0070CD]" />
                         <div>
                           <p className="text-xs text-slate-500">التاريخ</p>
                           <p className="font-semibold text-slate-800 text-sm">
@@ -194,7 +204,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                       </div>
 
                       <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
-                        <FaClock className="text-teal-500" />
+                        <FaClock className="text-[#0070CD]" />
                         <div>
                           <p className="text-xs text-slate-500">المدة</p>
                           <p className="font-semibold text-slate-800 text-sm">
@@ -211,7 +221,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                     {/* Cost */}
                     {appointmentDetails.consultationFee && (
                       <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
-                        <FaMoneyBillWave className="text-teal-500" />
+                        <FaMoneyBillWave className="text-[#0070CD]" />
                         <div>
                           <p className="text-xs text-slate-500">التكلفة</p>
                           <p className="font-semibold text-slate-800">
@@ -236,7 +246,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
                 <div className="flex gap-3">
                   <button
                     onClick={handleRate}
-                    className="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2"
+                    className="flex-1 bg-[#0070CD] text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2"
                   >
                     <FaStar className="w-4 h-4" />
                     تقييم الجلسة
@@ -261,7 +271,7 @@ const AppointmentCompletedModal = ({ notification, onClose, onRate }) => {
           isOpen={isRatingModalOpen}
           onClose={() => setIsRatingModalOpen(false)}
           appointmentId={notification?.data?.relatedEntityId}
-          doctorName={appointmentDetails?.doctorName || 'الطبيب'}
+          doctorName={displayDoctorName || 'الطبيب'}
           onSubmitSuccess={handleRatingSuccess}
         />
       </Suspense>

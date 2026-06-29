@@ -10,7 +10,6 @@ import MedicalRecordTab from '../components/session/MedicalRecordTab';
 import PrescriptionTab from '../components/session/PrescriptionTab';
 import DocumentationTab from '../components/session/DocumentationTab';
 import AIDiagnosisTab from '../components/session/AIDiagnosisTab';
-import SessionPatientInfo from '../components/session/SessionPatientInfo';
 import ErrorAlert from '../components/session/ErrorAlert';
 import { FaTerminal, FaShieldAlt } from 'react-icons/fa';
 
@@ -199,15 +198,6 @@ const SessionPage = () => {
                       </div>
                    </div>
                    )}
-                </div>
-
-                {/* Right Area: Tactical Patient Intelligence Sidebar (30%) */}
-                <div className="w-full lg:w-80 flex-shrink-0 flex flex-col gap-4 lg:gap-6 lg:sticky lg:top-0 lg:h-full">
-
-                    <div className="overflow-y-auto no-scrollbar flex flex-col gap-6">
-                       <SessionPatientInfo patientInfo={patientInfo} />
-
-                    </div>
                 </div>
             </div>
 

@@ -1,7 +1,8 @@
 // src/components/common/CircularProfileImage.jsx
 import React, { useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { FaUserMd, FaTimes } from 'react-icons/fa';
+import { FaUserMd, FaTimes, FaUser } from 'react-icons/fa';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '@/utils/cropImage';
 
@@ -12,6 +13,7 @@ const CircularProfileImage = ({
   initialFileName = null,
   disabled = false,
   size = 'large', // 'small', 'medium', 'large'
+  icon = 'doctor', // 'doctor', 'patient'
 }) => {
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(initialImage);
@@ -30,6 +32,18 @@ const CircularProfileImage = ({
       setPreview(initialImage);
     }
   }, [initialImage]);
+
+  // Disable background scroll when cropper is active
+  React.useEffect(() => {
+    if (showCropper) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showCropper]);
 
   const sizeClasses = {
     small: 'w-20 h-20',
@@ -122,7 +136,11 @@ const CircularProfileImage = ({
           />
         ) : (
           <div className="w-full h-full bg-[#0070CD] flex items-center justify-center">
-            <FaUserMd className="w-1/2 h-1/2 text-white opacity-90" />
+            {icon === 'doctor' ? (
+              <FaUserMd className="w-1/2 h-1/2 text-white opacity-90" />
+            ) : (
+              <FaUser className="w-1/2 h-1/2 text-white opacity-90" />
+            )}
           </div>
         )}
       </div>
@@ -146,8 +164,8 @@ const CircularProfileImage = ({
       )}
 
       {/* Cropper Modal */}
-      {showCropper && (
-        <div className="fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" dir="rtl">
+      {showCropper && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" dir="rtl">
           <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden border border-slate-100" onClick={e => e.stopPropagation()}>
             <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <h3 className="text-base font-black text-slate-800">تعديل الصورة الشخصية</h3>
@@ -190,7 +208,8 @@ const CircularProfileImage = ({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -203,6 +222,7 @@ CircularProfileImage.propTypes = {
   initialFileName: PropTypes.string,
   disabled: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
+  icon: PropTypes.oneOf(['doctor', 'patient']),
 };
 
 export default CircularProfileImage;

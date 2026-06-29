@@ -29,7 +29,14 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
       setComment('');
       setIsAnonymous(false);
       setError(null);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
     }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   // Rating criteria configuration
@@ -135,10 +142,10 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[120] p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-teal-500 to-emerald-500 p-6 rounded-t-2xl relative">
+        <div className="bg-[#0070CD] p-6 relative shrink-0">
           <button
             onClick={onClose}
             className="absolute top-4 left-4 text-white/80 hover:text-white transition-colors"
@@ -155,7 +162,7 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-6 overflow-y-auto">
           {/* Rating Criteria */}
           <div className="space-y-4">
             {ratingCriteria.map((criterion) => {
@@ -217,7 +224,7 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
               onChange={(e) => setComment(e.target.value)}
               maxLength={500}
               rows={4}
-              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all resize-none"
+              className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-[#0070CD] focus:ring-2 focus:ring-[#0070CD]/20 transition-all resize-none"
               placeholder="شاركنا تجربتك مع الطبيب..."
             />
             <div className="text-left text-xs text-slate-500">
@@ -232,7 +239,7 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
               id="anonymous"
               checked={isAnonymous}
               onChange={(e) => setIsAnonymous(e.target.checked)}
-              className="w-5 h-5 text-teal-500 border-slate-300 rounded focus:ring-2 focus:ring-teal-500/20"
+              className="w-5 h-5 text-[#0070CD] border-slate-300 rounded focus:ring-2 focus:ring-[#0070CD]/20"
             />
             <label htmlFor="anonymous" className="flex items-center gap-2 text-slate-700 cursor-pointer">
               {isAnonymous ? (
@@ -263,7 +270,7 @@ const RatingModal = ({ isOpen, onClose, appointmentId, doctorName, onSubmitSucce
             <button
               onClick={handleSubmit}
               disabled={!isFormValid() || isSubmitting}
-              className={`flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`flex-1 bg-[#0070CD] text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 ${
                 !isFormValid() || isSubmitting
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:shadow-lg hover:scale-105'

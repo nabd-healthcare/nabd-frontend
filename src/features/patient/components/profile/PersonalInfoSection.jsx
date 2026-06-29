@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePatientProfile } from '../../hooks/usePatientProfile';
 import { EGYPTIAN_GOVERNORATES, GENDER_OPTIONS } from '@/utils/constants';
 import MapPicker from '@/components/common/MapPicker';
+import CircularProfileImage from '@/components/common/CircularProfileImage';
 import '@/styles/leaflet-custom.css';
 import {
   FaUser,
@@ -603,32 +604,16 @@ const PersonalInfoSection = () => {
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#0070CD]/10 to-transparent rounded-full blur-3xl -z-10 translate-x-1/4 -translate-y-1/4 pointer-events-none"></div>
 
         {/* Profile Avatar Card */}
-        <div className="relative flex-shrink-0 z-20">
-          <div className="w-36 h-36 md:w-44 md:h-44 rounded-full p-2 bg-gradient-to-tr from-[#0070CD] to-blue-400 shadow-xl relative group/avatar">
-            <div className="w-full h-full rounded-full overflow-hidden bg-white relative">
-              {profileImagePreview ? (
-                <img
-                  src={profileImagePreview}
-                  alt="Profile"
-                  className="w-full h-full object-cover group-hover/avatar:scale-105 transition-transform duration-500"
-                />
-              ) : (
-                <div className="w-full h-full bg-slate-50 flex items-center justify-center">
-                  <FaUser className="w-16 h-16 text-[#0070CD]/40" />
-                </div>
-              )}
-            </div>
-            {/* Floating Camera Button */}
-            <label className="absolute bottom-1 left-1 w-12 h-12 bg-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:shadow-xl hover:scale-110 transition-all border border-slate-100 ring-4 ring-white">
-              <FaCamera className="w-5 h-5 text-[#0070CD]" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfileImageChange}
-                className="hidden"
-              />
-            </label>
-          </div>
+        <div className="relative flex-shrink-0 z-20 flex justify-center">
+          <CircularProfileImage
+            name="profileImage"
+            onImageChange={handleProfileImageChange}
+            initialImage={profileImagePreview}
+            initialFileName={profileImageFile?.name}
+            disabled={false}
+            size="large"
+            icon="patient"
+          />
         </div>
 
         {/* Hero Info */}

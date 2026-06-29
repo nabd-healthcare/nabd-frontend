@@ -134,18 +134,30 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
                     <FaSearch className="text-sm" />
                  </div>
                  <Autocomplete
+                   freeSolo
                    disablePortal
                    filterOptions={(x) => x}
-                   getOptionLabel={(option) => option.brandName || ''}
+                   getOptionLabel={(option) => {
+                     if (typeof option === 'string') return option;
+                     return option.brandName || '';
+                   }}
                    options={medOptions}
                    value={selectedMedication}
                    onChange={(event, newValue) => {
-                     setSelectedMedication(newValue);
-                     if (newValue) {
+                     if (typeof newValue === 'string') {
+                       setSelectedMedication({ brandName: newValue });
+                       setCurrentMedication({ ...currentMedication, medicationId: '', medicationName: newValue });
+                     } else if (newValue) {
+                       setSelectedMedication(newValue);
                        setCurrentMedication({ ...currentMedication, medicationId: newValue.id || '', medicationName: newValue.brandName || '' });
                      } else {
+                       setSelectedMedication(null);
                        setCurrentMedication({ ...currentMedication, medicationId: '', medicationName: '' });
                      }
+                   }}
+                   onInputChange={(event, newInputValue) => {
+                     setMedicSearchVal(newInputValue);
+                     setCurrentMedication(prev => ({ ...prev, medicationName: newInputValue }));
                    }}
                    renderInput={(params) => (
                      <TextField
@@ -153,7 +165,6 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
                        dir="rtl"
                        variant="outlined"
                        placeholder="ابحث عن الدواء (مثل: Panadol)..."
-                       onChange={(e) => setMedicSearchVal(e.target.value)}
                        sx={{
                          '& .MuiOutlinedInput-root': {
                            padding: '12px 48px 12px 12px',

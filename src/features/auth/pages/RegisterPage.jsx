@@ -27,7 +27,7 @@ const patientSchema = yup.object().shape({
   firstName: yup.string().min(2, 'الاسم الأول يجب أن يكون حرفين على الأقل').required('الاسم الأول مطلوب'),
   lastName: yup.string().min(2, 'الاسم الأخير يجب أن يكون حرفين على الأقل').required('الاسم الأخير مطلوب'),
   email: yup.string().email('البريد الإلكتروني غير صحيح').required('البريد الإلكتروني مطلوب'),
-  password: yup.string().min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم').required('كلمة المرور مطلوبة'),
+  password: yup.string().min(8, 'كلمة المرور يجب أن تكون 8 أحرف على الأقل').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم').matches(/[^A-Za-z0-9]/, 'كلمة المرور يجب أن تحتوي على رمز خاص واحد على الأقل (!@#$%^&*)').required('كلمة المرور مطلوبة'),
   confirmPassword: yup.string().oneOf([yup.ref('password')], 'كلمات المرور غير متطابقة').required('تأكيد كلمة المرور مطلوب'),
   terms: yup.boolean().oneOf([true], 'يجب الموافقة على الشروط'),
 });

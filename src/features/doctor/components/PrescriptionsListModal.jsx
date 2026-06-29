@@ -67,15 +67,23 @@ const PrescriptionsListModal = ({ isOpen, onClose, patient }) => {
 
   // Handle body scroll lock
   useEffect(() => {
+    let timeoutId;
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      // Re-apply hidden overflow with a slight delay to override child modal's cleanup
+      timeoutId = setTimeout(() => {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      }, 50);
     } else {
       document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     }
     return () => {
+      if (timeoutId) clearTimeout(timeoutId);
       document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, isDetailsModalOpen]);
 
   // Format date helper
   const formatPrescriptionDate = (date) => {

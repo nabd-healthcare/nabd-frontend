@@ -70,7 +70,6 @@ const SessionHeader = ({
                  <span className="text-[10px] font-black text-[#0070CD] uppercase tracking-widest bg-[#0070CD]/5 px-2 py-0.5 rounded-md">
                    {currentSession?.sessionType === 1 ? 'جـلسة جـديدة' : 'متـابعة'}
                  </span>
-                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{patientInfo?.patientAge || '--'} سنة</span>
               </div>
            </div>
         </div>

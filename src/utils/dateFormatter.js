@@ -3,6 +3,34 @@
  * Handles date formatting with Arabic locale support
  */
 
+const dayNames = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+const monthNames = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+];
+
+/**
+ * Helper to normalize backend date strings to UTC if they lack timezone info
+ * and convert them to Cairo timezone parts.
+ */
+export const getCairoDate = (dateStr) => {
+  let parsedDateStr = dateStr;
+  if (typeof dateStr === 'string' && dateStr.includes('T') && !dateStr.endsWith('Z') && !dateStr.match(/[+-]\d{2}:\d{2}$/)) {
+    parsedDateStr = dateStr + 'Z';
+  }
+  const date = new Date(parsedDateStr);
+  
+  if (isNaN(date.getTime())) {
+    throw new Error('Invalid date');
+  }
+
+  // Get Cairo time string and parse it back to get Cairo-adjusted values
+  const cairoStr = date.toLocaleString('en-US', { timeZone: 'Africa/Cairo' });
+  const cairoDate = new Date(cairoStr);
+  
+  return { originalDate: date, cairoDate };
+};
+
 /**
  * Format date to Arabic (e.g., "الأحد، 15 يناير 2024")
  */
@@ -10,19 +38,8 @@ export const formatDate = (dateStr) => {
   if (!dateStr) return '';
   
   try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-      console.error('formatDate: Invalid date:', dateStr);
-      return '';
-    }
-    
-    const dayNames = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-    const monthNames = [
-      'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
-    ];
-    
-    return `${dayNames[date.getDay()]}، ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+    const { cairoDate } = getCairoDate(dateStr);
+    return `${dayNames[cairoDate.getDay()]}، ${cairoDate.getDate()} ${monthNames[cairoDate.getMonth()]} ${cairoDate.getFullYear()}`;
   } catch (error) {
     console.error('formatDate: Error formatting date:', error);
     return '';
@@ -36,18 +53,8 @@ export const formatDateShort = (dateStr) => {
   if (!dateStr) return '';
   
   try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-      console.error('formatDateShort: Invalid date:', dateStr);
-      return '';
-    }
-    
-    const monthNames = [
-      'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
-    ];
-    
-    return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+    const { cairoDate } = getCairoDate(dateStr);
+    return `${cairoDate.getDate()} ${monthNames[cairoDate.getMonth()]} ${cairoDate.getFullYear()}`;
   } catch (error) {
     console.error('formatDateShort: Error formatting date:', error);
     return '';
@@ -61,23 +68,14 @@ export const formatDateTime = (dateStr) => {
   if (!dateStr) return '';
   
   try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-      console.error('formatDateTime: Invalid date:', dateStr);
-      return '';
-    }
+    const { cairoDate } = getCairoDate(dateStr);
     
-    const monthNames = [
-      'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
-    ];
-    
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const hours = cairoDate.getHours();
+    const minutes = cairoDate.getMinutes();
     const period = hours >= 12 ? 'م' : 'ص';
     const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
     
-    return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()} - ${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
+    return `${cairoDate.getDate()} ${monthNames[cairoDate.getMonth()]} ${cairoDate.getFullYear()} - ${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
   } catch (error) {
     console.error('formatDateTime: Error formatting date time:', error);
     return '';
@@ -91,14 +89,14 @@ export const getRelativeTime = (dateStr) => {
   if (!dateStr) return '';
   
   try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-      console.error('getRelativeTime: Invalid date:', dateStr);
-      return '';
-    }
+    const { originalDate } = getCairoDate(dateStr);
     
+    // We compare original absolute date with absolute now
     const now = new Date();
-    const diffMs = now - date;
+    const diffMs = now - originalDate;
+    
+    // If it's in the future (due to slight clock sync issues), treat as "الآن"
+    if (diffMs < 0) return 'الآن';
     const diffSeconds = Math.floor(diffMs / 1000);
     const diffMinutes = Math.floor(diffSeconds / 60);
     const diffHours = Math.floor(diffMinutes / 60);
@@ -131,19 +129,15 @@ export const getRelativeTime = (dateStr) => {
 /**
  * Format date to ISO string (YYYY-MM-DD)
  */
-export const formatDateISO = (date) => {
-  if (!date) return '';
+export const formatDateISO = (dateStr) => {
+  if (!dateStr) return '';
   
   try {
-    const d = new Date(date);
-    if (isNaN(d.getTime())) {
-      console.error('formatDateISO: Invalid date:', date);
-      return '';
-    }
+    const { cairoDate } = getCairoDate(dateStr);
     
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
+    const year = cairoDate.getFullYear();
+    const month = (cairoDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = cairoDate.getDate().toString().padStart(2, '0');
     
     return `${year}-${month}-${day}`;
   } catch (error) {
@@ -159,12 +153,15 @@ export const isToday = (dateStr) => {
   if (!dateStr) return false;
   
   try {
-    const date = new Date(dateStr);
-    const today = new Date();
+    const { cairoDate } = getCairoDate(dateStr);
     
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
+    // Get today's date in Cairo
+    const todayCairoStr = new Date().toLocaleString('en-US', { timeZone: 'Africa/Cairo' });
+    const today = new Date(todayCairoStr);
+    
+    return cairoDate.getDate() === today.getDate() &&
+           cairoDate.getMonth() === today.getMonth() &&
+           cairoDate.getFullYear() === today.getFullYear();
   } catch (error) {
     console.error('isToday: Error checking date:', error);
     return false;
@@ -178,10 +175,10 @@ export const isPast = (dateStr) => {
   if (!dateStr) return false;
   
   try {
-    const date = new Date(dateStr);
+    const { originalDate } = getCairoDate(dateStr);
     const now = new Date();
     
-    return date < now;
+    return originalDate < now;
   } catch (error) {
     console.error('isPast: Error checking date:', error);
     return false;
