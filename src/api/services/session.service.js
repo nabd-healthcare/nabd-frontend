@@ -192,11 +192,6 @@ class SessionService {
     }
   }
 
-  /**
-   * Get session documentation
-   * @param {string} appointmentId - Appointment ID
-   * @returns {Promise<Object>} Documentation data
-   */
   async getSessionDocumentation(appointmentId) {
     try {
       const response = await apiClient.get(`/Appointments/${appointmentId}/documentation`);
@@ -205,6 +200,13 @@ class SessionService {
         data: response.data?.data || response.data,
       };
     } catch (error) {
+      // 404 means no documentation yet - not an error
+      if (error.response?.status === 404) {
+        return {
+          success: true,
+          data: null,
+        };
+      }
       return {
         success: false,
         error: this._extractError(error),
