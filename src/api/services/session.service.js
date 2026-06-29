@@ -297,6 +297,7 @@ class SessionService {
         generalInstructions: prescriptionData.generalInstructions || '',
         prescribedMedications: prescriptionData.medications.map(med => ({
           medicationId: med.medicationId || '00000000-0000-0000-0000-000000000000', // Placeholder if no medication ID
+          medicationName: med.medicationName || '', // Required for backend to create custom medications
           dosage: med.dosage,
           frequency: med.frequency,
           durationDays: parseInt(med.durationDays),
