@@ -3,7 +3,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockAppointments, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true; // Merges mock data with real data for testing
+const USE_MOCK_DATA = false; // Merges mock data with real data for testing
 
 /**
  * Custom Hook for Today's Appointments

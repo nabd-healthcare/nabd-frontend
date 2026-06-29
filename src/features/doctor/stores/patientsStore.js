@@ -4,7 +4,7 @@ import doctorService from '@/api/services/doctor.service';
 import { mockPatients, simulateApiDelay } from '../data/mockData';
 
 // Toggle this to force mock data
-const USE_MOCK_DATA = true; // Merges mock data with real data for testing
+const USE_MOCK_DATA = false; // Merges mock data with real data for testing
 
 export const usePatientsStore = create(
   devtools(
@@ -307,31 +307,34 @@ export const usePatientsStore = create(
               const mockPrescriptions = [
                 {
                   id: 'rx1',
-                  date: new Date(Date.now() - 15 * 86400000).toISOString(),
+                  prescriptionNumber: 'PR-2024-001',
+                  createdAt: new Date(Date.now() - 15 * 86400000).toISOString(),
                   diagnosis: 'التهاب المفاصل الروماتويدي',
                   medications: [
-                    { name: 'ميثوتريكسات (Methotrexate) 10mg', dosage: 'قرص واحد', frequency: 'مرة أسبوعياً', duration: '3 أشهر' },
-                    { name: 'حمض الفوليك (Folic Acid) 5mg', dosage: 'قرص واحد', frequency: 'يومياً', duration: '3 أشهر' },
-                    { name: 'ديكلوفيناك (Diclofenac) 50mg', dosage: 'قرص واحد', frequency: 'مرتين يومياً بعد الأكل', duration: 'شهر واحد' }
+                    { medicationName: 'ميثوتريكسات (Methotrexate) 10mg', dosage: 'قرص واحد', frequency: 'مرة أسبوعياً', durationDays: 90 },
+                    { medicationName: 'حمض الفوليك (Folic Acid) 5mg', dosage: 'قرص واحد', frequency: 'يومياً', durationDays: 90 },
+                    { medicationName: 'ديكلوفيناك (Diclofenac) 50mg', dosage: 'قرص واحد', frequency: 'مرتين يومياً بعد الأكل', durationDays: 30 }
                   ]
                 },
                 {
                   id: 'rx2',
-                  date: new Date(Date.now() - 45 * 86400000).toISOString(),
+                  prescriptionNumber: 'PR-2024-002',
+                  createdAt: new Date(Date.now() - 45 * 86400000).toISOString(),
                   diagnosis: 'ارتفاع ضغط الدم والكوليسترول',
                   medications: [
-                    { name: 'أملوديبين (Amlodipine) 10mg', dosage: 'قرص واحد', frequency: 'مرة يومياً صباحاً', duration: '6 أشهر' },
-                    { name: 'أتورفاستاتين (Atorvastatin) 20mg', dosage: 'قرص واحد', frequency: 'مرة يومياً مساءً', duration: '6 أشهر' },
-                    { name: 'أسبرين (Aspirin) 75mg', dosage: 'قرص واحد', frequency: 'مرة يومياً', duration: '6 أشهر' }
+                    { medicationName: 'أملوديبين (Amlodipine) 10mg', dosage: 'قرص واحد', frequency: 'مرة يومياً صباحاً', durationDays: 180 },
+                    { medicationName: 'أتورفاستاتين (Atorvastatin) 20mg', dosage: 'قرص واحد', frequency: 'مرة يومياً مساءً', durationDays: 180 },
+                    { medicationName: 'أسبرين (Aspirin) 75mg', dosage: 'قرص واحد', frequency: 'مرة يومياً', durationDays: 180 }
                   ]
                 },
                 {
                   id: 'rx3',
-                  date: new Date(Date.now() - 90 * 86400000).toISOString(),
+                  prescriptionNumber: 'PR-2024-003',
+                  createdAt: new Date(Date.now() - 90 * 86400000).toISOString(),
                   diagnosis: 'السكري من النوع الثاني',
                   medications: [
-                    { name: 'ميتفورمين (Metformin) 850mg', dosage: 'قرص واحد', frequency: '3 مرات يومياً مع الوجبات', duration: '6 أشهر' },
-                    { name: 'جليمبيريد (Glimepiride) 2mg', dosage: 'قرص واحد', frequency: 'مرة يومياً قبل الإفطار', duration: '6 أشهر' }
+                    { medicationName: 'ميتفورمين (Metformin) 850mg', dosage: 'قرص واحد', frequency: '3 مرات يومياً مع الوجبات', durationDays: 180 },
+                    { medicationName: 'جليمبيريد (Glimepiride) 2mg', dosage: 'قرص واحد', frequency: 'مرة يومياً قبل الإفطار', durationDays: 180 }
                   ]
                 }
               ];
@@ -400,35 +403,38 @@ export const usePatientsStore = create(
 
               const mockDetails = {
                 id: prescriptionId,
+                prescriptionNumber: prescriptionId === 'rx1' ? 'PR-2024-001' : prescriptionId === 'rx2' ? 'PR-2024-002' : 'PR-2024-003',
                 patientId,
                 doctorId,
-                date: new Date(Date.now() - 15 * 86400000).toISOString(),
+                patientName: 'محمد أحمد محمود',
+                doctorName: 'د. أحمد محمد',
+                createdAt: new Date(Date.now() - 15 * 86400000).toISOString(),
                 diagnosis: 'التهاب المفاصل الروماتويدي',
                 symptoms: 'ألم وتورم في المفاصل، تيبس صباحي، إرهاق عام',
                 medications: [
                   {
-                    name: 'ميثوتريكسات (Methotrexate) 10mg',
+                    medicationName: 'ميثوتريكسات (Methotrexate) 10mg',
                     dosage: 'قرص واحد',
                     frequency: 'مرة أسبوعياً',
-                    duration: '3 أشهر',
-                    instructions: 'يؤخذ يوم الأحد من كل أسبوع، يفضل مع الطعام'
+                    durationDays: 90,
+                    specialInstructions: 'يؤخذ يوم الأحد من كل أسبوع، يفضل مع الطعام'
                   },
                   {
-                    name: 'حمض الفوليك (Folic Acid) 5mg',
+                    medicationName: 'حمض الفوليك (Folic Acid) 5mg',
                     dosage: 'قرص واحد',
                     frequency: 'يومياً',
-                    duration: '3 أشهر',
-                    instructions: 'يؤخذ يومياً ما عدا يوم الميثوتريكسات'
+                    durationDays: 90,
+                    specialInstructions: 'يؤخذ يومياً ما عدا يوم الميثوتريكسات'
                   },
                   {
-                    name: 'ديكلوفيناك (Diclofenac) 50mg',
+                    medicationName: 'ديكلوفيناك (Diclofenac) 50mg',
                     dosage: 'قرص واحد',
                     frequency: 'مرتين يومياً بعد الأكل',
-                    duration: 'شهر واحد',
-                    instructions: 'للألم والالتهاب، يؤخذ بعد الوجبات'
+                    durationDays: 30,
+                    specialInstructions: 'للألم والالتهاب، يؤخذ بعد الوجبات'
                   }
                 ],
-                notes: 'متابعة دورية كل شهر لفحص وظائف الكبد والكلى. تجنب الكحول. الإكثار من شرب الماء.',
+                generalInstructions: 'متابعة دورية كل شهر لفحص وظائف الكبد والكلى. تجنب الكحول. الإكثار من شرب الماء.',
                 followUpDate: new Date(Date.now() + 30 * 86400000).toISOString()
               };
 

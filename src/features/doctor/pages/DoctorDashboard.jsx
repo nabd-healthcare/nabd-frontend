@@ -261,13 +261,14 @@ const DoctorDashboard = () => {
       return apt;
     });
 
-    // Display appointments that are: Pending, Confirmed, or InProgress
+    // Display appointments that are: Pending, Confirmed, InProgress, or Completed (optional, usually kept if doctor wants to see today's full list)
     const displayed = updatedAppointments.filter(apt => {
-      const isDisplayed = apt.apiStatus === 'pending' ||
-        apt.apiStatus === 'Confirmed' ||
-        apt.apiStatus === 1 ||
-        apt.apiStatus === 'InProgress' ||
-        apt.apiStatus === 3;
+      const statusStr = String(apt.apiStatus).toLowerCase();
+      const isDisplayed = 
+        statusStr === 'pending' || statusStr === '1' ||
+        statusStr === 'confirmed' || statusStr === '2' ||
+        statusStr === 'inprogress' || statusStr === '3' ||
+        statusStr === 'completed' || statusStr === '4';
 
       console.log(`📋 Appointment ${apt.id}:`, {
         patientName: apt.patientName,
@@ -283,10 +284,19 @@ const DoctorDashboard = () => {
       return apt.apiStatus === 'InProgress' || apt.apiStatus === 3;
     });
 
+    const next = displayed.find(apt => 
+      apt.apiStatus !== 'InProgress' && apt.apiStatus !== 3 && 
+      apt.apiStatus !== 'Completed' && apt.apiStatus !== 4 &&
+      apt.apiStatus !== 'completed' &&
+      (String(apt.apiStatus).toLowerCase() === 'pending' || String(apt.apiStatus) === '1' || 
+       String(apt.apiStatus).toLowerCase() === 'confirmed' || String(apt.apiStatus) === '2')
+    );
+
     console.log('✅ Displayed appointments:', displayed.length);
     console.log('✅ Active session:', active ? active.patientName : 'None');
+    console.log('✅ Next appointment:', next ? next.patientName : 'None');
 
-    return { displayedAppointments: displayed, activeSession: active };
+    return { displayedAppointments: displayed, activeSession: active, nextAppointment: next };
   }, [appointments, activeSessionFromAPI]);
 
   /**
@@ -402,8 +412,40 @@ const DoctorDashboard = () => {
                       </div>
                     </div>
                   </motion.section>
+                ) : nextAppointment ? (
+                  /* Next Patient Focus */
+                  <motion.section 
+                    key="next-session"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="bg-white rounded-[3rem] border border-slate-100 p-10 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-[#0070CD]/20 transition-all duration-500 shadow-sm"
+                  >
+                     <div className="flex items-center gap-6">
+                        <div className="w-20 h-20 bg-[#0070CD]/5 rounded-3xl flex items-center justify-center border border-[#0070CD]/10 text-[#0070CD]">
+                          <span className="text-3xl font-black">{nextAppointment.patientInitial}</span>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="bg-[#0070CD]/10 text-[#0070CD] text-[10px] font-black uppercase px-3 py-1 rounded-full">الكشف التالي</span>
+                          </div>
+                          <h3 className="text-[#1F2E3C] font-black text-2xl mb-1">{nextAppointment.patientName}</h3>
+                          <p className="text-slate-500 font-bold flex items-center gap-2">
+                             <FaClock className="text-slate-400" /> {nextAppointment.time}
+                             <span className="text-slate-300 mx-1">|</span>
+                             المدة: {nextAppointment.duration} دقيقة
+                          </p>
+                        </div>
+                     </div>
+                     <button
+                       onClick={() => handleStartAppointment(nextAppointment)}
+                       className="w-full sm:w-auto bg-[#0070CD] text-white hover:bg-[#005ba3] px-8 py-4 rounded-2xl font-bold shadow-[0_10px_20px_rgba(0,112,205,0.2)] transition-all active:scale-95 flex items-center justify-center gap-3 group/btn"
+                     >
+                       <span>بدء الجلسة</span>
+                       <FaArrowRight className="transition-transform group-hover/btn:-translate-x-1" />
+                     </button>
+                  </motion.section>
                 ) : (
-                  /* Next Patient Focus (Placeholder when no active session) */
+                  /* Waiting for patients */
                   <motion.section 
                     key="no-session"
                     initial={{ opacity: 0 }}
@@ -416,7 +458,7 @@ const DoctorDashboard = () => {
                         </div>
                         <div>
                           <h3 className="text-[#1F2E3C] font-black text-xl">وضع الاستعداد</h3>
-                          <p className="text-slate-400 text-sm font-bold tracking-tight">لا توجد مراجعات جارية حالياً. ابدأ مراجعة جديدة من الجدول بالأسفل.</p>
+                          <p className="text-slate-400 text-sm font-bold tracking-tight">لا توجد كشوفات قادمة في الوقت الحالي. يمكنك أخذ استراحة حتى موعد الكشف التالي.</p>
                         </div>
                      </div>
                   </motion.section>

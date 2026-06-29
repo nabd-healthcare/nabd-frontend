@@ -48,26 +48,26 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
   const [selectedMedication, setSelectedMedication] = useState(null);
 
   const MOCK_MEDICINES = [
-    { id: '1', brandName: 'Panadol 500mg' },
-    { id: '2', brandName: 'Panadol Extra' },
-    { id: '3', brandName: 'Panadol Cold & Flu' },
-    { id: '4', brandName: 'Brufen 400mg' },
-    { id: '5', brandName: 'Brufen 600mg' },
-    { id: '6', brandName: 'Cataflam 50mg' },
-    { id: '7', brandName: 'Augmentin 1g' },
-    { id: '8', brandName: 'Augmentin 625mg' },
-    { id: '9', brandName: 'Concor 5mg' },
-    { id: '10', brandName: 'Concor 2.5mg' },
-    { id: '11', brandName: 'Flagyl 500mg' },
-    { id: '12', brandName: 'Antinal' },
-    { id: '13', brandName: 'Omez 20mg' },
-    { id: '14', brandName: 'Nexium 40mg' },
-    { id: '15', brandName: 'Voltaren Injection' },
-    { id: '16', brandName: 'Neurimax' },
-    { id: '17', brandName: 'Milga' },
-    { id: '18', brandName: 'Omega 3' },
-    { id: '19', brandName: 'Aspirin 81mg' },
-    { id: '20', brandName: 'Plavix' }
+    { brandName: 'Panadol 500mg' },
+    { brandName: 'Panadol Extra' },
+    { brandName: 'Panadol Cold & Flu' },
+    { brandName: 'Brufen 400mg' },
+    { brandName: 'Brufen 600mg' },
+    { brandName: 'Cataflam 50mg' },
+    { brandName: 'Augmentin 1g' },
+    { brandName: 'Augmentin 625mg' },
+    { brandName: 'Concor 5mg' },
+    { brandName: 'Concor 2.5mg' },
+    { brandName: 'Flagyl 500mg' },
+    { brandName: 'Antinal' },
+    { brandName: 'Omez 20mg' },
+    { brandName: 'Nexium 40mg' },
+    { brandName: 'Voltaren Injection' },
+    { brandName: 'Neurimax' },
+    { brandName: 'Milga' },
+    { brandName: 'Omega 3' },
+    { brandName: 'Aspirin 81mg' },
+    { brandName: 'Plavix' }
   ];
 
   useEffect(() => {
@@ -94,6 +94,7 @@ const PrescriptionTab = ({ currentSession, patientInfo, appointmentData, appoint
 
       const preparedMedications = medications.map(({ id: _id, ...med }) => ({
         medicationId: med.medicationId || '00000000-0000-0000-0000-000000000000',
+        medicationName: med.medicationName,
         dosage: med.dosage,
         frequency: med.frequency,
         durationDays: parseInt(med.durationDays) || 0,
