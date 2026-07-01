@@ -186,6 +186,38 @@ const LoginPage = () => {
               </Link>
             </div>
 
+            {/* Demo Buttons */}
+            <div className="flex gap-2 mt-4 mb-4">
+              <button
+                type="button"
+                onClick={() => {
+                  const eventEmail = { target: { name: 'email', value: 'ahmed.alaraby@doctor.com' } };
+                  const eventPassword = { target: { name: 'password', value: 'Test@123' } };
+                  register('email').onChange(eventEmail);
+                  register('password').onChange(eventPassword);
+                  document.querySelector('input[name="email"]').value = 'ahmed.alaraby@doctor.com';
+                  document.querySelector('input[name="password"]').value = 'Test@123';
+                }}
+                className="flex-1 py-3 bg-blue-50/50 text-[#0070CD] border border-blue-100 rounded-xl text-xs font-bold hover:bg-blue-50 transition-colors"
+              >
+                دخول كطبيب تجريبي
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const eventEmail = { target: { name: 'email', value: 'ahmed.mahmoud@patient.com' } };
+                  const eventPassword = { target: { name: 'password', value: 'Test@123' } };
+                  register('email').onChange(eventEmail);
+                  register('password').onChange(eventPassword);
+                  document.querySelector('input[name="email"]').value = 'ahmed.mahmoud@patient.com';
+                  document.querySelector('input[name="password"]').value = 'Test@123';
+                }}
+                className="flex-1 py-3 bg-slate-50/80 text-slate-600 border border-slate-200 rounded-xl text-xs font-bold hover:bg-slate-100 transition-colors"
+              >
+                دخول كمريض تجريبي
+              </button>
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"

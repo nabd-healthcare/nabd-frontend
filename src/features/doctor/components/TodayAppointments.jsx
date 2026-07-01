@@ -109,15 +109,16 @@ const TodayAppointments = ({
             ) : (
               appointments?.map((appointment) => {
                 const isInProgress = appointment.apiStatus === 'InProgress' || appointment.apiStatus === 3;
+                const isCompleted = appointment.apiStatus === 'Completed' || appointment.apiStatus === 4;
                 return (
                   <article key={appointment.id} className="relative flex items-start gap-5 group">
                     {/* Timeline Node */}
-                    <div className={`relative z-10 w-9 h-9 rounded-full border-4 border-white shadow-sm flex items-center justify-center transition-all ${isInProgress ? 'bg-[#0070CD] scale-110' : 'bg-slate-100 group-hover:bg-[#0070CD]/20'}`}>
-                       {isInProgress ? <FaPlay className="text-white w-2 h-2" /> : <div className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-[#0070CD]"></div>}
+                    <div className={`relative z-10 w-9 h-9 rounded-full border-4 border-white shadow-sm flex items-center justify-center transition-all ${isCompleted ? 'bg-emerald-500' : isInProgress ? 'bg-[#0070CD] scale-110' : 'bg-slate-100 group-hover:bg-[#0070CD]/20'}`}>
+                       {isCompleted ? <FaCheck className="text-white w-2.5 h-2.5" /> : isInProgress ? <FaPlay className="text-white w-2 h-2" /> : <div className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-[#0070CD]"></div>}
                     </div>
 
                     {/* Compact Card */}
-                    <div className={`flex-1 p-4 rounded-2xl border transition-all ${isInProgress ? 'border-[#0070CD] bg-[#0070CD]/5' : 'border-slate-50 hover:bg-slate-50 hover:border-slate-100'}`}>
+                    <div className={`flex-1 p-4 rounded-2xl border transition-all ${isCompleted ? 'border-emerald-100 bg-emerald-50/30' : isInProgress ? 'border-[#0070CD] bg-[#0070CD]/5' : 'border-slate-50 hover:bg-slate-50 hover:border-slate-100'}`}>
                       <div className="flex items-center justify-between gap-4">
                          <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center text-[10px] font-black text-[#0070CD] border border-slate-100">
@@ -133,12 +134,19 @@ const TodayAppointments = ({
                             </div>
                          </div>
 
-                         <button
-                           onClick={() => onStartAppointment?.(appointment)}
-                           disabled={sessionLoading === appointment.id}
-                           className={`h-8 px-4 rounded-lg text-[10px] font-black transition-all ${isInProgress ? 'bg-[#0070CD] text-white shadow-lg' : 'bg-white text-[#0070CD] border border-[#0070CD]/20 hover:bg-[#0070CD] hover:text-white'}`}>
-                           {sessionLoading === appointment.id ? <FaSpinner className="animate-spin" /> : isInProgress ? 'متابعة' : 'بدء'}
-                         </button>
+                         {isCompleted ? (
+                           <div className="h-8 px-4 rounded-lg text-[10px] font-black bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center gap-1.5 opacity-80 cursor-default">
+                             <FaCheck className="w-2.5 h-2.5" />
+                             <span>مكتمل</span>
+                           </div>
+                         ) : (
+                           <button
+                             onClick={() => onStartAppointment?.(appointment)}
+                             disabled={sessionLoading === appointment.id}
+                             className={`h-8 px-4 rounded-lg text-[10px] font-black transition-all ${isInProgress ? 'bg-[#0070CD] text-white shadow-lg' : 'bg-white text-[#0070CD] border border-[#0070CD]/20 hover:bg-[#0070CD] hover:text-white'}`}>
+                             {sessionLoading === appointment.id ? <FaSpinner className="animate-spin" /> : isInProgress ? 'متابعة' : 'بدء'}
+                           </button>
+                         )}
                       </div>
                     </div>
                   </article>
