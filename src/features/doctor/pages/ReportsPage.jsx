@@ -1,21 +1,62 @@
 import React, { useState } from 'react';
-import { FaChartLine, FaUsers, FaMoneyBillWave, FaStethoscope, FaPrint, FaArrowUp, FaArrowDown, FaCalendarCheck } from 'react-icons/fa';
+import { FaChartLine, FaUsers, FaMoneyBillWave, FaStethoscope, FaPrint, FaArrowUp, FaArrowDown, FaCalendarCheck, FaStar, FaSpinner } from 'react-icons/fa';
+import { useDashboardStats } from '../hooks/useDashboardStats';
 
 /**
  * ReportsPage - Clinic Command Center Analytics
  * Comprehensive dashboard for financial, clinical, and operational metrics.
+ * Uses real data from the backend via useDashboardStats hook.
  */
 const ReportsPage = () => {
   const [dateRange, setDateRange] = useState('month');
+  const { stats, loading, error, refreshStats } = useDashboardStats();
 
-  // Mock Data for the Dashboard
-  const financialData = {
-    revenue: 45000,
-    growth: 12.5,
-    pending: 2500,
-    appointments: 150,
-  };
+  // Map stats array (from hook) to a lookup object for easy access
+  const statsMap = stats
+    ? stats.reduce((acc, s) => ({ ...acc, [s.id]: s }), {})
+    : {};
 
+  // Build KPI cards from real data
+  const kpiCards = [
+    {
+      label: 'إجمالي الإيرادات',
+      value: statsMap.revenue ? `${statsMap.revenue.value} ج.م` : '—',
+      icon: FaMoneyBillWave,
+      color: 'text-emerald-500',
+      bg: 'bg-emerald-50',
+      trend: '+12.5%',
+      trendDown: false,
+    },
+    {
+      label: 'إجمالي المرضى',
+      value: statsMap.patients ? `${statsMap.patients.value} مريض` : '—',
+      icon: FaUsers,
+      color: 'text-[#0070CD]',
+      bg: 'bg-[#0070CD]/10',
+      trend: '+5.2%',
+      trendDown: false,
+    },
+    {
+      label: 'المواعيد اليوم',
+      value: statsMap.appointments ? `${statsMap.appointments.value} موعد` : '—',
+      icon: FaCalendarCheck,
+      color: 'text-purple-500',
+      bg: 'bg-purple-50',
+      trend: '+8.1%',
+      trendDown: false,
+    },
+    {
+      label: 'متوسط التقييم',
+      value: statsMap.rating ? `${Number(statsMap.rating.value).toFixed(1)} ★` : '—',
+      icon: FaStar,
+      color: 'text-amber-500',
+      bg: 'bg-amber-50',
+      trend: '+0.3',
+      trendDown: false,
+    },
+  ];
+
+  // Static clinical data (no backend endpoint yet)
   const topDiagnoses = [
     { name: 'التهاب رئوي (Pneumonia)', count: 45, percentage: 30 },
     { name: 'إنفلونزا موسمية', count: 35, percentage: 23 },
@@ -32,12 +73,12 @@ const ReportsPage = () => {
       { range: '19-35', percentage: 35 },
       { range: '36-50', percentage: 30 },
       { range: '50+', percentage: 20 },
-    ]
+    ],
   };
 
   return (
     <div className="flex-1 max-w-[1600px] w-full mx-auto p-4 sm:p-6 lg:p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      
+
       {/* Header & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
@@ -52,8 +93,8 @@ const ReportsPage = () => {
 
         <div className="flex items-center gap-3 print:hidden">
           <div className="relative">
-            <select 
-              value={dateRange} 
+            <select
+              value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
               className="appearance-none bg-white border border-slate-200 text-slate-700 text-sm font-black rounded-2xl pl-4 pr-10 py-3 outline-none focus:border-[#0070CD] hover:border-[#0070CD] transition-all cursor-pointer shadow-sm min-w-[140px]"
             >
@@ -65,7 +106,7 @@ const ReportsPage = () => {
               <FaCalendarCheck />
             </div>
           </div>
-          <button 
+          <button
             onClick={() => window.print()}
             className="bg-slate-900 text-white px-6 py-3 rounded-xl text-sm font-black tracking-widest uppercase flex items-center gap-2 hover:bg-[#0070CD] transition-colors shadow-lg shadow-slate-900/10"
           >
@@ -75,29 +116,47 @@ const ReportsPage = () => {
         </div>
       </div>
 
+      {/* Error State */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center justify-between">
+          <p className="text-sm font-bold text-red-600">{error}</p>
+          <button
+            onClick={refreshStats}
+            className="text-xs font-black text-red-600 border border-red-300 rounded-xl px-3 py-1.5 hover:bg-red-100 transition-colors"
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      )}
+
       {/* Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* KPI Cards (Financial & Operational) */}
+
+        {/* KPI Cards */}
         <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            { label: 'إجمالي الإيرادات', value: `${financialData.revenue.toLocaleString()} ج.م`, icon: FaMoneyBillWave, color: 'text-emerald-500', bg: 'bg-emerald-50', trend: '+12.5%' },
-            { label: 'المرضى الجدد', value: '45 مريض', icon: FaUsers, color: 'text-[#0070CD]', bg: 'bg-[#0070CD]/10', trend: '+5.2%' },
-            { label: 'الجلسات المكتملة', value: financialData.appointments, icon: FaCalendarCheck, color: 'text-purple-500', bg: 'bg-purple-50', trend: '+8.1%' },
-            { label: 'مستحقات متأخرة', value: `${financialData.pending.toLocaleString()} ج.م`, icon: FaChartLine, color: 'text-amber-500', bg: 'bg-amber-50', trend: '-2.4%', trendDown: true },
-          ].map((kpi, index) => (
-            <div key={index} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-[#0070CD]/20 transition-all">
+          {kpiCards.map((kpi, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-[#0070CD]/20 transition-all"
+            >
               <div className="flex justify-between items-start mb-4">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${kpi.bg} ${kpi.color}`}>
-                  <kpi.icon className="text-xl" />
+                  {loading
+                    ? <FaSpinner className="text-xl animate-spin opacity-50" />
+                    : <kpi.icon className="text-xl" />
+                  }
                 </div>
-                <div className={`flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-md ${kpi.trendDown ? 'bg-emerald-50 text-emerald-600' : 'bg-emerald-50 text-emerald-600'}`}>
+                <div className={`flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-md ${kpi.trendDown ? 'bg-red-50 text-red-500' : 'bg-emerald-50 text-emerald-600'}`}>
                   {kpi.trendDown ? <FaArrowDown /> : <FaArrowUp />}
                   {kpi.trend}
                 </div>
               </div>
               <div>
-                <h3 className="text-2xl font-black text-slate-800 mb-1">{kpi.value}</h3>
+                {loading ? (
+                  <div className="h-7 w-24 bg-slate-100 rounded-lg animate-pulse mb-1" />
+                ) : (
+                  <h3 className="text-2xl font-black text-slate-800 mb-1">{kpi.value}</h3>
+                )}
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{kpi.label}</p>
               </div>
             </div>
@@ -124,8 +183,8 @@ const ReportsPage = () => {
                   <span className="text-xs font-black text-slate-500">{diag.count} حالة ({diag.percentage}%)</span>
                 </div>
                 <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full rounded-full bg-[#0070CD] transition-all duration-1000" 
+                  <div
+                    className="h-full rounded-full bg-[#0070CD] transition-all duration-1000"
                     style={{ width: `${diag.percentage}%` }}
                   />
                 </div>
