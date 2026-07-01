@@ -185,8 +185,15 @@ const MedicalRecordModal = ({ isOpen, onClose, patient }) => {
                         return acc;
                       }, {});
 
-                      return Object.entries(groupedRecords).map(([typeName, records]) => (
-                        <div key={typeName} className="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow">
+                      // Sort so 'توثيق جلسة' comes first
+                      const sortedEntries = Object.entries(groupedRecords).sort((a, b) => {
+                        if (a[0] === 'توثيق جلسة') return -1;
+                        if (b[0] === 'توثيق جلسة') return 1;
+                        return 0;
+                      });
+
+                      return sortedEntries.map(([typeName, records]) => (
+                        <div key={typeName} className={`bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow ${typeName === 'توثيق جلسة' ? 'lg:col-span-2' : ''}`}>
                           {/* Type Header */}
                           <div className="bg-[#0070CD]/5 border-b-2 border-[#0070CD]/10 px-5 py-4">
                             <div className="flex items-center justify-between">
@@ -216,9 +223,32 @@ const MedicalRecordModal = ({ isOpen, onClose, patient }) => {
                                     </div>
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-slate-800 leading-relaxed whitespace-pre-wrap mb-2.5">
-                                      {record.text}
-                                    </p>
+                                    {typeName === 'توثيق جلسة' ? (
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 mt-1">
+                                        {record.text.split('\n').filter(line => line.trim()).map((line, i) => {
+                                          const colonIndex = line.indexOf(':');
+                                          if (colonIndex !== -1) {
+                                            const title = line.substring(0, colonIndex).trim();
+                                            const content = line.substring(colonIndex + 1).trim();
+                                            return (
+                                              <div key={i} className="bg-slate-50 rounded-xl p-3.5 border border-slate-100/80 hover:border-[#0070CD]/20 transition-all shadow-sm">
+                                                <span className="block text-xs font-black text-[#0070CD] mb-1.5">{title}</span>
+                                                <span className="block text-sm font-bold text-slate-700 leading-relaxed">{content || '-'}</span>
+                                              </div>
+                                            );
+                                          }
+                                          return (
+                                            <div key={i} className="bg-slate-50 rounded-xl p-3.5 border border-slate-100/80 shadow-sm">
+                                              <span className="block text-sm font-bold text-slate-700 leading-relaxed">{line.trim()}</span>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    ) : (
+                                      <p className="text-sm font-medium text-slate-800 leading-relaxed whitespace-pre-wrap mb-2.5">
+                                        {record.text}
+                                      </p>
+                                    )}
                                     <div className="flex items-center gap-3 text-xs text-slate-500">
                                       <div className="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
                                         <FaCalendarAlt className="text-[#0070CD] text-[10px]" />
